@@ -1,13 +1,94 @@
+:root {
+  --primary-font: 'Gentium Book Basic', serif;
+  --secondary-font: 'Playfair Display', serif;
+  --theme-dark-blue: #1D3354;
+  --theme-blue: #467599;
+  --theme-light-blue: #9ed8db;
+  --theme-orange: #d64045;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: var(--primary-font);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: var(--theme-dark-blue);
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+h1, h2, h3, h4, a, button {
+  text-decoration: none;
+  font-family: var(--secondary-font);
+  color: var(--theme-dark-blue);
+  font-weight: 600;
+}
+
+nav a {
+  font-size: larger;
+}
+
+nav a:hover {
+  color: var(--theme-blue);
+}
+
+.hero-bg {
+  min-height: 400px;
+  background-position: center;
+  background-size: cover;
+}
+
+.btn-theme {
+  background: var(--theme-dark-blue);
+  color: white;
+}
+
+.btn-theme:hover {
+  background: var(--theme-blue);
+  color: white;
+}
+
+.book-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  -webkit-box-orient: vertical;
+  font-weight: 600;
+}
+
+.book-desc {
+  overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-line-clamp: 2; /* number of lines to show */
+   -webkit-box-orient: vertical;
+}
+
+.amazon-btn {
+  background: #FFA41C;
+  color: #1D3354;
+}
+
+.amazon-btn:hover {
+  color: var(--theme-blue);
+}
+
+.indigo-btn {
+  background: #222222;
+  color: white;
+}
+
+.indigo-btn:hover {
+  color: var(--theme-light-blue);
+}
+
+.save-later {
+  background: var(--theme-blue);
+  color: white;
+}
+
+
