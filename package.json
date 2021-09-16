@@ -21,7 +21,10 @@
     "url": "https://github.com/group3uoft/final-project/issues"
   },
   "homepage": "https://github.com/group3uoft/final-project#readme",
-  "dependencies": {},
+  "dependencies": {
+    "apollo-server-express": "^3.3.0",
+    "graphql": "^15.5.3"
+  },
   "devDependencies": {
     "concurrently": "^6.2.1"
   }
