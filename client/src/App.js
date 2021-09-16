@@ -3,6 +3,9 @@ import './App.css';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
+// import reduxStore
+import { Provider } from 'react-redux';
+import store from './utils/store';
 
 // import components
 import Header from './components/Header';
@@ -15,10 +18,12 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Header />
+        <Provider store={store}>
+          <Header />
+          <Home />
+          <Footer />
+        </Provider>
       </div>
-      <Home />
-      <Footer />
     </Router>
   );
 }

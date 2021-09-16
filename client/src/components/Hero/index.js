@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import bgImg from '../../assets/images/hero-bg.jpg'
 import { searchGoogleBooks } from "../../utils/API";
 
-export default function Hero({setSearchedBooks}) {
-
-  const [searchInput, setSearchInput] = useState('harry potter');
+export default function Hero({setSearchedBooks, setSearchInput, searchInput}) {
 
   const searchHandle = async (query) => {
     if(!query) {
