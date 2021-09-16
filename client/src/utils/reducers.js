@@ -14,9 +14,12 @@ export const reducer = (state, action) => {
       };
 
     case UPDATE_HISTORY: 
+      // const duplicateIndex = state.searchHistory.indexOf(...action.searchHistory);
+      // const dupState = [...state.searchHistory];
+      // dupState.splice(duplicateIndex, 1);
       return {
         ...state,
-        searchHistory: [...action.searchHistory]
+        searchHistory: [...state.searchHistory, ...action.searchHistory]
       }
 
     case UPDATE_CURRENT_SEARCH: 

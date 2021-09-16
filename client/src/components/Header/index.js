@@ -1,6 +1,7 @@
 
 import React from 'react';
 import Nav from '../../components/Nav';
+import { mobileMenuToggle } from "../../utils/helpers";
 
 export default function Header() {
   return (
@@ -11,6 +12,9 @@ export default function Header() {
         </a>
       </div>
       <Nav />
+      <div id="mobile-nav-icon" className="mobile-nav-icon">
+        <div onClick={mobileMenuToggle} id="burgerBtn"></div>
+      </div>
     </header>
   )
 };

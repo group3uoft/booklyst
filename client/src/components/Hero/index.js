@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import bgImg from '../../assets/images/hero-bg.jpg'
 import { searchGoogleBooks } from "../../utils/API";
 
-export default function Hero({setSearchedBooks, setSearchInput, searchInput}) {
+export default function Hero({setSearchedBooks, setSearchInput, searchInput, setSearchHistory}) {
 
   const searchHandle = async (query) => {
     if(!query) {
@@ -40,6 +40,7 @@ export default function Hero({setSearchedBooks, setSearchInput, searchInput}) {
     e.preventDefault();
     // run the search
     searchHandle(searchInput);
+    setSearchHistory(searchInput);
   }
 
   useEffect(() => {
@@ -50,16 +51,17 @@ export default function Hero({setSearchedBooks, setSearchInput, searchInput}) {
     <div className="d-flex justify-content-center align-items-center hero-bg" style={{backgroundImage: `url(${bgImg})`}}>
       <div className="search-container d-flex justify-content-center">
         <form className="d-flex" onSubmit={searchSubmit}>
-          <input 
+          <div className="input-container d-flex">
+            <input 
             className="form-control mr-sm-2" 
             type="search" 
             placeholder="Search books, ISBN, Author" 
             aria-label="Search" 
-            style={{minWidth: '400px', minHeight: '50px'}}
             onChange={(e) => setSearchInput(e.target.value)}
-            ></input>
-          <button className="btn btn-light mx-2" style={{minWidth:'60px'}}><i className="fas fa-camera"></i></button>
-          <button className="btn btn-light" style={{minWidth:'60px'}}><i className="fas fa-microphone-alt"></i></button>
+            />
+            <span className="btn btn-light mx-2 sp-btn"><i className="fas fa-camera"></i></span>
+            <span className="btn btn-light sp-btn"><i className="fas fa-microphone-alt"></i></span>
+          </div>
           <button className="btn btn-theme mx-2">Search</button>
         </form>
       </div>
