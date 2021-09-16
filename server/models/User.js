@@ -1,7 +1,6 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model } = require('mongoose')
 const bcrypt = require('bcrypt');
 
-//---
 const bookDataSchema = require('./Book');
 
 //---USER SCHEMA---//
@@ -26,7 +25,7 @@ const userSchema = new Schema(
     favourites: [bookDataSchema],
 
     //Placeholder user read books
-    
+    read: [bookDataSchema],
   },
   // set this to use virtual below
   {
