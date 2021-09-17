@@ -55,6 +55,25 @@ nav a:hover {
   width: max-content;
 }
 
+.btn-theme {
+  background: var(--theme-dark-blue);
+  color: white;
+}
+
+.btn-theme:hover {
+  background: var(--theme-blue);
+  color: white;
+}
+
+.btn-accent {
+  background: var(--theme-light-blue);
+  color: #222222;
+}
+
+.font-small {
+  font-size: var(--small-font);
+}
+
 /* Hero Style */
 
 .hero-bg {
@@ -74,16 +93,6 @@ nav a:hover {
   justify-content: center;
   min-height: 50px;
   min-width: 60px;
-}
-
-.btn-theme {
-  background: var(--theme-dark-blue);
-  color: white;
-}
-
-.btn-theme:hover {
-  background: var(--theme-blue);
-  color: white;
 }
 
 .book-title {
@@ -141,6 +150,27 @@ nav a:hover {
   box-shadow: var(--box-shadow);
 }
 
+/* Dashboard page */
+.dashboard-details {
+  width: 60%;
+  border-radius: 10px;
+  box-shadow: var(--box-shadow);
+}
+
+.profile-image img {
+  border-radius: 50%;
+  box-shadow: var(--box-shadow);
+}
+
+.db-q-sec {
+  background: hsl(210,28.57%,97.25%);
+  border-radius: 10px;
+}
+
+.left-column {
+  width: 30%;
+}
+
 form {
   width: 100%;
   text-align: left;
@@ -153,6 +183,18 @@ form {
 
   .container {
     max-width: 100%;
+  }
+
+  /* profile section */
+  .profile-deatils {
+    width: 90%;
+    margin-bottom: 2rem;
+  }
+
+  .dashboard-details {
+    width: 90%;
+    margin: auto;
+    padding: 1.5rem !important;
   }
 }
 

@@ -15,7 +15,7 @@ export default function Nav() {
               <a href="/">Browse</a>
             </li>
             <li className="nav-item mx-2 width-max">
-              <a href="/">My Books</a>
+              <a href="/dashboard">My Books</a>
             </li>
           </ul>
         </div>

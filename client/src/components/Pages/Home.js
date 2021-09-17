@@ -11,7 +11,7 @@ export default function Home() {
 
   // create state for holding returned google api data
   const [searchedBooks, setSearchedBooks] = useState([]);
-  const [searchInput, setSearchInput] = useState('');
+  const [searchInput, setSearchInput] = useState('new books');
   const [searchHistory, setSearchHistory] = useState([]);
 
   useEffect(() => {
@@ -21,6 +21,8 @@ export default function Home() {
     });
 
   }, [searchedBooks]);
+
+  console.log(state);
 
   return (
     <div className="container-full">

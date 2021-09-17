@@ -26,7 +26,7 @@ module.exports = {
       console.log('Invalid token');
     }
 
-    console.log(req.user);
+    console.log('test',req.user);
 
     return req;
   },
