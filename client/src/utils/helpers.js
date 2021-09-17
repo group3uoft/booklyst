@@ -11,6 +11,5 @@ export const mobileMenuToggle = () => {
     navIcon.classList.remove('nav-open');
     navContainer.classList.remove('nav-show');
     navContainer.classList.add('nav-hide');
-
   }
 }

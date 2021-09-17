@@ -21,7 +21,9 @@
     "url": "https://github.com/group3uoft/final-project/issues"
   },
   "homepage": "https://github.com/group3uoft/final-project#readme",
-  "dependencies": {},
+  "dependencies": {
+    "react-router-dom": "^5.3.0"
+  },
   "devDependencies": {
     "concurrently": "^6.2.1"
   }
