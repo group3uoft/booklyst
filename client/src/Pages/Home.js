@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from "react";
-import Hero from "../Hero";
-import SearchResults from "../SearchResults";
+import Hero from "../components/Hero";
+import SearchResults from "../components/SearchResults";
 
 import { useSelector, useDispatch } from "react-redux";
-import { UPDATE_CURRENT_SEARCH, UPDATE_HISTORY } from "../../utils/actions";
+import { UPDATE_CURRENT_SEARCH, UPDATE_HISTORY } from "../utils/actions";
 
 export default function Home() {
   const state = useSelector(state => state);

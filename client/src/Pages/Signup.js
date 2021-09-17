@@ -1,27 +1,26 @@
 import React, { useState } from "react";
 import { useMutation } from '@apollo/client';
 import { Link } from "react-router-dom";
-import { LOGIN } from '../../utils/mutations';
-import Auth from '../../utils/auth';
+import { SIGNUP } from '../utils/mutations';
+import Auth from '../utils/auth';
 
-export default function Login() {
-  const [ formState, setFormState ] = useState({ email: '', password: '' });
-  const [ login, { error }] = useMutation(LOGIN);
+export default function Signup() {
+  const [ formState, setFormState ] = useState({username: '', email: '', password: '' });
+  const [ login, { error }] = useMutation(SIGNUP);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await login({
-        variables: { email: formState.email, password: formState.password }
+        variables: {username: formState.username, email: formState.email, password: formState.password }
       });
       console.log('responseLogin', response);
-      const token = response.data.loginUser.token;
+      const token = response.data.createUser.token;
       Auth.login(token);
-      setFormState({ email: '', password: '' });
+      setFormState({username: '', email: '', password: '' });
     } catch (e) {
       console.log('testone', e);
     }
-
   }
 
   const handleChange = (e) => {
@@ -32,9 +31,13 @@ export default function Login() {
 
   return (
     <div className="body-container d-flex flex-column justify-content-center">
-      <h1>Login</h1>
+      <h1>Sign up</h1>
       <div className="auth-container">
         <form onSubmit={handleSubmit} id="login-form">
+          <div className="mb-3">
+            <label htmlFor="username" className="form-label">Username</label>
+            <input onChange={handleChange} name="username" className="form-control" id="username" aria-describedby="emailHelp" value={formState.username} />
+          </div>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">Email address</label>
             <input onChange={handleChange} name="email" className="form-control" id="email" aria-describedby="emailHelp" value={formState.email} />
@@ -42,19 +45,18 @@ export default function Login() {
           </div>
           <div className="mb-3">
             <label htmlFor="password" className="form-label">Password</label>
-            <input onChange={handleChange} name="password" className="form-control" id="password" value={formState.password} />
+            <input onChange={handleChange} name="password" className="form-control" id="password" value={formState.password} type="password" />
           </div>
           <div className="mb-3 form-check">
             <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-            <label className="form-check-label" htmlFor="exampleCheck1">Remember me</label>
+            <label className="form-check-label" htmlFor="exampleCheck1">Sign up for free offers</label>
           </div>
-          <button type="submit" className="btn btn-theme">Login</button>
+          <button type="submit" className="btn btn-theme">Signup</button>
           <div className="mt-2">
-            <Link to="/signup">Sign up instead</Link>
+            <Link to="/login">Login instead</Link>
           </div>
         </form>
       </div>
     </div>
   )
 }
-

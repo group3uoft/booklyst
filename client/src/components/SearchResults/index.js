@@ -1,7 +1,14 @@
 import React from "react";
 import BookCard from "../BookCard";
+import Spinner from "../Spinner";
 
 export default function SearchResults({searchedBooks, searchInput}) {
+
+  if(searchedBooks.length === 0) {
+    return (
+      <Spinner />
+    )
+  }
 
   return (
     <div className="container">

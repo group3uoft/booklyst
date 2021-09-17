@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import './spinner.css';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
@@ -17,13 +18,14 @@ import store from './utils/store';
 
 // import components
 import Header from './components/Header';
-import Home from './components/Pages/Home';
+import Home from './Pages/Home';
 import Footer from './components/Footer';
 
 // import pages
-import Login from './components/Pages/Login';
-import Signup from './components/Pages/Signup';
-import Dashboard from './components/Pages/Dashboard';
+import Login from './Pages/Login';
+import Signup from './Pages/Signup';
+import Dashboard from './Pages/Dashboard';
+import BookDetail from './Pages/BookDetail';
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:3001/graphql',
@@ -56,6 +58,7 @@ function App() {
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/dashboard" component={Dashboard} />
+            <Route exact path="/books/:id" component={BookDetail} />
           </Switch>
           <Footer />
         </Provider>

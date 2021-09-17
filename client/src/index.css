@@ -51,27 +51,20 @@ nav a:hover {
 }
 
 /* utility classes */
+.container-full {
+  min-height: 70vh;
+}
+
 .width-max {
   width: max-content;
 }
 
-.btn-theme {
-  background: var(--theme-dark-blue);
-  color: white;
-}
-
-.btn-theme:hover {
-  background: var(--theme-blue);
-  color: white;
-}
-
-.btn-accent {
-  background: var(--theme-light-blue);
-  color: #222222;
-}
-
 .font-small {
   font-size: var(--small-font);
+}
+
+.w-full {
+  width: 100%;
 }
 
 /* Hero Style */
@@ -112,13 +105,37 @@ nav a:hover {
    -webkit-box-orient: vertical;
 }
 
+.book-deatailed-desc {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 6; /* number of lines to show */
+  -webkit-box-orient: vertical;
+}
+
+.btn-theme {
+  background: var(--theme-dark-blue);
+  color: white;
+}
+
+.btn-theme:hover {
+  background: var(--theme-orange);
+  color: white;
+}
+
+.btn-accent {
+  background: var(--theme-light-blue);
+  color: #222222;
+}
+
 .amazon-btn {
   background: #FFA41C;
-  color: #1D3354;
+  color: white;
 }
 
 .amazon-btn:hover {
-  color: var(--theme-blue);
+  background: var(--theme-orange);
+  color: white;
 }
 
 .indigo-btn {
@@ -126,12 +143,38 @@ nav a:hover {
   color: white;
 }
 
+.google-play {
+  background: #039be5;
+  color: white;
+}
+
+.google-play:hover {
+  background: var(--theme-orange);
+  color: white;
+}
+
 .indigo-btn:hover {
-  color: var(--theme-light-blue);
+  background: var(--theme-orange);
+  color: white;
+}
+
+.open-library {
+  background-color: #0376b8;
+  color: white;
+}
+
+.open-library:hover {
+  background-color: var(--theme-orange);
+  color: white;
 }
 
 .save-later {
   background: var(--theme-blue);
+  color: white;
+}
+
+.save-later:hover {
+  background: var(--theme-orange);
   color: white;
 }
 
@@ -174,6 +217,11 @@ nav a:hover {
 form {
   width: 100%;
   text-align: left;
+}
+
+/* Deatil pages */
+.info-container {
+  width: 60%;
 }
 
 @media only screen and (max-width: 992px) {

@@ -1,50 +1,24 @@
 import React, { useEffect } from "react";
 import bgImg from '../../assets/images/hero-bg.jpg'
-import { searchGoogleBooks } from "../../utils/API";
+import { searchHandle } from "../../utils/helpers";
 
 export default function Hero({setSearchedBooks, setSearchInput, searchInput, setSearchHistory}) {
 
-  const searchHandle = async (query) => {
-    if(!query) {
-      alert('please enter a query!');
-    }
-    // get results form google api
-    try {
-      const gResponse = await(searchGoogleBooks(query));
-
-      if(!gResponse.ok) {
-        throw new Error('Something went wrong!');
-      }
-
-      const gBookData = await gResponse.json();
-
-      console.log(gBookData);
-
-      const gBooks = gBookData.items.map(book => ({
-        bookId: book.id,
-        authors: book.volumeInfo.authors || ['No author to display'],
-        title: book.volumeInfo.title,
-        description: book.volumeInfo.description,
-        image: book.volumeInfo.imageLinks?.thumbnail || '',
-        isbn13: book.volumeInfo.industryIdentifiers?.[0].identifier || ''
-        }
-      ));
-
-      await setSearchedBooks(gBooks);
-    } catch (e) {
-      console.error(e);
-    }
-  } 
-
-  const searchSubmit = (e) => {
+  const searchSubmit = async (e) => {
     e.preventDefault();
     // run the search
-    searchHandle(searchInput);
+    const data = await searchHandle(searchInput);
+    await setSearchedBooks(data);
     setSearchHistory(searchInput);
   }
 
   useEffect(() => {
-    searchHandle('new books');
+    async function fetchData() {
+      const data = await searchHandle(searchInput);
+      await setSearchedBooks(data);
+    }
+
+    fetchData();
   }, []);
 
   return(

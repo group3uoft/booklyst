@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
-import SearchResults from "../SearchResults";
-import { searchHandle } from "../../utils/helpers";
+import SearchResults from "../components/SearchResults";
+import { searchHandle } from "../utils/helpers";
 
 import { useSelector, useDispatch } from "react-redux";
 // import { UPDATE_CURRENT_SEARCH, UPDATE_HISTORY } from "../../utils/actions";
@@ -52,10 +52,10 @@ export default function Dashboard() {
 
   return (
     <div className="container mb-5">
-      <div className="py-5 d-flex justify-content-around">
+      <div className="py-5 d-flex justify-content-around flex-wrap">
         <div className="profile-deatils left-column">
           <div className="profile-image">
-            <img src="https://picsum.photos/300" alt="" />
+            <img src="https://picsum.photos/250" alt="" />
           </div>
 
           <div className="pofile-info mt-3">
@@ -71,7 +71,7 @@ export default function Dashboard() {
           </div> 
         </div>
         
-        <div className="dashboard-details d-flex flex-column py-5 px-5 text-start">
+        <div className="dashboard-details d-flex flex-column py-4 px-4 text-start">
           <h2 className="text-left">Profile Stats</h2>
           <div className="stats-container">
             <div className="mt-3 db-q-sec pt-3 pb-2 px-3">
