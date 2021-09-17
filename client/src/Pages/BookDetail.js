@@ -27,7 +27,7 @@ export default function BookDetail() {
 
   return (
     <>
-      <div className="conatiner">
+      <div className="container">
         <div className="detail-container d-flex justify-content-around py-5">
           <div className="image-container left-column text-end">
             <img src={currentBook.image ? currentBook.image : ``} alt=""
@@ -68,7 +68,7 @@ export default function BookDetail() {
                 className="btn open-library m-1">
                 <span className="me-2"><i className="fas fa-book-open"></i></span> Open Library</a>
             </div>
-            <div className="buttons-container">
+            <div className="buttons-container d-flex flex-wrap">
               <button className="btn save-later m-1"><span className="me-2"><i className="fas fa-heart"></i></span> Mark as favourite</button>
               <button className="btn save-later m-1"><span className="me-2"><i className="fas fa-check-square"></i></span> Mark as read</button>
             </div>
