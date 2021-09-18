@@ -14,12 +14,11 @@ export default function Login() {
       const response = await login({
         variables: { email: formState.email, password: formState.password }
       });
-      console.log('responseLogin', response);
       const token = response.data.loginUser.token;
       Auth.login(token);
       setFormState({ email: '', password: '' });
     } catch (e) {
-      console.log('testone', e);
+      console.error(e);
     }
 
   }
@@ -27,12 +26,11 @@ export default function Login() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormState({...formState, [name]: value});
-    console.log(formState);
   }
 
   return (
     <div className="body-container d-flex flex-column justify-content-center">
-      <h1>Login</h1>
+      <h1 className="text-center">Login</h1>
       <div className="auth-container">
         <form onSubmit={handleSubmit} id="login-form">
           <div className="mb-3">

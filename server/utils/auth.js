@@ -26,8 +26,6 @@ module.exports = {
       console.log('Invalid token');
     }
 
-    console.log('test',req.user);
-
     return req;
   },
   signInToken: function ({ username, email, _id }) {

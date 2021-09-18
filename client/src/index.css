@@ -46,6 +46,13 @@ nav a:hover {
   color: var(--theme-blue);
 }
 
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .mobile-nav-icon {
   display: none;
 }
@@ -198,6 +205,10 @@ nav a:hover {
   width: 60%;
   border-radius: 10px;
   box-shadow: var(--box-shadow);
+}
+
+.profile-deatils {
+  text-align: center;
 }
 
 .profile-image img {

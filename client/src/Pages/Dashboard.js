@@ -1,17 +1,26 @@
 import React, {useState, useEffect} from "react";
 import SearchResults from "../components/SearchResults";
 import { searchHandle } from "../utils/helpers";
+import { Link } from "react-router-dom";
+
+import { useMutation, useQuery } from '@apollo/client';
+import { QUERY_ME } from '../utils/queries';
 
 import { useSelector, useDispatch } from "react-redux";
 // import { UPDATE_CURRENT_SEARCH, UPDATE_HISTORY } from "../../utils/actions";
 
 export default function Dashboard() {
+  const { loading, data } = useQuery(QUERY_ME);
 
   const state = useSelector(state => state);
   // const dispatch = useDispatch();
 
   const [searchedBooks, setSearchedBooks] = useState([]);
   const [searchInput, setSearchInput] = useState('new books');
+
+  console.log('data',data);
+
+  const userData = data?.getMe || {};
 
   useEffect(() => {
     async function fetchData() {
@@ -50,6 +59,26 @@ export default function Dashboard() {
     } 
   };
 
+  if(loading) {
+    return <div>Loading...</div>
+  }
+
+  console.log('userdata', userData);
+
+  if(!userData?.username) {
+    return (
+      <div className="container-full d-flex justify-content-center flex-column">
+        <div className="container p-3">
+        <p className="fs-2">Oops.. Sorry! <i className="fas fa-sad-tear"></i>
+          <br/> You need to be logged in to see this page.
+          <br/> Click the button to login! </p>
+        <Link to="/login"
+          className="btn btn-theme btn-lg">Login</Link>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="container mb-5">
       <div className="py-5 d-flex justify-content-around flex-wrap">
@@ -59,7 +88,7 @@ export default function Dashboard() {
           </div>
 
           <div className="pofile-info mt-3">
-            <h5 className="fs-2 fw-bold">Hello {`username`}!</h5>
+            <h5 className="fs-2 fw-bold text-capitalize">Hello {userData.username}!</h5>
             <p>Any short notes.. such as reading this page.. or this page number.. </p>
           </div>
 

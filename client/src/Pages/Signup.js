@@ -19,19 +19,18 @@ export default function Signup() {
       Auth.login(token);
       setFormState({username: '', email: '', password: '' });
     } catch (e) {
-      console.log('testone', e);
+      console.error(e);
     }
   }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormState({...formState, [name]: value});
-    console.log(formState);
   }
 
   return (
     <div className="body-container d-flex flex-column justify-content-center">
-      <h1>Sign up</h1>
+      <h1 className="text-center">Sign up</h1>
       <div className="auth-container">
         <form onSubmit={handleSubmit} id="login-form">
           <div className="mb-3">

@@ -1,6 +1,7 @@
   
 import React from "react";
 import { Link } from "react-router-dom";
+import Auth from '../../utils/auth';
 
 export default function Nav() {
 
@@ -9,22 +10,26 @@ export default function Nav() {
         <div className="nav-links mx-3">
           <ul className="navbar-nav">
             <li className="nav-item mx-2 width-max">
-              <a href="/">Home</a>
+              <Link to="/">Home</Link>
             </li>
             <li className="nav-item mx-2 width-max">
-              <a href="/">Browse</a>
+              <Link to="/browse">Browse</Link>
             </li>
             <li className="nav-item mx-2 width-max">
-              <a href="/dashboard">My Books</a>
+              <Link to="/dashboard">My Books</Link>
             </li>
           </ul>
         </div>
         <div className="login-container">
-          <button 
+          <button type="button" className="btn btn-theme">Donate</button>
+          {Auth.loggedIn() ? 
+            <button 
             type="button" 
             className="btn btn-theme mx-2"
-            onClick={() => document.location.assign('/login')}>Login</button>
-          <button type="button" className="btn btn-theme">Donate</button>
+            onClick={Auth.logout}>Logout</button> :
+            <Link to="/login"
+            className="btn btn-theme mx-2">Login</Link>
+             }
         </div>
       </nav>
   );
