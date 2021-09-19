@@ -8,6 +8,8 @@ const typeDefs = gql`
     email: String
     favourites: [Book]
     read: [Book]
+    favouritesCount: Int
+    readCount: Int
   }
 
   type Book {
@@ -49,11 +51,15 @@ const typeDefs = gql`
   type Mutation {
     loginUser(email: String!, password: String!): Auth
     createUser(username: String!, email: String!, password: String!): Auth
-    addFavouriteBook(input: bookData!, iddd: String): User
-    deleteFavouriteBook(ibsnId: String!, iddd: String): User
+    addFavouriteBook(input: bookData!): User
+    deleteFavouriteBook(ibsnId: String!): User
+    addReadBook(input: bookData!): User
+    deleteReadBook(ibsnId: String!): User
   }
 `
 //addFavouriteBook(input: bookData!): User
 //deleteFavouriteBook(ibsnId: String!): User
+//addFavouriteBook(input: bookData!, iddd: String): User
+//deleteFavouriteBook(ibsnId: String!, iddd: String): User
 // export the typeDefs
 module.exports = typeDefs;

@@ -25,7 +25,7 @@ export const SIGNUP = gql`
   }
 }
 `
-
+/*
 export const ADD_FAV = gql`
 mutation addFavouriteBook($addBook: bookData!) {
   addFavouriteBook(input: $addBook) {
@@ -47,3 +47,4 @@ mutation addFavouriteBook($addBook: bookData!) {
   }
 }
 `
+*/
