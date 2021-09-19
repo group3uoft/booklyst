@@ -21,13 +21,6 @@ const typeDefs = gql`
     pageCount: Int
     categories: [String]
     language: String
-    saleSource: [SaleInfo]
-  }
-
-  type SaleInfo {
-    _id: ID
-    site: String
-    buyLink: String
   }
 
   type Auth {
@@ -45,12 +38,6 @@ const typeDefs = gql`
     pageCount: Int
     categories: [String]
     language: String
-    saleSource: [saleInfo]
-  }
-
-  input saleInfo {
-    site: String
-    buyLink: String
   }
 
   type Query {
@@ -62,9 +49,11 @@ const typeDefs = gql`
   type Mutation {
     loginUser(email: String!, password: String!): Auth
     createUser(username: String!, email: String!, password: String!): Auth
-    favouriteBook(input: bookData!): User
+    addFavouriteBook(input: bookData!, iddd: String): User
+    deleteFavouriteBook(ibsnId: String!, iddd: String): User
   }
 `
-
+//addFavouriteBook(input: bookData!): User
+//deleteFavouriteBook(ibsnId: String!): User
 // export the typeDefs
 module.exports = typeDefs;

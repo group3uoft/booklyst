@@ -38,8 +38,7 @@ const bookDataSchema = new Schema({
   ],
   language: {
     type: String
-  },
-  saleSource: [saleInfoSchema]
+  }
 });
 
 module.exports = bookDataSchema;

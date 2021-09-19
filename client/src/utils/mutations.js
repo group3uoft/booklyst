@@ -25,3 +25,25 @@ export const SIGNUP = gql`
   }
 }
 `
+
+export const ADD_FAV = gql`
+mutation addFavouriteBook($addBook: bookData!) {
+  addFavouriteBook(input: $addBook) {
+    _id
+    username
+    email
+    favourites {
+      authors
+      description
+      bookId
+      image
+      link
+      title
+      pageCount
+      categories
+      language
+      }
+    }
+  }
+}
+`

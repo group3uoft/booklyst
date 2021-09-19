@@ -49,11 +49,21 @@ const resolvers = {
       return { token, user };
     },
 
-    favouriteBook: async (parent, {input}, context) => {
+    addFavouriteBook: async (parent, {input, iddd}, /*context*/) => {
       console.log(input)
       const updatedUser = await User.findOneAndUpdate(
-        { _id: context.user._id },
+        { _id: iddd/*context.user._id*/ },
         { $push: { favourites: {...input}}},
+        { new: true }
+      );
+
+      return updatedUser;
+    },
+
+    deleteFavouriteBook: async (parent, {ibsnId, iddd}, /*context*/) => {
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: iddd/*context.user._id*/ },
+        { $pull: { favourites: {bookId: ibsnId}}},
         { new: true }
       );
 
