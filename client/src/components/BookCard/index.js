@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function BookCard({book}) {
+export default function BookCard({book, handleSaveFavourite}) {
   return (
       <div
       className="book-card card m-2"
-      style={{minWidth: '220px', maxWidth: '250px', minHeight: '200px'}}>
+      style={{minWidth: '220px', maxWidth: '280px', minHeight: '200px'}}>
         <Link to={`/books/${book.isbn13}`}>
         <div 
           className="card-img-top d-flex justify-content-center align-items-center"
@@ -26,7 +26,7 @@ export default function BookCard({book}) {
             <a href={`https://www.chapters.indigo.ca/en-ca/books/name/${book.isbn13}-item.html`} target="_blank" rel="noreferrer" className="btn indigo-btn mb-2">Buy it now from Indigo</a> */}
             <Link to={`/books/${book.isbn13}`} className="btn btn-theme mb-2 w-full text-start px-4"><span className="me-3"><i className="fas fa-list"></i></span> See More Details</Link>
             <div className="buttons-container">
-              <button className="btn save-later w-full mb-2 text-start px-4"><span className="me-3"><i className="far fa-heart"></i></span> Mask as favourite</button>
+              <button onClick={() => handleSaveFavourite(book.bookId)} className="btn save-later w-full mb-2 text-start px-4"><span className="me-3"><i className="far fa-heart"></i></span> Mask as favourite</button>
               <button className="btn save-later w-full mb-2 text-start px-4"><span className="me-3"><i className="fas fa-check"></i></span> Mark as read</button>
           </div>
         </div>

@@ -39,6 +39,27 @@ const bookDataSchema = new Schema({
   language: {
     type: String
   },
+  isbn13: {
+    type:String
+  },
+  isbn10: {
+    type: String
+  },
+  webReaderLink: {
+    type: String
+  },
+  goolePlayBooks: {
+    type: String
+  },
+  googleRatings: {
+    type: Number
+  },
+  publishedDate: {
+    type: String,
+  },
+  publisher: {
+    type: String
+  },
   saleSource: [saleInfoSchema]
 });
 

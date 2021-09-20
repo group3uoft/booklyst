@@ -2,3 +2,12 @@
 export const searchGoogleBooks = (query) => {
   return fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=12`);
 };
+
+export const searchCurrentBook = (bookId) => {
+  return fetch(`https://www.googleapis.com/books/v1/volumes/${bookId}`);
+}
+
+// search based on category + newst 
+export const searchRealatedBooks = (category, author) => {
+  return fetch(`https://www.googleapis.com/books/v1/volumes?q=${category}+inauthor:${author}+subject:${category}&orderBy=newest`);
+}

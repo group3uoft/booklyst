@@ -25,3 +25,57 @@ export const SIGNUP = gql`
   }
 }
 `
+
+// Save favourite
+export const SAVE_FAVOURITE = gql`
+  mutation favouriteBook($input: bookData) {
+    favouriteBook(input: $input) {
+      _id
+      username
+      email
+      savedBooks {
+        bookId
+        authors
+        title
+        description
+        categories
+        image
+        isbn13
+        isbn10
+        webReaderLink
+        goolePlayBooks
+        googleRatings
+        publishedDate
+        publisher
+      }
+    }
+  }
+`;
+
+// save read books
+export const SAVE_READ = gql`
+  mutation saveBook($input: bookData) {
+    saveBook(input: $input) {
+      _id
+      username
+      email
+      savedBooks {
+        bookId
+        authors
+        title
+        description
+        categories
+        image
+        isbn13
+        isbn10
+        webReaderLink
+        googleListPrice
+        googleRetailPrice
+        goolePlayBooks
+        googleRatings
+        publishedDate
+        publisher
+      }
+    }
+  }
+`;

@@ -1,23 +1,34 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Spinner from "../components/Spinner";
-import { searchGoogleBooks } from "../utils/API";
-import { deepSearchHandle } from '../utils/helpers'
+import { idbPromise } from "../utils/indexedDb";
+import { UPDATE_CURRENT_SEARCH } from "../utils/actions";
+
+import { useSelector, useDispatch } from "react-redux";
 
 export default function BookDetail() {
+
+  const state = useSelector(state => state);
+  const dispatch = useDispatch();
+
   const { id } = useParams();
-  const [currentBook, setCurrentProduct] = useState({});
-  // const { loading, data } = useQuery(QUERY_BOOKS);
+  const [currentBook, setCurrentBook] = useState({});
 
   useEffect(() => {
-    async function fetchData() {
-      const data = await deepSearchHandle(`isbn:${id}`);
-      await console.log(data);
-      await setCurrentProduct(data[0]);
-    }
+      if(!state.currentSearch) {
+        idbPromise('currentSearch', 'get').then((books) => {
+          // use retrieved data to set global state for offline browsing
+          dispatch({
+            type: UPDATE_CURRENT_SEARCH,
+            currentSearch: books
+          });
+          setCurrentBook(books.find(book => book.isbn13 === id));
+        })
+      } else {
+        setCurrentBook(state.currentSearch.find(book => book.isbn13 === id));
+      }
+    }, []);
 
-    fetchData();
-  }, []);
 
   if(Object.keys(currentBook).length === 0) {
     return (

@@ -36,16 +36,19 @@ const typeDefs = gql`
   }
 
   input bookData {
-    authors: [String]
-    description: String
     bookId: String
-    image: String
-    link: String
+    authors: [String]
     title: String
-    pageCount: Int
+    description: String
     categories: [String]
-    language: String
-    saleSource: [saleInfo]
+    image: String
+    isbn13: String
+    isbn10: String
+    webReaderLink: String
+    goolePlayBooks: String
+    googleRatings: Int
+    publishedDate: String
+    publisher: String
   }
 
   input saleInfo {
@@ -62,7 +65,8 @@ const typeDefs = gql`
   type Mutation {
     loginUser(email: String!, password: String!): Auth
     createUser(username: String!, email: String!, password: String!): Auth
-    favouriteBook(input: bookData!): User
+    favouriteBook(input: bookData): User
+    readBook(input: bookData): User
   }
 `
 

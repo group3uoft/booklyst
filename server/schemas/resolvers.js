@@ -50,7 +50,7 @@ const resolvers = {
     },
 
     favouriteBook: async (parent, {input}, context) => {
-      console.log(input)
+      console.log('this is the input', input);
       const updatedUser = await User.findOneAndUpdate(
         { _id: context.user._id },
         { $push: { favourites: {...input}}},

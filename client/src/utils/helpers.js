@@ -1,4 +1,4 @@
-import { searchGoogleBooks } from "./API";
+import { searchGoogleBooks, searchCurrentBook, searchRealatedBooks } from "./API";
 
 // Search handle function
 export const searchHandle = async (query) => {
@@ -12,10 +12,7 @@ export const searchHandle = async (query) => {
     if(!gResponse.ok) {
       throw new Error('Something went wrong!');
     }
-
     const gBookData = await gResponse.json();
-
-    console.log(gBookData);
 
     const gBooks = gBookData.items.map(book => ({
       bookId: book.id,
@@ -34,12 +31,15 @@ export const searchHandle = async (query) => {
 }; 
 
 // Search handle function
-export const deepSearchHandle = async (query) => {
+export const deepSearchHandle = async (query, type) => {
   if(!query) {
     alert('please enter a query!');
   }
   // get results form google api
   try {
+    if(type === 'related') {
+      const gResponse = await searchRealatedBooks
+    }
     const gResponse = await(searchGoogleBooks(query));
 
     if(!gResponse.ok) {
@@ -47,8 +47,6 @@ export const deepSearchHandle = async (query) => {
     }
 
     const gBookData = await gResponse.json();
-
-    console.log(gBookData);
 
     const gBooks = gBookData.items.map(book => ({
       bookId: book.id,
@@ -75,6 +73,49 @@ export const deepSearchHandle = async (query) => {
   }
 }; 
 
+// fetch retatedBook Details
+export const fetchRelatedBooks = async (category, authors) => {
+  if(!authors && !category) {
+    console.error('No data to find match');
+  }
+  // get results form google api
+  try {
+    const gResponse = await(searchCurrentBook(category, authors));
+
+    if(!gResponse.ok) {
+      throw new Error('Something went wrong!');
+    }
+
+    const gBookData = await gResponse.json();
+
+    console.log('dbjbds', gBookData);
+
+    return gBookData;
+  } catch (e) {
+    console.error(e);
+  }
+}; 
+
+// fetch currectBook Details
+export const fetchCurrentBook = async (bookId) => {
+  if(!bookId) {
+    alert('book ID is invalid');
+  }
+  // get results form google api
+  try {
+    const gResponse = await(searchCurrentBook(bookId));
+
+    if(!gResponse.ok) {
+      throw new Error('Something went wrong!');
+    }
+
+    const gBookData = await gResponse.json();
+
+    return gBookData;
+  } catch (e) {
+    console.error(e);
+  }
+}
 
 // function for mobile toggle 
 export const mobileMenuToggle = () => {

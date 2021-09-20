@@ -1,20 +1,20 @@
 import React, { useEffect } from "react";
 import bgImg from '../../assets/images/hero-bg.jpg'
-import { searchHandle } from "../../utils/helpers";
+import { deepSearchHandle } from "../../utils/helpers";
 
 export default function Hero({setSearchedBooks, setSearchInput, searchInput, setSearchHistory}) {
 
   const searchSubmit = async (e) => {
     e.preventDefault();
     // run the search
-    const data = await searchHandle(searchInput);
+    const data = await deepSearchHandle(searchInput);
     await setSearchedBooks(data);
     setSearchHistory(searchInput);
   }
 
   useEffect(() => {
     async function fetchData() {
-      const data = await searchHandle(searchInput);
+      const data = await deepSearchHandle(searchInput);
       await setSearchedBooks(data);
     }
 

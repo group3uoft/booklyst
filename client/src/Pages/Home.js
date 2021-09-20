@@ -4,6 +4,7 @@ import SearchResults from "../components/SearchResults";
 
 import { useSelector, useDispatch } from "react-redux";
 import { UPDATE_CURRENT_SEARCH, UPDATE_HISTORY } from "../utils/actions";
+import { idbPromise } from "../utils/indexedDb";
 
 export default function Home() {
   const state = useSelector(state => state);
@@ -14,13 +15,20 @@ export default function Home() {
   const [searchInput, setSearchInput] = useState('new books');
   const [searchHistory, setSearchHistory] = useState([]);
 
+  console.log('searchedbooks', searchedBooks);
+
   useEffect(() => {
     dispatch({
       type: UPDATE_CURRENT_SEARCH,
       currentSearch: searchedBooks
     });
 
-  }, [searchedBooks]);
+    // save the data to IDB
+    searchedBooks.forEach((book) => {
+      idbPromise('currentSearch', 'put', book);
+    });
+
+  }, [searchedBooks, dispatch]);
 
   console.log(state);
 
