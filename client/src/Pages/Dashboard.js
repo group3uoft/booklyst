@@ -7,6 +7,10 @@ import { useMutation, useQuery } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
 
 import { useSelector, useDispatch } from "react-redux";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
+
 // import { UPDATE_CURRENT_SEARCH, UPDATE_HISTORY } from "../../utils/actions";
 
 export default function Dashboard() {
@@ -18,6 +22,28 @@ export default function Dashboard() {
   const [searchedBooks, setSearchedBooks] = useState([]);
   const [searchInput, setSearchInput] = useState('new books');
 
+  const [message, setMessage] = useState("");
+  const commands = [
+    {
+      command: "*",
+      callback: (text) => setMessage(text),
+    },
+  ];
+  const {
+    initialTranscript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition,
+  } = useSpeechRecognition({ commands });
+
+  const onReset = () => {
+    setMessage("");
+    resetTranscript();
+  };
+  if (!browserSupportsSpeechRecognition) {
+    return <span>Browser doesn't support speech recognition.</span>;
+  }
+  
   console.log('data',data);
 
   const userData = data?.getMe || {};
@@ -124,6 +150,11 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+      <p>Microphone: {listening ? "on" : "off"}</p>
+      <button onClick={SpeechRecognition.startListening}>Start</button>
+      <button onClick={SpeechRecognition.stopListening}>Stop</button>
+      <button onClick={onReset}>Reset</button>
+      <p>{message}</p>
       <SearchResults 
         searchedBooks={searchedBooks}
         searchInput={searchInput} />
