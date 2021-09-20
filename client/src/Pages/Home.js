@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from "react";
-import Hero from "../Hero";
-import SearchResults from "../SearchResults";
+import Hero from "../components/Hero";
+import SearchResults from "../components/SearchResults";
 
 import { useSelector, useDispatch } from "react-redux";
-import { UPDATE_CURRENT_SEARCH, UPDATE_HISTORY } from "../../utils/actions";
+import { UPDATE_CURRENT_SEARCH, UPDATE_HISTORY } from "../utils/actions";
 
 export default function Home() {
   const state = useSelector(state => state);
@@ -11,7 +11,7 @@ export default function Home() {
 
   // create state for holding returned google api data
   const [searchedBooks, setSearchedBooks] = useState([]);
-  const [searchInput, setSearchInput] = useState('');
+  const [searchInput, setSearchInput] = useState('new books');
   const [searchHistory, setSearchHistory] = useState([]);
 
   useEffect(() => {
@@ -21,6 +21,8 @@ export default function Home() {
     });
 
   }, [searchedBooks]);
+
+  console.log(state);
 
   return (
     <div className="container-full">
