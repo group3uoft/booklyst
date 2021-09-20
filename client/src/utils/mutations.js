@@ -27,8 +27,8 @@ export const SIGNUP = gql`
 `
 
 export const ADD_FAV = gql`
-  mutation addFavouriteBook($addBook: bookData!) {
-    addFavouriteBook(input: $addBook) {
+    mutation addFavouriteBook($input: bookData) {
+    addFavouriteBook(input: $input) {
       _id
       username
       email
@@ -44,7 +44,7 @@ export const ADD_FAV = gql`
         webReaderLink
         googleListPrice
         googleRetailPrice
-        goolePlayBooks
+        googlePlayBooks
         googleRatings
         publishedDate
         publisher
@@ -62,7 +62,7 @@ export const ADD_FAV = gql`
         webReaderLink
         googleListPrice
         googleRetailPrice
-        goolePlayBooks
+        googlePlayBooks
         googleRatings
         publishedDate
         publisher
@@ -74,3 +74,94 @@ export const ADD_FAV = gql`
     }
   }
 `
+
+export const ADD_READ = gql`
+    mutation addReadBook($input: bookData) {
+      addReadBook(input: $input) {
+      _id
+      username
+      email
+      favourites {
+        bookId
+        authors
+        title
+        description
+        categories
+        image
+        isbn13
+        isbn10
+        webReaderLink
+        googleListPrice
+        googleRetailPrice
+        googlePlayBooks
+        googleRatings
+        publishedDate
+        publisher
+      }
+      
+      read {
+        bookId
+        authors
+        title
+        description
+        categories
+        image
+        isbn13
+        isbn10
+        webReaderLink
+        googleListPrice
+        googleRetailPrice
+        googlePlayBooks
+        googleRatings
+        publishedDate
+        publisher
+      }
+
+      favouritesCount
+      readCount
+      searchHistory
+    }
+  }
+`
+export const DELETE_FAV = gql`
+  mutation deleteFavouriteBook($bookId: String!) {
+  deleteFavouriteBook(bookId: $bookId) {
+     _id
+    username
+    email
+    favourites {
+      bookId
+    }
+    
+    read {
+      bookId
+    }
+
+    favouritesCount
+    readCount
+    searchHistory
+  }
+  }
+`
+
+export const DELETE_SAVED = gql`
+  mutation deleteReadBook($bookId: String!) {
+    deleteReadBook(bookId: $bookId) {
+     _id
+    username
+    email
+    favourites {
+      bookId
+    }
+    
+    read {
+      bookId
+    }
+
+    favouritesCount
+    readCount
+    searchHistory
+  	}
+  }
+`
+

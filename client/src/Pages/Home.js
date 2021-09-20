@@ -14,8 +14,7 @@ export default function Home() {
   const [searchedBooks, setSearchedBooks] = useState([]);
   const [searchInput, setSearchInput] = useState('new books');
   const [searchHistory, setSearchHistory] = useState([]);
-
-  console.log('searchedbooks', searchedBooks);
+  const [title, setTitle] = useState('Best Sellers');
 
   useEffect(() => {
     dispatch({
@@ -27,10 +26,15 @@ export default function Home() {
     searchedBooks.forEach((book) => {
       idbPromise('currentSearch', 'put', book);
     });
-
+    
   }, [searchedBooks, dispatch]);
 
-  console.log(state);
+  useEffect(() => {
+    if(searchInput !== 'new books') {
+      setTitle('Search Results...');
+    }
+
+  }, [setSearchInput, searchInput])
 
   return (
     <div className="container-full">
@@ -41,7 +45,9 @@ export default function Home() {
         setSearchHistory={setSearchHistory} />
       <SearchResults 
         searchedBooks={searchedBooks}
-        searchInput={searchInput} />
+        searchInput={searchInput} 
+        title={title}
+        />
     </div>
   );
 };

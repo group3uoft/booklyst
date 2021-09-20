@@ -15,23 +15,6 @@ const typeDefs = gql`
 
   type Book {
     _id: ID
-    authors: [String]
-    description: String
-    bookId: String
-    image: String
-    link: String
-    title: String
-    pageCount: Int
-    categories: [String]
-    language: String
-  }
-
-  type Auth {
-    token: ID!
-    user: User
-  }
-
-  input bookData {
     bookId: String
     authors: [String]
     title: String
@@ -43,8 +26,32 @@ const typeDefs = gql`
     webReaderLink: String
     googleListPrice: String
     googleRetailPrice: String
-    goolePlayBooks: String
-    googleRatings: String
+    googlePlayBooks: String
+    googleRatings: Int
+    publishedDate: String
+    publisher: String
+  }
+
+  type Auth {
+    token: ID!
+    user: User
+  }
+
+  input bookData {
+    _id: ID
+    bookId: String
+    authors: [String]
+    title: String!
+    description: String
+    categories: [String]
+    image: String
+    isbn13: String
+    isbn10: String
+    webReaderLink: String
+    googleListPrice: String
+    googleRetailPrice: String
+    googlePlayBooks: String
+    googleRatings: Int
     publishedDate: String
     publisher: String
   }
@@ -58,10 +65,10 @@ const typeDefs = gql`
   type Mutation {
     loginUser(email: String!, password: String!): Auth
     createUser(username: String!, email: String!, password: String!): Auth
-    addFavouriteBook(input: bookData!): User
-    deleteFavouriteBook(ibsnId: String!): User
-    addReadBook(input: bookData!): User
-    deleteReadBook(ibsnId: String!): User
+    addFavouriteBook(input: bookData): User
+    deleteFavouriteBook(bookId: String!): User
+    addReadBook(input: bookData): User
+    deleteReadBook(bookId: String!): User
     searchedHistory(searchString: String!, iddd:String): User
   }
 `

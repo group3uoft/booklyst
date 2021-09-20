@@ -1,7 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function BookCard({book, handleSaveFavourite}) {
+import { useSelector } from "react-redux";
+
+export default function BookCard({book, handleSaveFavourite, handleSaveRead, removeFavorite, removeRead}) {
+
+  const state = useSelector(state => state);
+
   return (
       <div
       className="book-card card m-2"
@@ -26,8 +31,27 @@ export default function BookCard({book, handleSaveFavourite}) {
             <a href={`https://www.chapters.indigo.ca/en-ca/books/name/${book.isbn13}-item.html`} target="_blank" rel="noreferrer" className="btn indigo-btn mb-2">Buy it now from Indigo</a> */}
             <Link to={`/books/${book.isbn13}`} className="btn btn-theme mb-2 w-full text-start px-4"><span className="me-3"><i className="fas fa-list"></i></span> See More Details</Link>
             <div className="buttons-container">
-              <button onClick={() => handleSaveFavourite(book.bookId)} className="btn save-later w-full mb-2 text-start px-4"><span className="me-3"><i className="far fa-heart"></i></span> Mask as favourite</button>
-              <button className="btn save-later w-full mb-2 text-start px-4"><span className="me-3"><i className="fas fa-check"></i></span> Mark as read</button>
+              {state.savedBooks.find(id => id === book.bookId) ? 
+                <button 
+                onClick={() => removeFavorite(book.bookId)} 
+                className="btn save-later w-full mb-2 text-start px-4">
+                <span className="me-3"><i className="far fa-heart"></i></span> Remove favourite</button> :
+                <button 
+                onClick={() => handleSaveFavourite(book.bookId)} 
+                className="btn save-later w-full mb-2 text-start px-4">
+                <span className="me-3"><i className="far fa-heart"></i></span> Mask as favourite</button>
+              }
+              {
+                state.readBooks.find(id => id === book.bookId) ?
+                <button onClick={() => removeRead(book.bookId)}
+                  className="btn save-later w-full mb-2 text-start px-4">
+                <span className="me-3"><i className="fas fa-check"></i></span> Remove read</button> :
+                <button 
+                  onClick={() => handleSaveRead(book.bookId)}
+                  className="btn save-later w-full mb-2 text-start px-4">
+                  <span className="me-3"><i className="fas fa-check"></i></span> Mark as read</button>
+              }
+              
           </div>
         </div>
       </div>

@@ -49,46 +49,62 @@ const resolvers = {
       return { token, user };
     },
 
-    addFavouriteBook: async (parent, {input}, context) => {
-      console.log(input)
-      const updatedUser = await User.findOneAndUpdate(
-        { _id: context.user._id },
-        { $push: { favourites: {...input}}},
-        { new: true }
-      );
+    addFavouriteBook: async (parent, { input }, context) => {
+      console.log('running addFavouriteBook');
+      if(context.user) {
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $addToSet: { favourites: input}},
+          { new: true }
+        );
 
-      return updatedUser;
+        console.log('addinput', input);
+        console.log('userfromaddFav', context.user);
+        return updatedUser;
+      }
+
+      throw new AuthenticationError('You need to be logged in!');
     },
 
-    deleteFavouriteBook: async (parent, {ibsnId}, context) => {
+    deleteFavouriteBook: async (parent, {bookId}, context) => {
+      if(context.user) {
       const updatedUser = await User.findOneAndUpdate(
         { _id: context.user._id },
-        { $pull: { favourites: {bookId: ibsnId}}},
+        { $pull: { favourites: {bookId: bookId}}},
         { new: true }
       );
 
       return updatedUser;
+      }
+
+      throw new AuthenticationError('You need to be logged in!');
     },
 
-    addReadBook: async (parent, {input}, context) => {
-      console.log(input)
-      const updatedUser = await User.findOneAndUpdate(
-        { _id: context.user._id },
-        { $push: { read: {...input}}},
-        { new: true }
-      );
+    addReadBook: async (parent, { input }, context) => {
+      console.log('running addReadBook');
+      if(context.user) {
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $addToSet: { read: input}},
+          { new: true }
+        );
 
-      return updatedUser;
+        return updatedUser;
+      }
+      throw new AuthenticationError('You need to be logged in!');
     },
 
-    deleteReadBook: async (parent, {ibsnId}, context) => {
+    deleteReadBook: async (parent, {bookId}, context) => {
+      if(context.user) {
       const updatedUser = await User.findOneAndUpdate(
         { _id: context.user._id },
-        { $pull: { read: {bookId: ibsnId}}},
+        { $pull: { read: {bookId: bookId}}},
         { new: true }
       );
 
       return updatedUser;
+      }
+      throw new AuthenticationError('You need to be logged in!');
     },
 
     searchedHistory: async (parent, {searchString, iddd}, context) => {
@@ -102,6 +118,7 @@ const resolvers = {
       }
       return updatedUser;
     }
+
   }
 }
 

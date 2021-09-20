@@ -29,6 +29,10 @@ export const reducer = (state, action) => {
       }
 
     case UPDATE_READ_BOOKS: 
+      // const duplicateIndex = state.readBooks.indexOf(...action.readBooks);
+      // if(!duplicateIndex) {
+      //   return state;
+      // }
       return {
         ...state,
         readBooks: [...action.readBooks]

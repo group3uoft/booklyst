@@ -38,7 +38,7 @@ export const deepSearchHandle = async (query, type) => {
   // get results form google api
   try {
     if(type === 'related') {
-      const gResponse = await searchRealatedBooks
+      // const gResponse = await searchRealatedBooks
     }
     const gResponse = await(searchGoogleBooks(query));
 
@@ -48,24 +48,38 @@ export const deepSearchHandle = async (query, type) => {
 
     const gBookData = await gResponse.json();
 
-    const gBooks = gBookData.items.map(book => ({
-      bookId: book.id,
-      authors: book.volumeInfo.authors || ['No author to display'],
-      title: book.volumeInfo.title,
-      description: book.volumeInfo.description,
-      categories: book.volumeInfo?.categories || [],
-      image: book.volumeInfo.imageLinks?.thumbnail || '',
-      isbn13: book.volumeInfo.industryIdentifiers?.[0].identifier || '',
-      isbn10: book.volumeInfo.industryIdentifiers?.[1].identifier || '', 
-      webReaderLink: book.accessInfo?.webReaderLink || '',
-      googleListPrice: book.saleInfo?.listPrice || '',
-      googleRetailPrice: book.saleInfo?.retailPrice || '',
-      goolePlayBooks: book.volumeInfo?.infoLink || '',
-      googleRatings: book.volumeInfo?.ratingsCount || '',
-      publishedDate: book.volumeInfo.publishedDate,
-      publisher: book.volumeInfo.publisher
+    const gBooks = gBookData.items.map((book) => {
+      let isbn13 = '';
+      let isbn10 = '';
+      if(book.volumeInfo.industryIdentifiers) {
+        if(book.volumeInfo.industryIdentifiers[0]) {
+          isbn13 = book.volumeInfo.industryIdentifiers[0].identifier;
+        }
+
+        if(book.volumeInfo.industryIdentifiers[1]) {
+          isbn10 = book.volumeInfo.industryIdentifiers[1].identifier;
+        }
       }
-    ));
+
+      return {
+        _id: book.id,
+        bookId: book.id,
+        authors: book.volumeInfo.authors || ['No author to display'],
+        title: book.volumeInfo.title,
+        description: book.volumeInfo.description || '',
+        categories: book.volumeInfo?.categories || [],
+        image: book.volumeInfo.imageLinks?.thumbnail || '',
+        isbn13: isbn13,
+        isbn10: isbn10,
+        webReaderLink: book.accessInfo?.webReaderLink || '',
+        googleListPrice: book.saleInfo.listPrice?.amount.toString() || '',
+        googleRetailPrice: book.saleInfo.retailPrice?.amount.toString() || '',
+        googlePlayBooks: book.volumeInfo?.infoLink || '',
+        googleRatings: book.volumeInfo?.ratingsCount || '',
+        publishedDate: book.volumeInfo.publishedDate || '',
+        publisher: book.volumeInfo.publisher || ''
+        }
+    });
 
     return gBooks;
   } catch (e) {

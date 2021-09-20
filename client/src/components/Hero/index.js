@@ -6,10 +6,14 @@ export default function Hero({setSearchedBooks, setSearchInput, searchInput, set
 
   const searchSubmit = async (e) => {
     e.preventDefault();
+    const query = e.target[0].value;
     // run the search
-    const data = await deepSearchHandle(searchInput);
+    console.log('q',query);
+    setSearchInput(query);
+    console.log('s',searchInput);
+    const data = await deepSearchHandle(query);
     await setSearchedBooks(data);
-    setSearchHistory(searchInput);
+    setSearchHistory(query);
   }
 
   useEffect(() => {
@@ -28,10 +32,11 @@ export default function Hero({setSearchedBooks, setSearchInput, searchInput, set
           <div className="input-container d-flex">
             <input 
             className="form-control mr-sm-2" 
+            name="search"
             type="search" 
             placeholder="Search books, ISBN, Author" 
             aria-label="Search" 
-            onChange={(e) => setSearchInput(e.target.value)}
+            // onChange={(e) => setSearchInput(e.target.value)}
             />
             <span className="btn btn-light mx-2 sp-btn"><i className="fas fa-camera"></i></span>
             <span className="btn btn-light sp-btn"><i className="fas fa-microphone-alt"></i></span>

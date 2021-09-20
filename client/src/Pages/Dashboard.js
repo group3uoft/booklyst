@@ -2,21 +2,25 @@ import React, {useState, useEffect} from "react";
 import SearchResults from "../components/SearchResults";
 import { searchHandle } from "../utils/helpers";
 import { Link } from "react-router-dom";
+import Spinner from '../components/Spinner';
+import { deepSearchHandle } from "../utils/helpers";
 
 import { useMutation, useQuery } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
 
 import { useSelector, useDispatch } from "react-redux";
-// import { UPDATE_CURRENT_SEARCH, UPDATE_HISTORY } from "../../utils/actions";
+import { UPDATE_CURRENT_SEARCH, UPDATE_HISTORY } from "../utils/actions";
 
 export default function Dashboard() {
   const { loading, data } = useQuery(QUERY_ME);
 
   const state = useSelector(state => state);
+  const dispatch = useDispatch();
   // const dispatch = useDispatch();
 
   const [searchedBooks, setSearchedBooks] = useState([]);
   const [searchInput, setSearchInput] = useState('new books');
+  const [title, setTitle] = useState('Recomendations');
 
   console.log('data',data);
 
@@ -39,11 +43,13 @@ export default function Dashboard() {
       case 'Favourites': 
         console.log('Need to show all the favourites');
         // test
-        setSearchInput('favourites');
+        setSearchedBooks(userData.favourites);
+        setTitle('My Favourites');
         break;
 
       case 'Recomendations': 
-        console.log('Need to show all the Recomendations')
+        const data = await deepSearchHandle('best sellers');
+        await setSearchedBooks(data);
         break;
       
       case 'Radom Picks': 
@@ -60,7 +66,9 @@ export default function Dashboard() {
   };
 
   if(loading) {
-    return <div>Loading...</div>
+    return (
+      < Spinner />
+    )
   }
 
   console.log('userdata', userData);
@@ -93,8 +101,8 @@ export default function Dashboard() {
           </div>
 
           <div className="prof-button-container d-flex flex-column">
-            <button onClick={buttonHandle} className="my-1 btn btn-theme">Favourites</button>
             <button onClick={buttonHandle} className="my-1 btn btn-theme">Recomendations</button>
+            <button onClick={buttonHandle} className="my-1 btn btn-theme">Favourites</button>
             <button onClick={buttonHandle} className="my-1 btn btn-theme">Radom Picks</button>
             <button onClick={buttonHandle} className="my-1 btn btn-theme">Alreay read</button>
           </div> 
@@ -111,22 +119,23 @@ export default function Dashboard() {
             </div>
             <div className="mt-2 db-q-sec pt-3 pb-2 px-3">
               <h5 className="fw-bold fs-4"><span className="mr-3"><i className="fas fa-boxes"></i></span> Books you owned.</h5>
-              <p className="font-small mb-0" >Currently you have <span className="fw-bold">10 books</span> in your shelf</p>
+              <p className="font-small mb-0" >Currently you have <span className="fw-bold">{`10`} books</span> in your shelf</p>
             </div>
             <div className="mt-2 db-q-sec pt-3 pb-2 px-3">
               <h5 className="fw-bold fs-4"><span className="mr-3"><i className="fas fa-book-reader"></i></span> Books you read.</h5>
-              <p className="font-small" >You have read <span className="fw-bold">50 books</span> in total</p>
+              <p className="font-small" >You have read <span className="fw-bold">{userData.readCount} books</span> in total</p>
             </div>
             <div className="mt-2 db-q-sec pt-3 pb-2 px-3">
               <h5 className="fw-bold fs-4"><span className="mr-3"><i className="fas fa-heart"></i></span> Books you liked.</h5>
-              <p className="font-small pb-0" >You saved <span className="fw-bold">150 books</span> in your collection</p>
+              <p className="font-small pb-0" >You saved <span className="fw-bold">{userData.favouritesCount} books</span> in your collection</p>
             </div>
           </div>
         </div>
       </div>
       <SearchResults 
         searchedBooks={searchedBooks}
-        searchInput={searchInput} />
+        searchInput={searchInput}
+        title={title} />
     </div>
   )
 };

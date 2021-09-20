@@ -8,35 +8,43 @@ query Query {
     username
     email
     favourites {
-      _id
-      authors
-      description
       bookId
-      image
-      link
+      authors
       title
-      pageCount
+      description
       categories
-      language
-      saleSource {
-        site
-      }
+      image
+      isbn13
+      isbn10
+      webReaderLink
+      googleListPrice
+      googleRetailPrice
+      googlePlayBooks
+      googleRatings
+      publishedDate
+      publisher
     }
     read {
-      _id
-      authors
-      description
       bookId
-      image
-      link
+      authors
       title
-      pageCount
+      description
       categories
-      language
-      saleSource {
-        site
-      }
+      image
+      isbn13
+      isbn10
+      webReaderLink
+      googleListPrice
+      googleRetailPrice
+      googlePlayBooks
+      googleRatings
+      publishedDate
+      publisher
     }
+
+    favouritesCount
+    readCount
+    searchHistory
   }
 }
 `
