@@ -3,7 +3,8 @@ import  Swiper  from '../components/Swiper';
 import { searchHandle } from "../utils/helpers";
 import { useSelector, useDispatch } from "react-redux";
 function Browser() {
-    const state = useSelector(state => state);
+    const {currentSearch} = useSelector(state => state);
+    console.log('currenttttt',currentSearch);
     // const dispatch = useDispatch();
   
     const [searchedBooks, setSearchedBooks] = useState([]);
@@ -12,16 +13,16 @@ function Browser() {
  
     useEffect(() => {
       async function fetchData() {
-        const data = await searchHandle(searchInput);
-        await setSearchedBooks(data);
+        // const data = await searchHandle(searchInput);
+        await setSearchedBooks(currentSearch);
       }
   
       fetchData();
     }, [searchInput]);
   
-    console.log(state);
+    
     return (
-        < div className="books-container container d-flex flex-wrap justify-content-center" > 
+         < div className="books-container container d-flex flex-wrap justify-content-center" > 
             <Swiper searchedBooks={searchedBooks} /> 
         </div>
     )

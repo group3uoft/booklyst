@@ -22,7 +22,7 @@ SwiperCore.use([Pagination, Navigation]);
 
 export default ({searchedBooks}) => {
  
-
+  
 
   return (
     <Swiper
