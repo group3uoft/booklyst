@@ -87,9 +87,7 @@ export default function Dashboard() {
   }
 
   console.log("userdata", userData);
-  if (!browserSupportsSpeechRecognition) {
-    return <span>Browser doesn't support speech recognition.</span>;
-  }
+
   if (!userData?.username) {
     return (
       <div className="container-full d-flex justify-content-center flex-column">
@@ -106,7 +104,9 @@ export default function Dashboard() {
       </div>
     );
   }
-
+  if (!browserSupportsSpeechRecognition) {
+    return <span>Browser doesn't support speech recognition.</span>;
+  }
   return (
     <div className="container mb-5">
       <div className="py-5 d-flex justify-content-around flex-wrap">
