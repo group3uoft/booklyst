@@ -25,6 +25,7 @@ import Login from './Pages/Login';
 import Signup from './Pages/Signup';
 import Dashboard from './Pages/Dashboard';
 import BookDetail from './Pages/BookDetail';
+import Browser from './Pages/Browser'
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:3001/graphql',
@@ -58,6 +59,7 @@ function App() {
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/books/:id" component={BookDetail} />
+            <Route exact path="/browser" component={Browser} />
           </Switch>
           <Footer />
         </Provider>
