@@ -10,6 +10,7 @@ const typeDefs = gql`
     read: [Book]
     favouritesCount: Int
     readCount: Int
+    searchHistory: [String]
   }
 
   type Book {
@@ -31,15 +32,21 @@ const typeDefs = gql`
   }
 
   input bookData {
-    authors: [String]
-    description: String
     bookId: String
-    image: String
-    link: String
+    authors: [String]
     title: String
-    pageCount: Int
+    description: String
     categories: [String]
-    language: String
+    image: String
+    isbn13: String
+    isbn10: String
+    webReaderLink: String
+    googleListPrice: String
+    googleRetailPrice: String
+    goolePlayBooks: String
+    googleRatings: String
+    publishedDate: String
+    publisher: String
   }
 
   type Query {
@@ -55,6 +62,7 @@ const typeDefs = gql`
     deleteFavouriteBook(ibsnId: String!): User
     addReadBook(input: bookData!): User
     deleteReadBook(ibsnId: String!): User
+    searchedHistory(searchString: String!): User
   }
 `
 //addFavouriteBook(input: bookData!): User
