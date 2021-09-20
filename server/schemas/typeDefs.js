@@ -62,7 +62,7 @@ const typeDefs = gql`
     deleteFavouriteBook(ibsnId: String!): User
     addReadBook(input: bookData!): User
     deleteReadBook(ibsnId: String!): User
-    searchedHistory(searchString: String!): User
+    searchedHistory(searchString: String!, iddd:String): User
   }
 `
 //addFavouriteBook(input: bookData!): User

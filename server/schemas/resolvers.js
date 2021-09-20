@@ -49,7 +49,7 @@ const resolvers = {
       return { token, user };
     },
 
-    addFavouriteBook: async (parent, {input }, context) => {
+    addFavouriteBook: async (parent, {input}, context) => {
       console.log(input)
       const updatedUser = await User.findOneAndUpdate(
         { _id: context.user._id },
@@ -70,7 +70,7 @@ const resolvers = {
       return updatedUser;
     },
 
-    addReadBook: async (parent, {input }, context) => {
+    addReadBook: async (parent, {input}, context) => {
       console.log(input)
       const updatedUser = await User.findOneAndUpdate(
         { _id: context.user._id },
@@ -91,13 +91,15 @@ const resolvers = {
       return updatedUser;
     },
 
-    searchedHistory: async (parent, {searchString}, context) => {
+    searchedHistory: async (parent, {searchString, iddd}, context) => {
       const updatedUser = await User.findOneAndUpdate(
-        { _id: context.user._id },
+        { _id: iddd/*context.user._id */},
         { $push: { searchHistory: searchString }},
         { new: true }
       );
-
+      if (updatedUser.searchHistory.length > 20) {
+        updatedUser.searchHistory = updatedUser.searchHistory.splice((updatedUser.searchHistory.length - 20), updatedUser.searchHistory.length)
+      }
       return updatedUser;
     }
   }
