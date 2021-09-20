@@ -49,8 +49,8 @@ const resolvers = {
       return { token, user };
     },
 
-    favouriteBook: async (parent, {input}, context) => {
-      console.log('this is the input', input);
+    addFavouriteBook: async (parent, {input}, context) => {
+      console.log(input)
       const updatedUser = await User.findOneAndUpdate(
         { _id: context.user._id },
         { $push: { favourites: {...input}}},
@@ -59,7 +59,61 @@ const resolvers = {
 
       return updatedUser;
     },
+
+    deleteFavouriteBook: async (parent, {ibsnId}, context) => {
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: context.user._id },
+        { $pull: { favourites: {bookId: ibsnId}}},
+        { new: true }
+      );
+
+      return updatedUser;
+    },
+
+    addReadBook: async (parent, {input}, context) => {
+      console.log(input)
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: context.user._id },
+        { $push: { read: {...input}}},
+        { new: true }
+      );
+
+      return updatedUser;
+    },
+
+    deleteReadBook: async (parent, {ibsnId}, context) => {
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: context.user._id },
+        { $pull: { read: {bookId: ibsnId}}},
+        { new: true }
+      );
+
+      return updatedUser;
+    },
+
+    searchedHistory: async (parent, {searchString, iddd}, context) => {
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: iddd/*context.user._id */},
+        { $push: { searchHistory: searchString }},
+        { new: true }
+      );
+      if (updatedUser.searchHistory.length > 20) {
+        updatedUser.searchHistory = updatedUser.searchHistory.splice((updatedUser.searchHistory.length - 20), updatedUser.searchHistory.length)
+      }
+      return updatedUser;
+    }
   }
 }
+
+/*addReadBook: async (parent, {input, iddd}, /*context//) => {
+  console.log(input)
+  const updatedUser = await User.findOneAndUpdate(
+    { _id: iddd/*context.user._id// },
+    { $push: { read: {...input}}},
+    { new: true }
+  );
+
+  return updatedUser;
+},*/
 
 module.exports = resolvers;
