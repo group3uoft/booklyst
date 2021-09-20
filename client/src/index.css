@@ -237,10 +237,7 @@ form {
   padding: 2rem;
   border-radius: 10px;
 }
-/* .swiper-wrapper{
-  padding:5rem;
- 
-} */
+
 @media only screen and (max-width: 992px) {
   .navbar-nav {
     flex-direction: row;
