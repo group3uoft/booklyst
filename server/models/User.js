@@ -21,11 +21,14 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    //Placeholder user favourite books
+    //favourite books
     favourites: [bookDataSchema],
 
-    //Placeholder user read books
+    //read books
     read: [bookDataSchema],
+
+    //search history
+    searchHistory: [String]
   },
   // set this to use virtual below
   {
@@ -34,6 +37,14 @@ const userSchema = new Schema(
     },
   }
 );
+
+userSchema.virtual('favouritesCount').get(function() {
+  return this.favourites.length;
+});
+
+userSchema.virtual('readCount').get(function() {
+  return this.read.length;
+});
 
 // hash user password
 userSchema.pre('save', async function (next) {
