@@ -55,7 +55,7 @@ export default function BookDetail() {
             <p className="mb-1"><span></span> Pushlisher: <span className="fw-bold">{currentBook.publisher}</span></p>
             <p className="mb-1"><span></span> Pushlished Date: <span className="fw-bold">{currentBook.publishedDate}</span></p>
             {currentBook.googleListPrice ? 
-              <p className="mb-1 fs-3"> Price: <span className="fw-bold">{currentBook.googleListPrice.amount} {currentBook.googleListPrice.currencyCode}</span></p> 
+              <p className="mb-1 fs-3"> Price: <span className="fw-bold">{currentBook.googleListPrice}</span></p> 
               : ''}
             <div className="buttons-container d-flex flex-wrap">
               <a href={`https://www.amazon.com/s?i=stripbooks&rh=p_66%3A${currentBook.isbn13}&s=relevanceexprank&Adv-Srch-Books-Submit.x=34&Adv-Srch-Books-Submit.y=9&unfiltered=1&ref=sr_adv_b`}

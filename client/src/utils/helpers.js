@@ -62,10 +62,9 @@ export const deepSearchHandle = async (query, type) => {
       }
 
       return {
-        _id: book.id,
         bookId: book.id,
-        authors: book.volumeInfo.authors || ['No author to display'],
-        title: book.volumeInfo.title,
+        authors: book.volumeInfo.authors || [],
+        title: book.volumeInfo.title || 'No Title Available',
         description: book.volumeInfo.description || '',
         categories: book.volumeInfo?.categories || [],
         image: book.volumeInfo.imageLinks?.thumbnail || '',
@@ -129,6 +128,32 @@ export const fetchCurrentBook = async (bookId) => {
   } catch (e) {
     console.error(e);
   }
+}
+
+// filter the current book
+export const filterSavingBook = (searchedBooks, bookId) => {
+
+  const saveBookDetails = searchedBooks.find(book => book.bookId === bookId);
+
+  const bookToSave = {
+    bookId: saveBookDetails.bookId,
+    authors: saveBookDetails.authors,
+    title: saveBookDetails.title,
+    description: saveBookDetails.description,
+    categories: saveBookDetails.categories,
+    image: saveBookDetails.image,
+    isbn13: saveBookDetails.isbn13,
+    isbn10: saveBookDetails.isbn10,
+    webReaderLink: saveBookDetails.webReaderLink,
+    googleListPrice: saveBookDetails.googleListPrice,
+    googleRetailPrice: saveBookDetails.googleListPrice,
+    googlePlayBooks: saveBookDetails.googlePlayBooks,
+    googleRatings: saveBookDetails.googleRatings,
+    publishedDate: saveBookDetails.publishedDate,
+    publisher: saveBookDetails.publisher
+  }
+
+  return bookToSave;
 }
 
 // function for mobile toggle 

@@ -51,6 +51,7 @@ const resolvers = {
 
     addFavouriteBook: async (parent, { input }, context) => {
       console.log('running addFavouriteBook');
+      console.log('contextuser', context.user);
       if(context.user) {
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
@@ -82,6 +83,7 @@ const resolvers = {
 
     addReadBook: async (parent, { input }, context) => {
       console.log('running addReadBook');
+      console.log('contextuser', context.user);
       if(context.user) {
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },

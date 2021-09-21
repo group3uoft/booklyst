@@ -7,6 +7,8 @@ import { deepSearchHandle } from "../utils/helpers";
 
 import { useMutation, useQuery } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
+import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
+import { idbPromise } from "../utils/indexedDb";
 
 import { useSelector, useDispatch } from "react-redux";
 import { UPDATE_CURRENT_SEARCH, UPDATE_HISTORY } from "../utils/actions";
@@ -14,42 +16,83 @@ import { UPDATE_CURRENT_SEARCH, UPDATE_HISTORY } from "../utils/actions";
 export default function Dashboard() {
   const { loading, data } = useQuery(QUERY_ME);
 
+  // saveFavourites in localStorage 
+  const [savedFavourites, setSavedFavourites] = useState(getSavedBookIds('save_favourites'));
+  const [savedRead, setSavedRead] = useState(getSavedBookIds('save_read'));
+  const [ deletedBook, setDeletedBook ] = useState('');
+
   const state = useSelector(state => state);
   const dispatch = useDispatch();
   // const dispatch = useDispatch();
 
-  const [searchedBooks, setSearchedBooks] = useState([]);
+  const [booksToRender, setBooksToRender] = useState([]);
   const [searchInput, setSearchInput] = useState('new books');
   const [title, setTitle] = useState('Recomendations');
-
-  console.log('data',data);
 
   const userData = data?.getMe || {};
 
   useEffect(() => {
     async function fetchData() {
       const data = await searchHandle(searchInput);
-      await setSearchedBooks(data);
+      await setBooksToRender(data);
+
+      await dispatch({
+        type: UPDATE_CURRENT_SEARCH,
+        currentSearch: booksToRender
+      });
+
+      // save the data to IDB
+      await booksToRender.forEach((book) => {
+      idbPromise('currentSearch', 'put', book);
+      });
     }
 
     fetchData();
   }, [searchInput]);
 
-  console.log(state);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: UPDATE_CURRENT_SEARCH,
+  //     currentSearch: booksToRender
+  //   });
+  // }, [booksToRender])
+
+  // useEffect(() => {
+  //   dispatch({
+  //     type: UPDATE_CURRENT_SEARCH,
+  //     currentSearch: userData.favourites
+  //   });
+  //   setBooksToRender(userData.favourites);
+  // }, [savedFavourites, setSavedFavourites ]);
+
+  
+  // useEffect(() => {
+  //   dispatch({
+  //     type: UPDATE_CURRENT_SEARCH,
+  //     currentSearch: userData.read
+  //   });
+
+  //   console.log('deletedbook', deletedBook);
+  //   console.log('books', userData.read.filter(book => book.bookId !== deletedBook));
+  //   setBooksToRender(userData.read.filter(book => book.bookId !== deletedBook));
+  //   setDeletedBook('');
+  // }, [ deletedBook ]);
 
   const buttonHandle = async (e) => {
     console.log(e.target.textContent);
     switch (e.target.textContent) {
       case 'Favourites': 
-        console.log('Need to show all the favourites');
-        // test
-        setSearchedBooks(userData.favourites);
+        dispatch({
+          type: UPDATE_CURRENT_SEARCH,
+          currentSearch: userData.favourites
+        });
+        setBooksToRender(userData.favourites);
         setTitle('My Favourites');
         break;
 
       case 'Recomendations': 
         const data = await deepSearchHandle('best sellers');
-        await setSearchedBooks(data);
+        await setBooksToRender(data);
         setTitle('My Recomendations');
         break;
       
@@ -58,7 +101,14 @@ export default function Dashboard() {
       break;
 
       case 'Already read': 
-      console.log('Need to show all the Already read')
+      console.log('already read');
+      dispatch({
+        type: UPDATE_CURRENT_SEARCH,
+        currentSearch: userData.read
+      });
+     
+      setBooksToRender(userData.read);
+      setTitle('My Read Books');
       break;
 
       default: 
@@ -71,8 +121,6 @@ export default function Dashboard() {
       < Spinner />
     )
   }
-
-  console.log('userdata', userData);
 
   if(!userData?.username) {
     return (
@@ -105,7 +153,7 @@ export default function Dashboard() {
             <button onClick={buttonHandle} className="my-1 btn btn-theme">Recomendations</button>
             <button onClick={buttonHandle} className="my-1 btn btn-theme">Favourites</button>
             <button onClick={buttonHandle} className="my-1 btn btn-theme">Radom Picks</button>
-            <button onClick={buttonHandle} className="my-1 btn btn-theme">Alreay read</button>
+            <button onClick={buttonHandle} className="my-1 btn btn-theme">Already read</button>
           </div> 
         </div>
         
@@ -134,9 +182,15 @@ export default function Dashboard() {
         </div>
       </div>
       <SearchResults 
-        searchedBooks={searchedBooks}
+        searchedBooks={booksToRender}
         searchInput={searchInput}
-        title={title} />
+        setSearchedBooks={setBooksToRender}
+        title={title}
+        savedFavourites={savedFavourites}
+        setSavedFavourites={setSavedFavourites}
+        savedRead={savedRead}
+        setSavedRead={setSavedRead}
+        setDeletedBook={setDeletedBook} />
     </div>
   )
 };

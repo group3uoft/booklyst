@@ -3,8 +3,9 @@ import Hero from "../components/Hero";
 import SearchResults from "../components/SearchResults";
 
 import { useSelector, useDispatch } from "react-redux";
-import { UPDATE_CURRENT_SEARCH, UPDATE_HISTORY } from "../utils/actions";
+import { UPDATE_CURRENT_SEARCH, UPDATE_HISTORY, UPDATE_BOOKS,UPDATE_READ_BOOKS } from "../utils/actions";
 import { idbPromise } from "../utils/indexedDb";
+import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 
 export default function Home() {
   const state = useSelector(state => state);
@@ -15,6 +16,9 @@ export default function Home() {
   const [searchInput, setSearchInput] = useState('new books');
   const [searchHistory, setSearchHistory] = useState([]);
   const [title, setTitle] = useState('Best Sellers');
+  // saveFavourites in localStorage 
+  const [savedFavourites, setSavedFavourites] = useState(getSavedBookIds('save_favourites'));
+  const [savedRead, setSavedRead] = useState(getSavedBookIds('save_read'));
 
   useEffect(() => {
     dispatch({
@@ -34,7 +38,21 @@ export default function Home() {
       setTitle('Search Results...');
     }
 
-  }, [setSearchInput, searchInput])
+  }, [setSearchInput, searchInput]);
+
+  useEffect(() => {
+    dispatch({
+      type: UPDATE_BOOKS,
+      savedBooks: savedFavourites
+    })
+  }, [savedFavourites, dispatch]);
+  
+  useEffect(() => {
+    dispatch({
+      type: UPDATE_READ_BOOKS,
+      readBooks: savedRead
+    })
+  }, [savedRead, dispatch]);
 
   return (
     <div className="container-full">
@@ -44,8 +62,13 @@ export default function Home() {
         searchInput={searchInput}
         setSearchHistory={setSearchHistory} />
       <SearchResults 
+        setSearchedBooks={setSearchedBooks}
         searchedBooks={searchedBooks}
         searchInput={searchInput} 
+        savedFavourites={savedFavourites}
+        setSavedFavourites={setSavedFavourites}
+        savedRead={savedRead} 
+        setSavedRead={setSavedRead}
         title={title}
         />
     </div>
