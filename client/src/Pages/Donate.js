@@ -18,7 +18,7 @@ export default function Donate() {
   function submitCheckout(e) {
     e.preventDefault();
     getCheckout({
-      variables: { donate: formState.amount }
+      variables: { donate: 20.5 }
     });
   } 
 
@@ -30,6 +30,8 @@ export default function Donate() {
       });
     }
   }, [data]);
+
+  console.log(data)
 
   return (
     <div className="body-container d-flex flex-column justify-content-center">

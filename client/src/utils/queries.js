@@ -42,8 +42,8 @@ query Query {
 `
 
 export const QUERY_CHECKOUT = gql`
-  query getCheckout($amount: Float!) {
-    checkout(donate: $amount) {
+  query getCheckout($donate: Float!) {
+    checkout(donate: $donate) {
       session
     }
   }
