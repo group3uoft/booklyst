@@ -50,6 +50,7 @@ export default function Dashboard() {
       case 'Recomendations': 
         const data = await deepSearchHandle('best sellers');
         await setSearchedBooks(data);
+        setTitle('My Recomendations');
         break;
       
       case 'Radom Picks': 

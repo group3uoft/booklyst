@@ -39,7 +39,7 @@ export default function BookCard({book, handleSaveFavourite, handleSaveRead, rem
                 <button 
                 onClick={() => handleSaveFavourite(book.bookId)} 
                 className="btn save-later w-full mb-2 text-start px-4">
-                <span className="me-3"><i className="far fa-heart"></i></span> Mask as favourite</button>
+                <span className="me-3"><i className="far fa-heart"></i></span> Mark as favourite</button>
               }
               {
                 state.readBooks.find(id => id === book.bookId) ?

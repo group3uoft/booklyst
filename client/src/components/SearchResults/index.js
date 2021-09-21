@@ -24,7 +24,7 @@ export default function SearchResults({searchedBooks, searchInput, title}) {
         type: UPDATE_CURRENT_SEARCH,
         currentSearch: searchedBooks
       });
-  }, [searchedBooks, searchInput]);
+  }, [searchedBooks]);
 
   useEffect(() => {
     dispatch({
@@ -75,6 +75,7 @@ export default function SearchResults({searchedBooks, searchInput, title}) {
   }; 
 
   const handleSaveRead = async (bookId) => {
+    console.log('currentBooks', state.currentSearch);
     const saveBookDetails = state.currentSearch.find(book => book.bookId === bookId);
     console.log(saveBookDetails);
 
@@ -150,8 +151,7 @@ export default function SearchResults({searchedBooks, searchInput, title}) {
 
   if(searchedBooks.length === 0) {
     return (
-      // <Spinner />
-      <div>Sorry! No Books to show!</div>
+      <Spinner />
     )
   }
 
