@@ -1,6 +1,7 @@
 const { User } = require('../models');
 const { AuthenticationError } = require('apollo-server-express');
 const { signInToken } = require('../utils/auth');
+const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
 const resolvers = {
   Query: {
@@ -22,6 +23,33 @@ const resolvers = {
       }
 
       throw new AuthenticationError('Not logged in');
+    },
+
+    checkout: async (parent, {donate}, context) => {
+
+      const amount = parseFloat(donate * 100).toFixed(0);
+      const url = new URL(context.headers.referer).origin;
+    
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: [
+          {
+            price_data: {
+              currency: 'cad',
+              product_data: {
+                name: `Donation - $${donate}`,
+              },
+              unit_amount: amount,
+            },
+            quantity: 1,
+          },
+        ],
+        mode: 'payment',
+        success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${url}/`
+      });
+      
+      return { session: session.id };
     }
   },
 

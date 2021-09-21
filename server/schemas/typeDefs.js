@@ -49,10 +49,15 @@ const typeDefs = gql`
     publisher: String
   }
 
+  type Checkout {
+    session: ID
+  }
+
   type Query {
     users: [User]
     user(username: String): User
     getMe: User
+    checkout(donate: Float!): Checkout
   }
 
   type Mutation {
