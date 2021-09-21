@@ -40,3 +40,11 @@ query Query {
   }
 }
 `
+
+export const QUERY_CHECKOUT = gql`
+  query getCheckout($amount: Float!) {
+    checkout(donate: $amount) {
+      session
+    }
+  }
+`;
