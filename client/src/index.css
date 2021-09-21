@@ -276,6 +276,7 @@ form {
     margin: auto;
   }
 
+  
   .navbar-nav {
     display: flex;
     flex-direction: column;

@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import BookCard from "../BookCard";
 import Spinner from "../Spinner";
+import  Swiper  from '../Swiper';
 
 import { saveBookIds, getSavedBookIds } from '../../utils/localStorage';
 import { useMutation } from '@apollo/client';
@@ -154,7 +155,7 @@ export default function SearchResults({searchedBooks, searchInput, title}) {
       <Spinner />
     )
   }
-
+  console.log('bbbbbbbbbbbbbbbb',searchedBooks)
   return (
     <div className="container">
       <h1 className="text-center m-4">{title}</h1>
