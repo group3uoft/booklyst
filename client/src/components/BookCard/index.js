@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import Auth from '../../utils/auth'
 export default function BookCard({book}) {
   return (
       <div
@@ -24,10 +24,10 @@ export default function BookCard({book}) {
           <p className="card-text book-desc">{book.description}</p>
             {/* <a href={`https://www.amazon.com/s?i=stripbooks&rh=p_66%3A${book.isbn13}&s=relevanceexprank&Adv-Srch-Books-Submit.x=34&Adv-Srch-Books-Submit.y=9&unfiltered=1&ref=sr_adv_b`} target="_blank" rel="noreferrer" className="btn amazon-btn mb-2">Buy Now from Amazon</a>
             <a href={`https://www.chapters.indigo.ca/en-ca/books/name/${book.isbn13}-item.html`} target="_blank" rel="noreferrer" className="btn indigo-btn mb-2">Buy it now from Indigo</a> */}
-            <Link to={`/books/${book.isbn13}`} className="btn btn-theme mb-2 w-full text-start px-4"><span className="me-3"><i className="fas fa-list"></i></span> See More Details</Link>
+           {Auth.loggedIn() && <Link to={`/books/${book.isbn13}`} className="btn btn-theme mb-2 w-full text-start px-4"><span className="me-3"><i className="fas fa-list"></i></span> See More Details</Link>}
             <div className="buttons-container">
-              <button className="btn save-later w-full mb-2 text-start px-4"><span className="me-3"><i className="far fa-heart"></i></span> Mask as favourite</button>
-              <button className="btn save-later w-full mb-2 text-start px-4"><span className="me-3"><i className="fas fa-check"></i></span> Mark as read</button>
+              {Auth.loggedIn() && <button className="btn save-later w-full mb-2 text-start px-4"><span className="me-3"><i className="far fa-heart"></i></span> Mask as favourite</button>}
+              {Auth.loggedIn() &&<button className="btn save-later w-full mb-2 text-start px-4"><span className="me-3"><i className="fas fa-check"></i></span> Mark as read</button>}
           </div>
         </div>
       </div>

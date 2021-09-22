@@ -3,6 +3,8 @@ import SearchResults from "../components/SearchResults";
 import { searchHandle } from "../utils/helpers";
 import { Link } from "react-router-dom";
 
+
+
 import { useMutation, useQuery } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
 
@@ -95,7 +97,7 @@ export default function Dashboard() {
           <div className="prof-button-container d-flex flex-column">
             <button onClick={buttonHandle} className="my-1 btn btn-theme">Favourites</button>
             <button onClick={buttonHandle} className="my-1 btn btn-theme">Recomendations</button>
-            <button onClick={buttonHandle} className="my-1 btn btn-theme">Radom Picks</button>
+           <button onClick={buttonHandle} className="my-1 btn btn-theme">Radom Picks</button>
             <button onClick={buttonHandle} className="my-1 btn btn-theme">Alreay read</button>
           </div> 
         </div>
