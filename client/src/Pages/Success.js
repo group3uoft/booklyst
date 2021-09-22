@@ -7,7 +7,7 @@ export default function Success() {
   const [redirctTo, setRedirctTo] = useState(false);
   const [ addDonation, { error }] = useMutation(ADD_DONATION);
 
-  useEffect(async () => {
+  useEffect(() => {
     /*(async () => {
       const amount = localStorage.getItem('donationAmount');
 
@@ -25,37 +25,39 @@ export default function Success() {
       }, 3000);
     })();
   });*/
-  const amount = localStorage.getItem('donationAmount');
-  let params = (new URL(document.location)).searchParams;
-  let session = params.get('session_id');
-  //console.log(amount, session)
-  try {
-    const response = await addDonation({
-      variables: { donationData: {amount: amount, session: session || ""} }
-    });
-    console.log(response)
-  } catch (e) {
-    console.error(e);
-  }
+  const renderDonation = async () => {
+    const amount = localStorage.getItem('donationAmount');
+    let params = (new URL(document.location)).searchParams;
+    let session = params.get('session_id');
+    //console.log(amount, session)
+    try {
+      const response = await addDonation({
+        variables: { donationData: {amount: amount, session: session || ""} }
+      });
+      console.log(response)
+    } catch (e) {
+      console.error(e);
+    }
 
-  setTimeout(() => {
+    setTimeout(() => {
     setRedirctTo(true);
-  }, 3000);
-
+    }, 3000);
+  }
+  renderDonation();
 }, []);
 
   if (redirctTo) {
     return <Redirect to="/" />;
   } else {
     return (
-      <div>
-        <h1>Success!</h1>
-        <h2>
+      <div className="container">
+        <h1 className="fs-1 text-center mb-3 mb-lg-5">Success!</h1>
+        <h3 className="fs-3 text-center">
           Thank you for supporting the website!
-        </h2>
-        <h2>
+        </h3>
+        <h3 className="fs-3 text-center">
           You will now be redirected to the homepage
-        </h2>
+        </h3>
       </div>
     )
   }    

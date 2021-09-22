@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import bgImg from '../../assets/images/hero-bg.jpg'
 import { deepSearchHandle } from "../../utils/helpers";
 
-export default function Hero({setSearchedBooks, setSearchInput, searchInput, setSearchHistory}) {
+export default function Hero({setSearchedBooks, setSearchInput, searchInput, setSearchHistory, searchedBooks}) {
 
   const searchSubmit = async (e) => {
     e.preventDefault();
@@ -19,9 +19,10 @@ export default function Hero({setSearchedBooks, setSearchInput, searchInput, set
       const data = await deepSearchHandle(searchInput);
       await setSearchedBooks(data);
     }
-
-    fetchData();
-  }, [searchInput, setSearchInput, setSearchedBooks]);
+    if(!searchedBooks || searchedBooks.length === 0) {
+      fetchData();
+    }
+  }, [searchInput, setSearchInput, setSearchedBooks, searchedBooks]);
 
   return(
     <div className="d-flex justify-content-center align-items-center hero-bg" style={{backgroundImage: `url(${bgImg})`}}>

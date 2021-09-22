@@ -59,6 +59,7 @@ export default function Home() {
     <div className="container-full mb-5">
       <Hero 
         setSearchedBooks={setSearchedBooks}
+        searchedBooks={searchedBooks}
         setSearchInput={setSearchInput}
         searchInput={searchInput}
         setSearchHistory={setSearchHistory} />

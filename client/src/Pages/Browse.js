@@ -78,9 +78,20 @@ function Browser() {
       fetchData();
     }, []);
 
-    if(selfHelp.length === 0 || fiction.length === 0 ) {
+
+
+    if(selfHelp.length === 0 || fiction.length === 0 || thrillers.length === 0 || biography.length === 0) {
       return (
         < Spinner />
+      )
+    }
+
+    if(!selfHelp || !fiction || !thrillers || !biography) {
+      return(
+        <div className="container">
+          <h1 className="fs-1 m-lg-5 m-3">Sorry! Something went wrong...</h1>
+          <p className="fs-3 m-lg-5 m-3">Please try again in a bit...</p>
+        </div>
       )
     }
   

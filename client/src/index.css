@@ -247,6 +247,11 @@ form {
   color: var(--theme-dark-blue) !important;
 }
 
+/* Donate page */
+.donate-icon {
+  font-size: 50px;
+}
+
 @media only screen and (max-width: 992px) {
   .navbar-nav {
     flex-direction: row;
@@ -268,6 +273,8 @@ form {
     padding: 1.5rem !important;
   }
 }
+
+
 
 @media only screen and (max-width: 780px) {
   .max-240 {
