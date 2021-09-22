@@ -21,7 +21,11 @@ export default function Nav() {
           </ul>
         </div>
         <div className="login-container">
-          <button type="button" className="btn btn-theme">Donate</button>
+
+          <Link to="/donate"
+            className="btn btn-theme mx-2">Donate
+          </Link>
+
           {Auth.loggedIn() ? 
             <button 
             type="button" 

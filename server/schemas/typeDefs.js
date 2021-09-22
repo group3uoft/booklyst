@@ -11,6 +11,7 @@ const typeDefs = gql`
     favouritesCount: Int
     readCount: Int
     searchHistory: [String]
+    donations: [Donation]
   }
 
   type Book {
@@ -54,15 +55,33 @@ const typeDefs = gql`
     publisher: String
   }
 
+  type Checkout {
+    session: ID
+  }
+
+  type Donation {
+    _id: ID
+    amount: String
+    session: String
+    createdAt: String
+  }
+
+  input donation {
+    amount: String
+    session: String
+  }
+
   type Query {
     users: [User]
     user(username: String): User
     getMe: User
+    checkout(donate: Float!): Checkout
   }
 
   type Mutation {
     loginUser(email: String!, password: String!): Auth
     createUser(username: String!, email: String!, password: String!): Auth
+    addDonation(input: donation!): User
     addFavouriteBook(input: bookData): User
     deleteFavouriteBook(bookId: String!): User
     addReadBook(input: bookData): User
