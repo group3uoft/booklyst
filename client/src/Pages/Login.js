@@ -50,8 +50,11 @@ export default function Login() {
           <div className="mt-2">
             <Link to="/signup">Sign up instead</Link>
           </div>
+          {error && <div>Login failed</div>}
         </form>
+      
       </div>
+     
     </div>
   )
 }
