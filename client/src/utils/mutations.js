@@ -74,3 +74,18 @@ export const ADD_FAV = gql`
     }
   }
 `
+
+export const ADD_DONATION = gql`
+  mutation addDonation($donationData: donation!) {
+    addDonation(input: $donationData) {
+      _id
+      username
+      email
+      donations {
+        _id
+        amount
+        createdAt
+      }
+    }
+  }
+`

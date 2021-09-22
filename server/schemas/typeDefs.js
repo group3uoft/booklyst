@@ -11,6 +11,7 @@ const typeDefs = gql`
     favouritesCount: Int
     readCount: Int
     searchHistory: [String]
+    donations: [Donation]
   }
 
   type Book {
@@ -53,6 +54,18 @@ const typeDefs = gql`
     session: ID
   }
 
+  type Donation {
+    _id: ID
+    amount: String
+    session: String
+    createdAt: String
+  }
+
+  input donation {
+    amount: String
+    session: String
+  }
+
   type Query {
     users: [User]
     user(username: String): User
@@ -67,7 +80,8 @@ const typeDefs = gql`
     deleteFavouriteBook(ibsnId: String!): User
     addReadBook(input: bookData!): User
     deleteReadBook(ibsnId: String!): User
-    searchedHistory(searchString: String!, iddd:String): User
+    searchedHistory(searchString: String!): User
+    addDonation(input: donation!): User
   }
 `
 //addFavouriteBook(input: bookData!): User

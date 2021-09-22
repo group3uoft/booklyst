@@ -2,6 +2,7 @@ const { Schema, model } = require('mongoose')
 const bcrypt = require('bcrypt');
 
 const bookDataSchema = require('./Book');
+const donationHistorySchema = require('./Donation');
 
 //---USER SCHEMA---//
 const userSchema = new Schema(
@@ -28,7 +29,10 @@ const userSchema = new Schema(
     read: [bookDataSchema],
 
     //search history
-    searchHistory: [String]
+    searchHistory: [String],
+
+    //donation history
+    donations: [donationHistorySchema]
   },
   // set this to use virtual below
   {

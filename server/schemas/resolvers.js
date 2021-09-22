@@ -119,15 +119,25 @@ const resolvers = {
       return updatedUser;
     },
 
-    searchedHistory: async (parent, {searchString, iddd}, context) => {
+    searchedHistory: async (parent, {searchString}, context) => {
       const updatedUser = await User.findOneAndUpdate(
-        { _id: iddd/*context.user._id */},
+        { _id: context.user._id },
         { $push: { searchHistory: searchString }},
         { new: true }
       );
       if (updatedUser.searchHistory.length > 20) {
         updatedUser.searchHistory = updatedUser.searchHistory.splice((updatedUser.searchHistory.length - 20), updatedUser.searchHistory.length)
       }
+      return updatedUser;
+    },
+
+    addDonation: async (parent, {input, iddd}, context) => {
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: iddd/*context.user._id*/ },
+        { $push: { donations: {...input}}},
+        { new: true }
+      );
+
       return updatedUser;
     }
   }
