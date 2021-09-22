@@ -9,7 +9,7 @@ export const searchCurrentBook = (bookId) => {
 
 // search based on category + newst 
 export const searchRealatedBooks = (category, author) => {
-  return fetch(`https://www.googleapis.com/books/v1/volumes?q=${category}+inauthor:${author}+subject:${category}&orderBy=newest`);
+  return fetch(`https://www.googleapis.com/books/v1/volumes?q=+inauthor:${author}+subject:${category}&orderBy=newest`);
 }
 
 export const searchByCategories = (category) => {

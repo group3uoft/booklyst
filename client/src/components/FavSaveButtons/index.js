@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 
 import { saveBookIds } from '../../utils/localStorage';
 import { useMutation } from '@apollo/client';
@@ -26,6 +26,12 @@ export default function FavSaveButtons(
     const [ addReadBook ] = useMutation(ADD_READ);
     const [ deleteFavouriteBook ] = useMutation(DELETE_FAV);
     const [ deleteReadBook ] = useMutation(DELETE_SAVED);
+
+    const [ loggedIn, setLoggedIn] = useState(false);
+
+    useEffect(() => {
+      setLoggedIn(Auth.loggedIn());
+    }, [])
   
     const handleSaveFavourite = async (bookId) => {
       const bookToSave = filterSavingBook(searchedBooks, bookId);
@@ -128,27 +134,31 @@ export default function FavSaveButtons(
     };
 
   return (
-    <div className="buttons-container">
+      <div>
+      {Auth.loggedIn() && 
+      <div className="buttons-container">
       {savedFavourites.find(id => id === gbookId) ? 
         <button 
         onClick={() => removeFavorite(gbookId)} 
-        className="btn save-later w-full mb-2 text-start px-4">
-        <span className="me-3"><i className="far fa-heart"></i></span> Remove favourite</button> :
+        className="btn save-later w-full mb-2 mx-1 max-240 text-start px-4">
+        <span className="me-3"><i className="fas fa-heart-broken"></i></span> Remove favourite</button> :
         <button 
         onClick={() => handleSaveFavourite(gbookId)} 
-        className="btn save-later w-full mb-2 text-start px-4">
+        className="btn save-later w-full mb-2 mx-1 max-240 text-start px-4">
         <span className="me-3"><i className="far fa-heart"></i></span> Mark as favourite</button>
       }
       {
         savedRead.find(id => id === gbookId) ?
         <button onClick={() => removeRead(gbookId)}
-          className="btn save-later w-full mb-2 text-start px-4">
-        <span className="me-3"><i className="fas fa-check"></i></span> Remove read</button> :
+          className="btn save-later w-full mb-2 mx-1 max-240 text-start px-4">
+        <span className="me-3"><i className="fas fa-times"></i></span> Remove read</button> :
         <button 
           onClick={() => handleSaveRead(gbookId)}
-          className="btn save-later w-full mb-2 text-start px-4">
+          className="btn save-later w-full mb-2 mx-1 max-240 text-start px-4">
           <span className="me-3"><i className="fas fa-check"></i></span> Mark as read</button>
       }
+      </div>
+    }
     </div>
   )
 };

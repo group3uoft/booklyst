@@ -96,9 +96,57 @@ export const fetchRelatedBooks = async (category, authors) => {
       throw new Error('Something went wrong!');
     }
 
-    const gBookData = await gResponse.json();
+    const totalReturned = await gResponse.json();
 
-    return gBookData;
+    if(totalReturned.totalItems !== 0) {
+      const duplicate = [];
+      const map = new Map();
+      for (const book of totalReturned.items) {
+          if(!map.has(book.title)){
+              map.set(book.title, true);    // set any value to Map
+              duplicate.push(book.id);
+          }
+        } 
+
+      const gBookData = totalReturned.items.filter(book => {
+        return book.id !== duplicate.forEach(dupBook => dupBook);
+      });
+
+        const gBooks = gBookData.map((book) => {
+        let isbn13 = '';
+        let isbn10 = '';
+        if(book.volumeInfo.industryIdentifiers) {
+          if(book.volumeInfo.industryIdentifiers[0]) {
+            isbn13 = book.volumeInfo.industryIdentifiers[0].identifier;
+          }
+  
+          if(book.volumeInfo.industryIdentifiers[1]) {
+            isbn10 = book.volumeInfo.industryIdentifiers[1].identifier;
+          }
+        }
+  
+        return {
+          bookId: book.id,
+          authors: book.volumeInfo.authors || [],
+          title: book.volumeInfo.title || 'No Title Available',
+          description: book.volumeInfo.description || '',
+          categories: book.volumeInfo?.categories || [],
+          image: book.volumeInfo.imageLinks?.thumbnail || '',
+          isbn13: isbn13,
+          isbn10: isbn10,
+          webReaderLink: book.accessInfo?.webReaderLink || '',
+          googleListPrice: book.saleInfo.listPrice?.amount.toString() || '',
+          googleRetailPrice: book.saleInfo.retailPrice?.amount.toString() || '',
+          googlePlayBooks: book.volumeInfo?.infoLink || '',
+          googleRatings: book.volumeInfo?.ratingsCount || 0,
+          publishedDate: book.volumeInfo.publishedDate || '',
+          publisher: book.volumeInfo.publisher || ''
+          }
+      });
+      return gBooks;
+    } else {
+      return false;
+    }
   } catch (e) {
     console.error(e);
   }
@@ -120,6 +168,7 @@ export const deepSearchCategories = async (category) => {
     const gBookData = await gResponse.json();
 
     const gBooks = gBookData.items.map((book) => {
+
       let isbn13 = '';
       let isbn10 = '';
       if(book.volumeInfo.industryIdentifiers) {
@@ -170,7 +219,37 @@ export const fetchCurrentBook = async (bookId) => {
       throw new Error('Something went wrong!');
     }
 
-    const gBookData = await gResponse.json();
+    const book = await gResponse.json();
+
+      let isbn13 = '';
+      let isbn10 = '';
+      if(book.volumeInfo.industryIdentifiers) {
+        if(book.volumeInfo.industryIdentifiers[0]) {
+          isbn13 = book.volumeInfo.industryIdentifiers[0].identifier;
+        }
+
+        if(book.volumeInfo.industryIdentifiers[1]) {
+          isbn10 = book.volumeInfo.industryIdentifiers[1].identifier;
+        }
+      }
+
+      const gBookData =  {
+        bookId: book.id,
+        authors: book.volumeInfo.authors || [],
+        title: book.volumeInfo.title || 'No Title Available',
+        description: book.volumeInfo.description || '',
+        categories: book.volumeInfo?.categories || [],
+        image: book.volumeInfo.imageLinks?.thumbnail || '',
+        isbn13: isbn13,
+        isbn10: isbn10,
+        webReaderLink: book.accessInfo?.webReaderLink || '',
+        googleListPrice: book.saleInfo.listPrice?.amount.toString() || '',
+        googleRetailPrice: book.saleInfo.retailPrice?.amount.toString() || '',
+        googlePlayBooks: book.volumeInfo?.infoLink || '',
+        googleRatings: book.volumeInfo?.ratingsCount || 0,
+        publishedDate: book.volumeInfo.publishedDate || '',
+        publisher: book.volumeInfo.publisher || ''
+        }
 
     return gBookData;
   } catch (e) {

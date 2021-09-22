@@ -74,6 +74,10 @@ nav a:hover {
   width: 100%;
 }
 
+.max-240 {
+  max-width: 240px;
+}
+
 /* Hero Style */
 
 .hero-bg {
@@ -266,6 +270,10 @@ form {
 }
 
 @media only screen and (max-width: 780px) {
+  .max-240 {
+    max-width: unset;
+  }
+
   header {
     display: flex;
     flex-wrap: wrap;
