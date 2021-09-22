@@ -21,8 +21,7 @@ const bookDataSchema = new Schema({
   },
 
   description: {
-    type: String,
-    required: true,
+    type: String
   },
 
   categories: [
@@ -55,7 +54,7 @@ const bookDataSchema = new Schema({
     type: String
   },
 
-  goolePlayBooks: {
+  googlePlayBooks: {
     type: String
   },
 

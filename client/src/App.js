@@ -1,4 +1,5 @@
-import logo from './logo.svg';
+import React from 'react';
+
 import './spinner.css';
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
@@ -27,6 +28,7 @@ import Dashboard from './Pages/Dashboard';
 import BookDetail from './Pages/BookDetail';
 import Donate from './Pages/Donate';
 import Success from './Pages/Success';
+import Browse from './Pages/Browse'
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:3001/graphql',
@@ -48,6 +50,8 @@ const client = new ApolloClient({
 });
 
 function App() {
+
+
   return (
   <ApolloProvider client={client}>
     <Router>
@@ -58,10 +62,11 @@ function App() {
             <Route exact path="/" component={Home} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
-            <Route exact path="/dashboard" component={Dashboard} />
+            <Route exact path="/dashboard"component={Dashboard} />
             <Route exact path="/books/:id" component={BookDetail} />
             <Route exact path="/donate" component={Donate} />
             <Route exact path="/success" component={Success} />
+            <Route exact path="/browse" component={Browse} />
           </Switch>
           <Footer />
         </Provider>

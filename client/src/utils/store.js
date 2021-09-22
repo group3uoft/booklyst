@@ -5,8 +5,9 @@ import { reducer } from './reducers';
 const intitialState = {
   savedBooks: [],
   searchHistory: [],
-  currentSearch: '',
-  readBooks: []
+  currentSearch: [],
+  readBooks: [],
+  allbooks: []
 }
 
 const store = createStore(reducer, intitialState);

@@ -40,7 +40,7 @@ export default function Login() {
           </div>
           <div className="mb-3">
             <label htmlFor="password" className="form-label">Password</label>
-            <input onChange={handleChange} name="password" className="form-control" id="password" value={formState.password} />
+            <input onChange={handleChange} name="password" type="password" className="form-control" id="password" value={formState.password} />
           </div>
           <div className="mb-3 form-check">
             <input type="checkbox" className="form-check-input" id="exampleCheck1" />
