@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { useMutation } from '@apollo/client';
 
-export default function Success() {
-   
+export default function Success() {   
   const [redirctTo, setRedirctTo] = useState(false);
   useEffect(() => {
     (() => {
