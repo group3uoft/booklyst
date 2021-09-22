@@ -5,13 +5,13 @@ import { Link } from "react-router-dom";
 import Spinner from '../components/Spinner';
 import { deepSearchHandle } from "../utils/helpers";
 
-import { useMutation, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 import { idbPromise } from "../utils/indexedDb";
 
-import { useSelector, useDispatch } from "react-redux";
-import { UPDATE_CURRENT_SEARCH, UPDATE_HISTORY } from "../utils/actions";
+import { useDispatch } from "react-redux";
+import { ALL_BOOKS, UPDATE_CURRENT_SEARCH } from "../utils/actions";
 
 export default function Dashboard() {
   const { loading, data } = useQuery(QUERY_ME);
@@ -19,67 +19,65 @@ export default function Dashboard() {
   // saveFavourites in localStorage 
   const [savedFavourites, setSavedFavourites] = useState(getSavedBookIds('save_favourites'));
   const [savedRead, setSavedRead] = useState(getSavedBookIds('save_read'));
-  const [ deletedBook, setDeletedBook ] = useState('');
+  // const [ deletedSavedBook, setDeletedSavedBook ] = useState('');
+  // const [ deletedReadBook, setDeletedReadBook ] = useState('');
 
-  const state = useSelector(state => state);
   const dispatch = useDispatch();
   // const dispatch = useDispatch();
 
   const [booksToRender, setBooksToRender] = useState([]);
-  const [searchInput, setSearchInput] = useState('new books');
-  const [title, setTitle] = useState('Recomendations');
+  const [title, setTitle] = useState('My Recomendations');
 
   const userData = data?.getMe || {};
 
+  // render the initial search
   useEffect(() => {
     async function fetchData() {
-      const data = await searchHandle(searchInput);
+      const data = await searchHandle('best sellers');
       await setBooksToRender(data);
 
       await dispatch({
-        type: UPDATE_CURRENT_SEARCH,
-        currentSearch: booksToRender
+        type: ALL_BOOKS,
+        allbooks: booksToRender
       });
 
       // save the data to IDB
       await booksToRender.forEach((book) => {
-      idbPromise('currentSearch', 'put', book);
+      idbPromise('allbooks', 'put', book);
       });
     }
 
     fetchData();
-  }, [searchInput]);
+  }, []);
+
+  // store the saved books in localhost
+  useEffect(() => {
+    if(savedFavourites.length === 0) {
+      const saveBooks = userData.favourites.map(book => book.bookId);
+      saveBookIds('save_favourites', saveBooks);   
+    }
+
+    if(savedFavourites.length === 0) {
+      const saveReadBooks = userData.read.map(book => book.bookId); 
+      saveBookIds('save_read', saveReadBooks);
+    }
+  }, []);
 
   // useEffect(() => {
-  //   dispatch({
-  //     type: UPDATE_CURRENT_SEARCH,
-  //     currentSearch: booksToRender
-  //   });
-  // }, [booksToRender])
+  //   const books = booksToRender.filter(book => book.bookId !== deletedSavedBook);
+  //   console.log('books', books);
+  //   setBooksToRender(books);
+  //   setDeletedSavedBook('');
+  // }, [deletedSavedBook]);
 
   // useEffect(() => {
-  //   dispatch({
-  //     type: UPDATE_CURRENT_SEARCH,
-  //     currentSearch: userData.favourites
-  //   });
-  //   setBooksToRender(userData.favourites);
-  // }, [savedFavourites, setSavedFavourites ]);
-
-  
-  // useEffect(() => {
-  //   dispatch({
-  //     type: UPDATE_CURRENT_SEARCH,
-  //     currentSearch: userData.read
-  //   });
-
-  //   console.log('deletedbook', deletedBook);
-  //   console.log('books', userData.read.filter(book => book.bookId !== deletedBook));
-  //   setBooksToRender(userData.read.filter(book => book.bookId !== deletedBook));
-  //   setDeletedBook('');
-  // }, [ deletedBook ]);
+  //   const books = booksToRender.filter(book => book.bookId !== deletedReadBook);
+  //   console.log('books', books);
+  //   setBooksToRender(books);
+  //   setDeletedReadBook('');
+  // }, [deletedReadBook]);
 
   const buttonHandle = async (e) => {
-    console.log(e.target.textContent);
     switch (e.target.textContent) {
       case 'Favourites': 
         dispatch({
@@ -97,11 +95,12 @@ export default function Dashboard() {
         break;
       
       case 'Radom Picks': 
-      console.log('Need to show all the Radom Picks')
+        const randomPicks = await deepSearchHandle('random');
+        await setBooksToRender(randomPicks );
+        setTitle('My Random Picks');
       break;
 
       case 'Already read': 
-      console.log('already read');
       dispatch({
         type: UPDATE_CURRENT_SEARCH,
         currentSearch: userData.read
@@ -152,8 +151,8 @@ export default function Dashboard() {
           <div className="prof-button-container d-flex flex-column">
             <button onClick={buttonHandle} className="my-1 btn btn-theme">Recomendations</button>
             <button onClick={buttonHandle} className="my-1 btn btn-theme">Favourites</button>
-            <button onClick={buttonHandle} className="my-1 btn btn-theme">Radom Picks</button>
             <button onClick={buttonHandle} className="my-1 btn btn-theme">Already read</button>
+            <button onClick={buttonHandle} className="my-1 btn btn-theme">Radom Picks</button>
           </div> 
         </div>
         
@@ -183,14 +182,15 @@ export default function Dashboard() {
       </div>
       <SearchResults 
         searchedBooks={booksToRender}
-        searchInput={searchInput}
         setSearchedBooks={setBooksToRender}
         title={title}
         savedFavourites={savedFavourites}
         setSavedFavourites={setSavedFavourites}
         savedRead={savedRead}
         setSavedRead={setSavedRead}
-        setDeletedBook={setDeletedBook} />
+        // setDeletedSavedBook={setDeletedSavedBook}
+        // setDeletedReadBook={setDeletedReadBook} 
+        />
     </div>
   )
 };

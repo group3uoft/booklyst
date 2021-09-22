@@ -1,4 +1,4 @@
-import { searchGoogleBooks, searchCurrentBook, searchRealatedBooks } from "./API";
+import { searchGoogleBooks, searchCurrentBook, searchRealatedBooks, searchByCategories } from "./API";
 
 // Search handle function
 export const searchHandle = async (query) => {
@@ -37,9 +37,6 @@ export const deepSearchHandle = async (query, type) => {
   }
   // get results form google api
   try {
-    if(type === 'related') {
-      // const gResponse = await searchRealatedBooks
-    }
     const gResponse = await(searchGoogleBooks(query));
 
     if(!gResponse.ok) {
@@ -74,7 +71,7 @@ export const deepSearchHandle = async (query, type) => {
         googleListPrice: book.saleInfo.listPrice?.amount.toString() || '',
         googleRetailPrice: book.saleInfo.retailPrice?.amount.toString() || '',
         googlePlayBooks: book.volumeInfo?.infoLink || '',
-        googleRatings: book.volumeInfo?.ratingsCount || '',
+        googleRatings: book.volumeInfo?.ratingsCount || 0,
         publishedDate: book.volumeInfo.publishedDate || '',
         publisher: book.volumeInfo.publisher || ''
         }
@@ -93,7 +90,7 @@ export const fetchRelatedBooks = async (category, authors) => {
   }
   // get results form google api
   try {
-    const gResponse = await(searchCurrentBook(category, authors));
+    const gResponse = await(searchRealatedBooks(category, authors));
 
     if(!gResponse.ok) {
       throw new Error('Something went wrong!');
@@ -101,9 +98,60 @@ export const fetchRelatedBooks = async (category, authors) => {
 
     const gBookData = await gResponse.json();
 
-    console.log('dbjbds', gBookData);
-
     return gBookData;
+  } catch (e) {
+    console.error(e);
+  }
+}; 
+
+// search by categories
+export const deepSearchCategories = async (category) => {
+  if(!category) {
+    alert('please enter a category!');
+  }
+  // get results form google api
+  try {
+    const gResponse = await(searchByCategories(category));
+
+    if(!gResponse.ok) {
+      throw new Error('Something went wrong!');
+    }
+
+    const gBookData = await gResponse.json();
+
+    const gBooks = gBookData.items.map((book) => {
+      let isbn13 = '';
+      let isbn10 = '';
+      if(book.volumeInfo.industryIdentifiers) {
+        if(book.volumeInfo.industryIdentifiers[0]) {
+          isbn13 = book.volumeInfo.industryIdentifiers[0].identifier;
+        }
+
+        if(book.volumeInfo.industryIdentifiers[1]) {
+          isbn10 = book.volumeInfo.industryIdentifiers[1].identifier;
+        }
+      }
+
+      return {
+        bookId: book.id,
+        authors: book.volumeInfo.authors || [],
+        title: book.volumeInfo.title || 'No Title Available',
+        description: book.volumeInfo.description || '',
+        categories: book.volumeInfo?.categories || [],
+        image: book.volumeInfo.imageLinks?.thumbnail || '',
+        isbn13: isbn13,
+        isbn10: isbn10,
+        webReaderLink: book.accessInfo?.webReaderLink || '',
+        googleListPrice: book.saleInfo.listPrice?.amount.toString() || '',
+        googleRetailPrice: book.saleInfo.retailPrice?.amount.toString() || '',
+        googlePlayBooks: book.volumeInfo?.infoLink || '',
+        googleRatings: book.volumeInfo?.ratingsCount || 0,
+        publishedDate: book.volumeInfo.publishedDate || '',
+        publisher: book.volumeInfo.publisher || ''
+        }
+    });
+
+    return gBooks;
   } catch (e) {
     console.error(e);
   }
@@ -154,7 +202,8 @@ export const filterSavingBook = (searchedBooks, bookId) => {
   }
 
   return bookToSave;
-}
+};
+
 
 // function for mobile toggle 
 export const mobileMenuToggle = () => {

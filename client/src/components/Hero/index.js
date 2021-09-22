@@ -8,9 +8,7 @@ export default function Hero({setSearchedBooks, setSearchInput, searchInput, set
     e.preventDefault();
     const query = e.target[0].value;
     // run the search
-    console.log('q',query);
     setSearchInput(query);
-    console.log('s',searchInput);
     const data = await deepSearchHandle(query);
     await setSearchedBooks(data);
     setSearchHistory(query);
@@ -23,7 +21,7 @@ export default function Hero({setSearchedBooks, setSearchInput, searchInput, set
     }
 
     fetchData();
-  }, []);
+  }, [searchInput, setSearchInput, setSearchedBooks]);
 
   return(
     <div className="d-flex justify-content-center align-items-center hero-bg" style={{backgroundImage: `url(${bgImg})`}}>

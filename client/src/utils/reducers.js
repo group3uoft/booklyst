@@ -2,11 +2,22 @@ import {
   UPDATE_BOOKS,
   UPDATE_HISTORY,
   UPDATE_CURRENT_SEARCH,
-  UPDATE_READ_BOOKS
+  UPDATE_READ_BOOKS,
+  ALL_BOOKS
 } from './actions';
 
 export const reducer = (state, action) => {
   switch (action.type) {
+    case ALL_BOOKS:
+      // const booksToSave = action.allbooks.map(book => {
+      //   console.log([...state.allbooks]);
+      //   console.log(state.allbooks.find(stateBook => stateBook.bookId !== book.bookId));
+      // });
+      return {
+        ...state,
+        allbooks: [...state.allbooks, ...action.allbooks]
+      }
+
     case UPDATE_BOOKS: 
       return {
         ...state,
@@ -14,9 +25,6 @@ export const reducer = (state, action) => {
       };
 
     case UPDATE_HISTORY: 
-      // const duplicateIndex = state.searchHistory.indexOf(...action.searchHistory);
-      // const dupState = [...state.searchHistory];
-      // dupState.splice(duplicateIndex, 1);
       return {
         ...state,
         searchHistory: [...state.searchHistory, ...action.searchHistory]
@@ -29,10 +37,6 @@ export const reducer = (state, action) => {
       }
 
     case UPDATE_READ_BOOKS: 
-      // const duplicateIndex = state.readBooks.indexOf(...action.readBooks);
-      // if(!duplicateIndex) {
-      //   return state;
-      // }
       return {
         ...state,
         readBooks: [...action.readBooks]

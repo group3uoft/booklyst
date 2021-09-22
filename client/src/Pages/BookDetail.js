@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import Spinner from "../components/Spinner";
 import { idbPromise } from "../utils/indexedDb";
-import { UPDATE_CURRENT_SEARCH } from "../utils/actions";
+import { ALL_BOOKS, UPDATE_CURRENT_SEARCH } from "../utils/actions";
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -15,17 +15,17 @@ export default function BookDetail() {
   const [currentBook, setCurrentBook] = useState({});
 
   useEffect(() => {
-      if(!state.currentSearch) {
-        idbPromise('currentSearch', 'get').then((books) => {
+      if(!state.allbooks) {
+        idbPromise('allbooks', 'get').then((books) => {
           // use retrieved data to set global state for offline browsing
           dispatch({
-            type: UPDATE_CURRENT_SEARCH,
-            currentSearch: books
+            type: ALL_BOOKS,
+            allbooks: books
           });
           setCurrentBook(books.find(book => book.isbn13 === id));
         })
       } else {
-        setCurrentBook(state.currentSearch.find(book => book.isbn13 === id));
+        setCurrentBook(state.allbooks.find(book => book.isbn13 === id));
       }
     }, []);
 

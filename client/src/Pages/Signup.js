@@ -14,7 +14,6 @@ export default function Signup() {
       const response = await login({
         variables: {username: formState.username, email: formState.email, password: formState.password }
       });
-      console.log('responseLogin', response);
       const token = response.data.createUser.token;
       Auth.login(token);
       setFormState({username: '', email: '', password: '' });

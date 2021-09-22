@@ -1,22 +1,17 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import BookCard from "../BookCard";
 import Spinner from "../Spinner";
-import  Swiper  from '../Swiper';
 
 export default function SearchResults(
   { 
     searchedBooks,
-    searchInput,
     title,
     setSearchedBooks,
     savedFavourites,
     setSavedFavourites,
     savedRead,
     setSavedRead,
-    setDeletedBook
   }) {
-
-    console.log('searchbooks',searchedBooks );
 
   if(searchedBooks.length === 0) {
     return (
@@ -26,7 +21,7 @@ export default function SearchResults(
 
   return (
     <div className="container">
-      <h1 className="text-center m-4">{title}</h1>
+      <h1 className="text-center mx-4 my-5">{title}</h1>
       <div className="books-container container d-flex flex-wrap justify-content-center">
         {searchedBooks && searchedBooks.map((book) => (
           <BookCard 
@@ -38,7 +33,9 @@ export default function SearchResults(
             setSavedFavourites={setSavedFavourites}
             savedRead={savedRead}
             setSavedRead={setSavedRead}
-            setDeletedBook={setDeletedBook} />
+            // setDeletedSavedBook={setDeletedSavedBook}
+            // setDeletedReadBook={setDeletedReadBook} 
+            />
         ))}
       </div>
     </div>

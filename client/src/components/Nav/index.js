@@ -13,7 +13,7 @@ export default function Nav() {
               <Link to="/">Home</Link>
             </li>
             <li className="nav-item mx-2 width-max">
-              <Link to="/browser">Browse</Link>
+              <Link to="/browse">Browse</Link>
             </li>
             <li className="nav-item mx-2 width-max">
               <Link to="/dashboard">My Books</Link>

@@ -12,13 +12,14 @@ export default function BookCard(
   savedRead,
   setSavedRead,
   book,
-  setDeletedBook
+  setDeletedSavedBook,
+  setDeletedReadBook
   }
 ) {
 
   return (
       <div
-      className="book-card card m-2"
+      className="book-card card mx-auto mb-3 m-lg-2"
       style={{minWidth: '220px', maxWidth: '280px', minHeight: '200px'}}>
         <Link to={`/books/${book.isbn13}`}>
         <div 
@@ -47,7 +48,8 @@ export default function BookCard(
               setSavedFavourites={setSavedFavourites}
               savedRead={savedRead}
               setSavedRead={setSavedRead}
-              setDeletedBook={setDeletedBook}/>
+              setDeletedSavedBook={setDeletedSavedBook}
+              setDeletedReadBook={setDeletedReadBook}/>
 
         </div>
       </div>

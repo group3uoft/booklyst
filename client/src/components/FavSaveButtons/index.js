@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-import { useSelector, useDispatch } from "react-redux";
-
-import { saveBookIds, getSavedBookIds } from '../../utils/localStorage';
+import { saveBookIds } from '../../utils/localStorage';
 import { useMutation } from '@apollo/client';
 import { ADD_FAV, ADD_READ, DELETE_FAV, DELETE_SAVED } from '../../utils/mutations';
 import Auth from '../../utils/auth';
@@ -12,13 +10,13 @@ import { filterSavingBook } from "../../utils/helpers";
 export default function FavSaveButtons(
   {
   searchedBooks,
-  setSearchedBooks,
   savedFavourites,
   setSavedFavourites,
   savedRead,
   setSavedRead,
   gbookId,
-  setDeletedBook
+  // setDeletedSavedBook,
+  // setDeletedReadBook
   }
 ) {;
 
@@ -31,8 +29,6 @@ export default function FavSaveButtons(
   
     const handleSaveFavourite = async (bookId) => {
       const bookToSave = filterSavingBook(searchedBooks, bookId);
-
-      console.log('bookDetails', bookToSave);
       if(!Auth.loggedIn()) {
         console.log('not logged in');
         return false;
@@ -73,7 +69,6 @@ export default function FavSaveButtons(
   
         if(savedRead.length > 0) {
           if(savedRead.find(bookId => bookId === bookToSave.bookId)) {
-            console.log('there is a duplicate');
             return false;
           }
           saveBookIds('save_read', [...savedRead, bookToSave.bookId]);
@@ -103,7 +98,7 @@ export default function FavSaveButtons(
         const removedDeleted = savedFavourites.filter(id => id !== bookId);
         saveBookIds('save_favourites', [...removedDeleted]);
         setSavedFavourites([...removedDeleted]);
-        setDeletedBook(bookId);
+        // setDeletedSavedBook(bookId);
       } catch(e) {
         console.error(e);
       }
@@ -126,9 +121,9 @@ export default function FavSaveButtons(
   
         saveBookIds('save_read', [...removedDeleted]);
         setSavedRead([...removedDeleted]);
-        setDeletedBook(bookId);
+        // setDeletedReadBook(bookId);
       } catch(e) {
-        console.log.error(e);
+        console.error(e);
       }
     };
 

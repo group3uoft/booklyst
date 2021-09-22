@@ -11,3 +11,8 @@ export const searchCurrentBook = (bookId) => {
 export const searchRealatedBooks = (category, author) => {
   return fetch(`https://www.googleapis.com/books/v1/volumes?q=${category}+inauthor:${author}+subject:${category}&orderBy=newest`);
 }
+
+export const searchByCategories = (category) => {
+  return fetch(`https://www.googleapis.com/books/v1/volumes?q=+subject:${category}&orderBy=newest&maxResults=12`);
+}
+

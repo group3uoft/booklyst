@@ -11,7 +11,7 @@ export function idbPromise(storeName, method, object) {
       const db = request.result;
 
       // create ibject store for each tyoe of data and set "primary" key index to be the `_id` of the data
-      db.createObjectStore('currentSearch', {keyPath: 'bookId'});
+      db.createObjectStore('allbooks', {keyPath: 'bookId'});
       db.createObjectStore('readbooks', {keyPath: 'bookId'});
       db.createObjectStore('savedbooks', {keyPath: 'bookId'});
       db.createObjectStore('searchHistory', {keyPath: 'bookId'});

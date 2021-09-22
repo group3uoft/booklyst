@@ -238,6 +238,11 @@ form {
   border-radius: 10px;
 }
 
+/* Browse Page */
+.slick-arrow::before {
+  color: var(--theme-dark-blue) !important;
+}
+
 @media only screen and (max-width: 992px) {
   .navbar-nav {
     flex-direction: row;
@@ -464,6 +469,11 @@ form {
 
   .btn span {
     margin-right: 1rem !important;
+  }
+
+  /* slider */
+  .slick-track {
+    margin-bottom: 2rem;
   }
 }
 
