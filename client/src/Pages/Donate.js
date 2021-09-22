@@ -18,13 +18,13 @@ export default function Donate() {
   function submitCheckout(e) {
     e.preventDefault();
     getCheckout({
-      variables: { donate: 20.5 }
+      variables: { donate: parseFloat(formState.amount) }
     });
   } 
 
   useEffect(() => {
     if (data) {
-      console.log(data)
+      localStorage.setItem('donationAmount', formState.amount);
       stripePromise.then((res) => {
         res.redirectToCheckout({ sessionId: data.checkout.session });
       });

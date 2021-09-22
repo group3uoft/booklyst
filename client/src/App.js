@@ -26,6 +26,7 @@ import Signup from './Pages/Signup';
 import Dashboard from './Pages/Dashboard';
 import BookDetail from './Pages/BookDetail';
 import Donate from './Pages/Donate';
+import Success from './Pages/Success';
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:3001/graphql',
@@ -60,6 +61,7 @@ function App() {
             <Route exact path="/dashboard" component={Dashboard} />
             <Route exact path="/books/:id" component={BookDetail} />
             <Route exact path="/donate" component={Donate} />
+            <Route exact path="/success" component={Success} />
           </Switch>
           <Footer />
         </Provider>
