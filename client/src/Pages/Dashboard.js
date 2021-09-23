@@ -4,6 +4,7 @@ import { searchHandle } from "../utils/helpers";
 import { Link } from "react-router-dom";
 import Spinner from '../components/Spinner';
 import { deepSearchHandle } from "../utils/helpers";
+import Auth from '../utils/auth';
 
 import { useQuery } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
@@ -52,16 +53,20 @@ export default function Dashboard() {
 
   // store the saved books in localhost
   useEffect(() => {
-    if(savedFavourites.length === 0) {
-      const saveBooks = userData.favourites.map(book => book.bookId);
-      saveBookIds('save_favourites', saveBooks);   
-    }
-
-    if(savedFavourites.length === 0) {
-      const saveReadBooks = userData.read.map(book => book.bookId); 
-      saveBookIds('save_read', saveReadBooks);
-    }
-  }, []);
+    if(Auth.loggedIn()) {
+      if(userData.username) {
+        if(savedFavourites.length === 0) {
+          const saveBooks = userData.favourites.map(book => book.bookId);
+          saveBookIds('save_favourites', saveBooks);   
+        }
+    
+        if(savedRead.length === 0) {
+          const saveReadBooks = userData.read.map(book => book.bookId); 
+          saveBookIds('save_read', saveReadBooks);
+        }
+      }
+    } 
+  }, [userData.favourites, userData.read]);
 
   // useEffect(() => {
   //   const books = booksToRender.filter(book => book.bookId !== deletedSavedBook);
@@ -121,7 +126,7 @@ export default function Dashboard() {
     )
   }
 
-  if(!userData?.username) {
+  if(!Auth.loggedIn()) {
     return (
       <div className="container-full d-flex justify-content-center flex-column">
         <div className="container p-3">
