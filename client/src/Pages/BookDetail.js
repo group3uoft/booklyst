@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams, useHistory } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import Spinner from "../components/Spinner";
 import { idbPromise } from "../utils/indexedDb";
 import { ALL_BOOKS } from "../utils/actions";
@@ -29,7 +29,7 @@ export default function BookDetail({bookId}) {
   const [currentBook, setCurrentBook] = useState({});
   const [relatedBooks, setRelatedBooks] = useState([]);
   const [allBooks, setAllbooks] = useState([currentBook, ...relatedBooks]);
-  const [openLibraryState, setOpenLibraryState ] = useState(true);
+  const [openLibraryState] = useState(true);
 
   useEffect(() => {
 

@@ -1,11 +1,39 @@
 import React, { useEffect, useState } from "react";
 import bgImg from '../../assets/images/hero-bg.jpg'
 import { deepSearchHandle } from "../../utils/helpers";
-import ImageUpload from "../UploadImage";
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 export default function Hero({setSearchedBooks, setSearchInput, searchInput, setSearchHistory, searchedBooks}) {
+  const {
+    transcript,
+    listening,
+    // resetTranscript,
+    // browserSupportsSpeechRecognition
+  } = useSpeechRecognition();
 
-  const [imageLoading, setImageLoading] = useState("");
+  const [voiceSearch, setVoiceSearch] = useState("");
+
+  // function onChangeHandler() {
+  //   setVoiceSearch("");
+  // }
+
+  useEffect(() => {
+    setVoiceSearch(transcript);
+  }, [listening])
+
+  useEffect(() => {
+      if(voiceSearch) {
+        async function fetchData() {
+          const data = await deepSearchHandle(voiceSearch);
+          await setSearchedBooks(data);
+          setSearchHistory(data);
+        }
+  
+        setVoiceSearch("");
+  
+        fetchData();
+      }
+  }, [voiceSearch]);
 
   const searchSubmit = async (e) => {
     e.preventDefault();
@@ -38,23 +66,26 @@ export default function Hero({setSearchedBooks, setSearchInput, searchInput, set
             type="search" 
             placeholder="Search books, ISBN, Author" 
             aria-label="Search" 
-            // value={imageLoading}
+            // value={voiceSearch}
+            // onChange={onChangeHandler}
             // onChange={(e) => setSearchInput(e.target.value)}
             />
           </div>
           <button className="btn btn-theme mx-2">Search</button>
+          <span className="btn btn-light sp-btn w-100 border-input"
+            onClick={SpeechRecognition.startListening}
+            ><i className="fas fa-microphone-alt"></i></span>
         </form>
         <div className="m-1">
-          <p className="m-1 fs-3">Or you can search using</p>
+          <p className="mb-0">{transcript}</p>
         </div>
         <div className="d-flex">
           {/* <ImageUpload 
             setImageLoading={setImageLoading}
           /> */}
-          <span className="btn btn-light sp-btn w-100 border-input"><i className="fas fa-microphone-alt"></i></span>
+          {/* <span className="btn btn-light sp-btn w-100 border-input"><i className="fas fa-microphone-alt"></i></span> */}
         </div>
       </div>
     </div>
   )
 };
-
