@@ -38,7 +38,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ## ▶️ Final Output GIF 
 
-![Final Output](./src/assets/images/final-output.gif "Final output of the project") 
+![Final Output](./client/src/assets/images/final-output.gif "Final output of the project") 
 
 ## 📝 License 
 
