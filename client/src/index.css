@@ -159,8 +159,19 @@ nav a:hover {
 }
 
 .btn-orange {
-  background: var(--theme-orange);
-  color: white;
+  background: var(--theme-orange) !important;
+  color: white !important;
+  transition: all 300ms ease-out;
+}
+
+.fs-25 {
+  font-size: 25px;
+  transition: all 300ms ease-out;
+}
+
+.fs-1rem {
+  font-size: 1.1rem;
+  transition: all 300ms ease-out;
 }
 
 .btn-theme:hover {
