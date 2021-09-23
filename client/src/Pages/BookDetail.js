@@ -97,19 +97,20 @@ export default function BookDetail({bookId}) {
             allbooks: relatedBooks
           });
         }
-
-        // if(currentBook) {
-        //   const response = await fetch(`https://openlibrary.org/isbn/${cBook.isbn13}`, {
-        //     mode: 'no-cors'
-        //   });
-        //   if(!response.ok) {
-        //     setOpenLibraryState(false);
-        //   } else {
-        //     setOpenLibraryState(true);
-        //   }
-          
-        // }
       }
+
+      //   if(currentBook) {
+      //     const response = await fetch(`https://openlibrary.org/isbn/${cBook.isbn13}`, {
+      //       mode: 'no-cors'
+      //     });
+      //     if(!response.ok) {
+      //       setOpenLibraryState(false);
+      //     } else {
+      //       setOpenLibraryState(true);
+      //     }
+          
+      //   }
+      // }
       
         fetchData();
     }, []);
