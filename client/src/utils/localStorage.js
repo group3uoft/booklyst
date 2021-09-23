@@ -31,3 +31,21 @@ export const removeBookId = (type ,bookId) => {
 
   return true;
 }
+
+// save quick note
+export const saveQuickNote = (note) => {
+  if(note && note.length > 0) {
+    localStorage.setItem('quick_note', JSON.stringify(note));
+  } else {
+    localStorage.removeItem('quick_note');
+  }
+}
+
+// get saved books from local storage
+export const getQuickNote = () => {
+  const savedBookIds = localStorage.getItem('quick_note')
+    ? JSON.parse(localStorage.getItem('quick_note'))
+    : 'Currently reading...';
+
+  return savedBookIds;
+};

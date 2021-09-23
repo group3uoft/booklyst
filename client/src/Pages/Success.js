@@ -29,12 +29,10 @@ export default function Success() {
     const amount = localStorage.getItem('donationAmount');
     let params = (new URL(document.location)).searchParams;
     let session = params.get('session_id');
-    console.log('data', amount, session);
     try {
-      const response = await addDonation({
+      await addDonation({
         variables: { donationData: {amount: amount, session: session || ""} }
       });
-      console.log('response', response);
     } catch (e) {
       console.error(e);
     }

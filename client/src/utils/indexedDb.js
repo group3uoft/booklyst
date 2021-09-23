@@ -19,7 +19,7 @@ export function idbPromise(storeName, method, object) {
 
     // handle any errors with connecting
     request.onerror = function(e) {
-      console.log('There was an error!', e);
+      console.errot(e);
     }
 
     // on databse open success
@@ -33,7 +33,7 @@ export function idbPromise(storeName, method, object) {
 
       // if there's any errors, handle it
       db.onerror = function(e) {
-        console.log('error', e);
+        console.error(e);
       };
 
       switch (method) {
@@ -51,7 +51,7 @@ export function idbPromise(storeName, method, object) {
           store.delete(object._id);
           break;
         default: 
-          console.log('No valid method!');
+          console.error('No valid method!');
           break;
       }
 

@@ -27,7 +27,7 @@ const typeDefs = gql`
     googleListPrice: String
     googleRetailPrice: String
     googlePlayBooks: String
-    googleRatings: Int
+    googleRatings: Float
     publishedDate: String
     publisher: String
   }
@@ -50,7 +50,7 @@ const typeDefs = gql`
     googleListPrice: String
     googleRetailPrice: String
     googlePlayBooks: String
-    googleRatings: Int
+    googleRatings: Float
     publishedDate: String
     publisher: String
   }
@@ -86,7 +86,7 @@ const typeDefs = gql`
     deleteFavouriteBook(bookId: String!): User
     addReadBook(input: bookData): User
     deleteReadBook(bookId: String!): User
-    searchedHistory(searchString: String!, iddd:String): User
+    searchedHistory(searchHistory: String!): User
   }
 `
 //addFavouriteBook(input: bookData!): User

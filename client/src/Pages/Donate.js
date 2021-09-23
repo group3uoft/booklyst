@@ -13,7 +13,6 @@ export default function Donate() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormState({...formState, [name]: value});
-    console.log(formState)
   }
 
   function submitCheckout(e) {
@@ -32,10 +31,8 @@ export default function Donate() {
     }
   }, [data]);
 
-  console.log(data)
-
   return (
-    <div className="container p-3 p-lg-5">
+    <div className="container p-3 p-lg-5 donation-card">
       <div className="donate-icon text-center"><i className="fas fa-donate"></i></div>
       <h1 className="mb-3 mb-lg-5 text-center">Donate</h1>
       <p className="mx-3 fs-3">Your donation gives us the flexibility to rapidly respond in the most effective way to help debug issues and impliment new features and functionalities!</p>

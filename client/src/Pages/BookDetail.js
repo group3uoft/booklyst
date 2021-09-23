@@ -36,7 +36,6 @@ export default function BookDetail({bookId}) {
       let cBook;
 
       async function fetchData() {
-        console.log('state', state);
 
         if(!state.allbooks && state.allbooks.length === 0) {
           await idbPromise('allbooks', 'get').then(async (books) => {
@@ -45,10 +44,8 @@ export default function BookDetail({bookId}) {
               type: ALL_BOOKS,
               allbooks: books
             });
-  
-            console.log('state1', state)
+
             cBook = books.find(book => book.bookId === id);
-            console.log('cBook', cBook);
             setCurrentBook(cBook);
           });
         } else {
@@ -56,13 +53,10 @@ export default function BookDetail({bookId}) {
             cBook = state.allbooks.find(book => book.bookId === id);
           if(cBook) {
             setCurrentBook(cBook);
-            console.log('cBook2', cBook)
             dispatch({
               type: ALL_BOOKS,
               allbooks: [cBook]
             });
-
-            console.log('state2', state)
           }
           }
         }

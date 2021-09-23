@@ -3,6 +3,10 @@ import bgImg from '../../assets/images/hero-bg.jpg'
 import { deepSearchHandle } from "../../utils/helpers";
 import { Alert } from 'react-bootstrap';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import Auth from '../../utils/auth';
+import { useMutation } from '@apollo/client';
+import { ADD_SEARCH_HISTORY } from "../../utils/mutations";
+
 
 export default function Hero({
   setSearchedBooks, 
@@ -20,6 +24,7 @@ export default function Hero({
 
   const [voiceSearch, setVoiceSearch] = useState("");
   const [showAlert, setShowAlert] = useState(false);
+  const [ addSearchHistory ] = useMutation(ADD_SEARCH_HISTORY);
 
   // function onChangeHandler() {
   //   setVoiceSearch("");
@@ -34,8 +39,21 @@ export default function Hero({
         async function fetchData() {
           const data = await deepSearchHandle(voiceSearch);
           await setSearchedBooks(data);
-          setSearchHistory(data);
-          setTitle('Search Results...')
+          setSearchHistory(voiceSearch);
+          setTitle(`Search Results for ${voiceSearch}`);
+
+          if(Auth.loggedIn) {
+            try {
+              console.log(voiceSearch);
+              const res = await addSearchHistory({
+                variables: {searchHistory: voiceSearch}
+              });
+
+              console.log(res);
+            } catch (e) {
+              console.error(e);
+            }
+          }
         }
   
         setVoiceSearch("");

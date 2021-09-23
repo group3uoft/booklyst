@@ -1,36 +1,6 @@
 import { searchGoogleBooks, searchCurrentBook, searchRealatedBooks, searchByCategories } from "./API";
 
 // Search handle function
-export const searchHandle = async (query) => {
-  if(!query) {
-    alert('please enter a query!');
-  }
-  // get results form google api
-  try {
-    const gResponse = await(searchGoogleBooks(query));
-
-    if(!gResponse.ok) {
-      throw new Error('Something went wrong!');
-    }
-    const gBookData = await gResponse.json();
-
-    const gBooks = gBookData.items.map(book => ({
-      bookId: book.id,
-      authors: book.volumeInfo.authors || ['No author to display'],
-      title: book.volumeInfo.title,
-      description: book.volumeInfo.description,
-      image: book.volumeInfo.imageLinks?.thumbnail || '',
-      isbn13: book.volumeInfo.industryIdentifiers?.[0].identifier || ''
-      }
-    ));
-
-    return gBooks;
-  } catch (e) {
-    console.error(e);
-  }
-}; 
-
-// Search handle function
 export const deepSearchHandle = async (query, type) => {
   if(!query) {
     alert('please enter a query!');
@@ -44,8 +14,6 @@ export const deepSearchHandle = async (query, type) => {
     }
 
     const gBookData = await gResponse.json();
-
-    console.log(gBookData);
 
     const gBooks = gBookData.items.map((book) => {
       let isbn13 = '';
@@ -284,6 +252,34 @@ export const filterSavingBook = (searchedBooks, bookId) => {
   return bookToSave;
 };
 
+export const favouriteCategories = (fav, read) => {
+  const allBooks = [...fav, ...read];
+
+  const allCats = [];
+  
+  allBooks.forEach(book => {
+    if(book.categories.length > 0) {
+      allCats.push(book.categories[0]);
+    }
+    return;
+  });
+
+  const uniq = allCats
+  .map((name) => {
+    return {
+      count: 1,
+      name: name
+    }
+  })
+  .reduce((a, b) => {
+    a[b.name] = (a[b.name] || 0) + b.count
+    return a
+  }, {})
+
+  const favourites = Object.keys(uniq).filter((a) => uniq[a] > 1);
+
+  return favourites;
+};
 
 // function for mobile toggle 
 export const mobileMenuToggle = () => {

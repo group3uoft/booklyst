@@ -180,3 +180,14 @@ export const DELETE_SAVED = gql`
   }
 `
 
+export const ADD_SEARCH_HISTORY = gql`
+  mutation searchedHistory($searchHistory: String!) {
+    searchedHistory(searchHistory: $searchHistory) {
+     _id
+    username
+    email
+    searchHistory
+  	}
+  }
+`
+

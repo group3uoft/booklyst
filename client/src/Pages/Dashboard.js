@@ -1,14 +1,13 @@
 import React, {useState, useEffect} from "react";
 import SearchResults from "../components/SearchResults";
-import { searchHandle } from "../utils/helpers";
 import { Link } from "react-router-dom";
 import Spinner from '../components/Spinner';
-import { deepSearchHandle } from "../utils/helpers";
+import { deepSearchHandle, favouriteCategories } from "../utils/helpers";
 import Auth from '../utils/auth';
 
 import { useQuery } from '@apollo/client';
 import { QUERY_ME } from '../utils/queries';
-import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
+import { saveBookIds, getSavedBookIds, saveQuickNote, getQuickNote } from '../utils/localStorage';
 import { idbPromise } from "../utils/indexedDb";
 
 import { useDispatch } from "react-redux";
@@ -20,6 +19,10 @@ export default function Dashboard() {
   // saveFavourites in localStorage 
   const [savedFavourites, setSavedFavourites] = useState(getSavedBookIds('save_favourites'));
   const [savedRead, setSavedRead] = useState(getSavedBookIds('save_read'));
+  const [quickNote, setQuickNote] = useState(getQuickNote('quick_note'));
+  const [noteEdit, setNoteEdit] = useState(false);
+  const [favouriteCats, setFavouriteCats] = useState([]);
+  const [searchHistory, setSearchHistory] = useState([]);
   // const [ deletedSavedBook, setDeletedSavedBook ] = useState('');
   // const [ deletedReadBook, setDeletedReadBook ] = useState('');
 
@@ -34,7 +37,7 @@ export default function Dashboard() {
   // render the initial search
   useEffect(() => {
     async function fetchData() {
-      const data = await searchHandle('best sellers');
+      const data = await deepSearchHandle('best sellers');
       await setBooksToRender(data);
 
       await dispatch({
@@ -57,16 +60,28 @@ export default function Dashboard() {
       if(userData.username) {
         if(savedFavourites.length === 0) {
           const saveBooks = userData.favourites.map(book => book.bookId);
-          saveBookIds('save_favourites', saveBooks);   
+          saveBookIds('save_favourites', saveBooks); 
+          setSavedFavourites(saveBooks);  
         }
     
         if(savedRead.length === 0) {
           const saveReadBooks = userData.read.map(book => book.bookId); 
           saveBookIds('save_read', saveReadBooks);
+          setSavedRead(saveReadBooks);
         }
+
+        setFavouriteCats(favouriteCategories(userData.favourites, userData.read));
+        setSearchHistory(userData.searchHistory);
       }
-    } 
+    }
+
   }, [userData.favourites, userData.read]);
+
+  useEffect(() => {
+    if(quickNote) {
+      saveQuickNote(quickNote);
+    }
+  }, [quickNote])
 
   // useEffect(() => {
   //   const books = booksToRender.filter(book => book.bookId !== deletedSavedBook);
@@ -100,7 +115,7 @@ export default function Dashboard() {
         break;
       
       case 'Radom Picks': 
-        const randomPicks = await deepSearchHandle('random');
+        const randomPicks = await deepSearchHandle('programming');
         await setBooksToRender(randomPicks );
         setTitle('My Random Picks');
       break;
@@ -115,8 +130,7 @@ export default function Dashboard() {
       setTitle('My Read Books');
       break;
 
-      default: 
-        console.log('showing new books');  
+      default:  
     } 
   };
 
@@ -140,6 +154,13 @@ export default function Dashboard() {
     )
   }
 
+  const heandleClickSearch = async (e) => {
+    const query = (e.target.textContent);
+    const search = await deepSearchHandle(query);
+    await setBooksToRender(search);
+    setTitle(`Searching for ${query}`);
+  }
+
   return (
     <div className="container mb-5">
       <div className="py-5 d-flex justify-content-around flex-wrap">
@@ -150,7 +171,9 @@ export default function Dashboard() {
 
           <div className="pofile-info mt-3">
             <h5 className="fs-2 fw-bold text-capitalize">Hello {userData.username}!</h5>
-            <p>Any short notes.. such as reading this page.. or this page number.. </p>
+            {noteEdit ? 
+              <textarea className="w-100 fs-4" value={quickNote} onChange={(e) => setQuickNote(e.target.value)} onBlur={() => setNoteEdit(false)}></textarea> :
+              <p className="w-100 fs-4" onClick={() => setNoteEdit(true)}>{quickNote}</p>}
           </div>
 
           <div className="prof-button-container d-flex flex-column">
@@ -166,13 +189,16 @@ export default function Dashboard() {
           <div className="stats-container">
             <div className="mt-3 db-q-sec pt-3 pb-2 px-3">
               <h5 className="fw-bold fs-4"><span className="mr-3"><i className="far fa-thumbs-up"></i></span> Book categories you liked.</h5>
-              <button onClick={buttonHandle} className="btn btn-accent m-1">Classics</button>
-              <button onClick={buttonHandle} className="btn btn-accent m-1">Action</button>
-              <button onClick={buttonHandle} className="btn btn-accent m-1">Fiction</button>
+              {favouriteCats.length !== 0 ? favouriteCats.map((cat, index) => (
+                <button onClick={heandleClickSearch} className="btn btn-accent m-1" key={index}>{cat}</button>
+              )) : 
+                <p>No categories to show at this moment... Please favourite some books!</p>}
             </div>
             <div className="mt-2 db-q-sec pt-3 pb-2 px-3">
-              <h5 className="fw-bold fs-4"><span className="mr-3"><i className="fas fa-boxes"></i></span> Books you owned.</h5>
-              <p className="font-small mb-0" >Currently you have <span className="fw-bold">{`10`} books</span> in your shelf</p>
+              <h5 className="fw-bold fs-4"><span className="mr-3"><i className="fas fa-search"></i></span> Your search queries.</h5>
+              {searchHistory.length !== 0 ? searchHistory.map((search, index) => (
+                <button onClick={heandleClickSearch} className="btn btn-accent m-1" key={index}>{search}</button>
+              )): <p>No search history to show at this moment... Please search some books!</p>}
             </div>
             <div className="mt-2 db-q-sec pt-3 pb-2 px-3">
               <h5 className="fw-bold fs-4"><span className="mr-3"><i className="fas fa-book-reader"></i></span> Books you read.</h5>

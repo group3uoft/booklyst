@@ -297,6 +297,11 @@ form {
   font-size: 50px;
 }
 
+.donation-card {
+  max-width: 768px;
+  margin: auto;
+}
+
 @media only screen and (max-width: 992px) {
   .navbar-nav {
     flex-direction: row;
@@ -316,6 +321,11 @@ form {
     width: 90%;
     margin: auto;
     padding: 1.5rem !important;
+  }
+
+  .donation-card {
+    width: 90%;
+    margin-top: 2rem;
   }
 }
 

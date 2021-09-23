@@ -130,10 +130,10 @@ const resolvers = {
       throw new AuthenticationError('You need to be logged in!');
     },
 
-    searchedHistory: async (parent, {searchString}, context) => {
+    searchedHistory: async (parent, {searchHistory}, context) => {
       const updatedUser = await User.findOneAndUpdate(
         { _id: context.user._id },
-        { $push: { searchHistory: searchString }},
+        { $addToSet: { searchHistory: searchHistory }},
         { new: true }
       );
       if (updatedUser.searchHistory.length > 20) {
@@ -154,16 +154,5 @@ const resolvers = {
 
   }
 }
-
-/*addReadBook: async (parent, {input, iddd}, /*context//) => {
-  console.log(input)
-  const updatedUser = await User.findOneAndUpdate(
-    { _id: iddd/*context.user._id// },
-    { $push: { read: {...input}}},
-    { new: true }
-  );
-
-  return updatedUser;
-},*/
 
 module.exports = resolvers;

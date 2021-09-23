@@ -36,7 +36,6 @@ export default function FavSaveButtons(
     const handleSaveFavourite = async (bookId) => {
       const bookToSave = filterSavingBook(searchedBooks, bookId);
       if(!Auth.loggedIn()) {
-        console.log('not logged in');
         return false;
       }
   
@@ -56,7 +55,7 @@ export default function FavSaveButtons(
           setSavedFavourites([...savedFavourites, bookToSave.bookId]); 
         }
       } catch (e) {
-        console.log(e)
+        console.error(e)
       }
     }; 
   
@@ -64,7 +63,6 @@ export default function FavSaveButtons(
       const bookToSave = filterSavingBook(searchedBooks, bookId);
   
       if(!Auth.loggedIn()) {
-        console.log('not logged in');
         return false;
       }
   
@@ -84,7 +82,7 @@ export default function FavSaveButtons(
           setSavedRead([...savedRead, bookToSave.bookId]); 
         }
       } catch (e) {
-        console.log(e)
+        console.error(e)
       }
   
     };
@@ -92,7 +90,6 @@ export default function FavSaveButtons(
     // remove favourite book
     const removeFavorite = (bookId) => {
       if(!Auth.loggedIn()) {
-        console.log('not logged in');
         return false;
       }
   
@@ -114,7 +111,6 @@ export default function FavSaveButtons(
     // remove read book
     const removeRead = (bookId) => {
       if(!Auth.loggedIn()) {
-        console.log('not logged in');
         return false;
       }
   
