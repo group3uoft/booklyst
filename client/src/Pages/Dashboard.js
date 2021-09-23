@@ -120,12 +120,6 @@ export default function Dashboard() {
     } 
   };
 
-  if(loading) {
-    return (
-      < Spinner />
-    )
-  }
-
   if(!Auth.loggedIn()) {
     return (
       <div className="container-full d-flex justify-content-center flex-column">
@@ -137,6 +131,12 @@ export default function Dashboard() {
           className="btn btn-theme btn-lg">Login</Link>
         </div>
       </div>
+    )
+  }
+
+  if(loading) {
+    return (
+      < Spinner />
     )
   }
 

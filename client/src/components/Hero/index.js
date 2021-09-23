@@ -3,7 +3,13 @@ import bgImg from '../../assets/images/hero-bg.jpg'
 import { deepSearchHandle } from "../../utils/helpers";
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
-export default function Hero({setSearchedBooks, setSearchInput, searchInput, setSearchHistory, searchedBooks}) {
+export default function Hero({
+  setSearchedBooks, 
+  setSearchInput, 
+  searchInput, 
+  setSearchHistory, 
+  searchedBooks,
+  setTitle }) {
   const {
     transcript,
     listening,
@@ -27,6 +33,7 @@ export default function Hero({setSearchedBooks, setSearchInput, searchInput, set
           const data = await deepSearchHandle(voiceSearch);
           await setSearchedBooks(data);
           setSearchHistory(data);
+          setTitle('Search Results...')
         }
   
         setVoiceSearch("");
@@ -57,7 +64,7 @@ export default function Hero({setSearchedBooks, setSearchInput, searchInput, set
 
   return(
     <div className="d-flex justify-content-center align-items-center hero-bg" style={{backgroundImage: `url(${bgImg})`}}>
-      <div className="search-container d-flex justify-content-center flex-column p-4">
+      <div className="search-container d-flex justify-content-center flex-column p-2 p-lg-4">
         <form className="d-flex" onSubmit={searchSubmit}>
           <div className="input-container d-flex">
             <input 
@@ -66,18 +73,15 @@ export default function Hero({setSearchedBooks, setSearchInput, searchInput, set
             type="search" 
             placeholder="Search books, ISBN, Author" 
             aria-label="Search" 
-            // value={voiceSearch}
-            // onChange={onChangeHandler}
-            // onChange={(e) => setSearchInput(e.target.value)}
             />
           </div>
           <button className="btn btn-theme mx-2">Search</button>
-          <span className="btn btn-light sp-btn w-100 border-input"
+          <span className={`btn btn-light sp-btn w-100 border-input ${listening && 'btn-orange'}`}
             onClick={SpeechRecognition.startListening}
             ><i className="fas fa-microphone-alt"></i></span>
         </form>
         <div className="m-1">
-          <p className="mb-0">{transcript}</p>
+          <p className="mb-0 transcript mx-auto">{transcript}</p>
         </div>
         <div className="d-flex">
           {/* <ImageUpload 

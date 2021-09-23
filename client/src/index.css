@@ -87,7 +87,11 @@ nav a:hover {
 }
 
 .alert-button button {
-  background: none;
+  background: var(--theme-orange);
+  color: white;
+  margin-right: 1rem;
+  border: 1px solid #f5c2c7;
+  border-radius: 0.25rem;
 }
 
 /* Hero Style */
@@ -133,6 +137,14 @@ nav a:hover {
    -webkit-box-orient: vertical;
 }
 
+.book-cat {
+  overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-line-clamp: 1; /* number of lines to show */
+   -webkit-box-orient: vertical
+}
+
 .book-deatailed-desc {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -143,6 +155,11 @@ nav a:hover {
 
 .btn-theme {
   background: var(--theme-dark-blue);
+  color: white;
+}
+
+.btn-orange {
+  background: var(--theme-orange);
   color: white;
 }
 
@@ -459,9 +476,18 @@ form {
     margin: auto;
   }
 
+  .search-container .sp-btn {
+    margin-top: 1rem;
+    width: 90% !important;
+  }
+
+  .transcript {
+    width: 90%;
+  }
+
   /* Books section */
   .book-card {
-    max-width: 90% !important;
+    max-width: 100% !important;
   }
 
   .card-image {
@@ -503,9 +529,8 @@ form {
     margin-right: 1rem !important;
   }
 
-  /* slider */
-  .slick-track {
-    margin-bottom: 2rem;
+  .slick-dots li {
+    margin: 0;
   }
 }
 

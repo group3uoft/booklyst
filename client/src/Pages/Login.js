@@ -7,8 +7,7 @@ import Auth from '../utils/auth';
 
 export default function Login() {
   const [ formState, setFormState ] = useState({ email: '', password: '' });
-  const [ login, { error }] = useMutation(LOGIN);
-  const [validated] = useState(false);
+  const [ login ] = useMutation(LOGIN);
   const [showAlert, setShowAlert] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,11 +37,9 @@ export default function Login() {
     <div className="body-container d-flex flex-column justify-content-center">
       <h1 className="text-center">Login</h1>
       <div className="auth-container d-flex flex-column">
-      <div className="container">
         <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger' className="alert-button">
-          Something went wrong with your login credentials!
+          Password or email is incorrect! Please try again.
         </Alert>
-      </div>
         <form onSubmit={handleSubmit} id="login-form">
           <div className="mb-3">
             <label htmlFor="email" className="form-label">Email address</label>
@@ -61,7 +58,6 @@ export default function Login() {
           <div className="mt-2">
             <Link to="/signup">Sign up instead</Link>
           </div>
-          {error && <div>Login failed</div>}
         </form>
       
       </div>

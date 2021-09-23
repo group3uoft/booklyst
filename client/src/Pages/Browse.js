@@ -98,7 +98,7 @@ function Browser() {
     
     return (
       <div className="container mb-5">
-        <h1 className="m-3 m-lg-5 ">Browse by Category</h1>
+        <h1 className="m-3 m-lg-5 text-center text-lg-start">Browse by Category</h1>
         <div className="container p-3" >
           <h2 className="text-center mb-5">Self-Help Books</h2>
           <BooksCarousel className="mb-5"

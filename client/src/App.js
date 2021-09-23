@@ -63,7 +63,7 @@ function App() {
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/dashboard"component={Dashboard} />
-            <Route exact path="/books/:id" component={BookDetail} />
+            <Route exact path="/books/:id" render={(props) => <BookDetail {...props} key={Math.random()} /> } />
             <Route exact path="/donate" component={Donate} />
             <Route exact path="/success" component={Success} />
             <Route exact path="/browse" component={Browse} />

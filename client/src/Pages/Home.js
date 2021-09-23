@@ -64,7 +64,8 @@ export default function Home() {
         searchedBooks={searchedBooks}
         setSearchInput={setSearchInput}
         searchInput={searchInput}
-        setSearchHistory={setSearchHistory} />
+        setSearchHistory={setSearchHistory}
+        setTitle={setTitle} />
       <SearchResults 
         setSearchedBooks={setSearchedBooks}
         searchedBooks={searchedBooks}

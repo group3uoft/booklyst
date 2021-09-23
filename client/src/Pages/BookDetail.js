@@ -152,19 +152,19 @@ export default function BookDetail({bookId}) {
           </div>
           <div className="info-container text-start">
             <h3 className="fs-2">{currentBook.title}</h3>
-            {currentBook.authors && <p className="mb-1">by <span className="fw-bold">{currentBook.authors}</span></p>}
+            {currentBook.authors && <p className="mb-2">by <span className="fw-bold">{currentBook.authors}</span></p>}
             <div className="book-deatailed-desc" >{ReactHtmlParser(currentBook.description)}</div>
             {currentBook.googleRatings ?
-              <p className="mb-1"><span></span> Ratings: <span className="fw-bold">{currentBook.googleRatings}</span></p>
+              <p className="mb-1 mt-2"><span></span> Ratings: <span className="fw-bold">{currentBook.googleRatings}</span></p>
               : ''}
-            {currentBook.categories && <p className="mb-1"><span></span> Categories: <span className="fw-bold">{currentBook.categories}</span></p>}
+            {currentBook.categories && <p className="mb-1 book-cat"><span></span> Categories: <span className="fw-bold">{currentBook.categories}</span></p>}
             {currentBook.publisher && <p className="mb-1"><span></span> Pushlisher: <span className="fw-bold">{currentBook.publisher}</span></p>}
             {currentBook.publishedDate && <p className="mb-1"><span></span> Pushlished Date: <span className="fw-bold">{currentBook.publishedDate}</span></p>}
             {currentBook.googleListPrice &&
               <p className="mb-1 fs-3"> Price: <span className="fw-bold">{currentBook.googleListPrice}</span></p>}
             <div className="buttons-container d-flex flex-wrap">
               {/* <a href={`https://www.amazon.com/s?i=stripbooks&rh=p_66%3A${currentBook.isbn13}&s=relevanceexprank&Adv-Srch-Books-Submit.x=34&Adv-Srch-Books-Submit.y=9&unfiltered=1&ref=sr_adv_b`} */}
-                <a href={`https://www.amazon.ca/s?k=${currentBook.isbn13 ? currentBook.isbn13 : currentBook.title}&i=stripbooks&linkCode=qs`}
+                <a href={`https://www.amazon.ca/s?k=${`${currentBook.title} by ${currentBook.authors[0]}`   }&i=stripbooks&linkCode=qs`}
                 target="_blank"
                 rel="noreferrer"
                 className="btn amazon-btn m-1">
