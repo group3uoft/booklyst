@@ -39,7 +39,7 @@ export default function BookCard(
           <p className="card-text book-desc">{book.description}</p>
             {/* <a href={`https://www.amazon.com/s?i=stripbooks&rh=p_66%3A${book.isbn13}&s=relevanceexprank&Adv-Srch-Books-Submit.x=34&Adv-Srch-Books-Submit.y=9&unfiltered=1&ref=sr_adv_b`} target="_blank" rel="noreferrer" className="btn amazon-btn mb-2">Buy Now from Amazon</a>
             <a href={`https://www.chapters.indigo.ca/en-ca/books/name/${book.isbn13}-item.html`} target="_blank" rel="noreferrer" className="btn indigo-btn mb-2">Buy it now from Indigo</a> */}
-            <Link to={`/books/${book.isbn13}`} className="btn btn-theme max-240 mb-2 mx-1 w-full text-start px-4"><span className="me-3"><i className="fas fa-list"></i></span> See More Details</Link>
+            <Link to={`/books/${book.bookId}`} className="btn btn-theme max-240 mb-2 mx-1 w-full text-start px-4"><span className="me-3"><i className="fas fa-list"></i></span> See More Details</Link>
             <FavSaveButtons 
               gbookId={book.bookId}
               searchedBooks={searchedBooks}

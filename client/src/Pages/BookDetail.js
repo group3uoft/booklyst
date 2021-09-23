@@ -7,6 +7,7 @@ import { getSavedBookIds } from '../utils/localStorage';
 import { fetchRelatedBooks, fetchCurrentBook, deepSearchCategories } from '../utils/helpers';
 import BooksCarousel from "../components/BooksCarousel";
 import FavSaveButtons from "../components/FavSaveButtons";
+import ReactHtmlParser from 'react-html-parser';
 
 import { useSelector, useDispatch } from "react-redux";
 
@@ -34,29 +35,42 @@ export default function BookDetail({bookId}) {
 
       let cBook;
 
-      if(state.allbooks.length === 0) {
-        idbPromise('allbooks', 'get').then((books) => {
-          // use retrieved data to set global state for offline browsing
-          dispatch({
-            type: ALL_BOOKS,
-            allbooks: books
-          });
-          cBook = books.find(book => book.bookId === id);
-          setCurrentBook(cBook);
-        })
-      } else {
-        cBook = state.allbooks.find(book => book.bookId === id);
-        setCurrentBook(cBook);
-        dispatch({
-          type: ALL_BOOKS,
-          allbooks: [cBook]
-        });
-      }
-
       async function fetchData() {
+        console.log('state', state);
+
+        if(!state.allbooks && state.allbooks.length === 0) {
+          await idbPromise('allbooks', 'get').then(async (books) => {
+            // use retrieved data to set global state for offline browsing
+            await dispatch({
+              type: ALL_BOOKS,
+              allbooks: books
+            });
+  
+            console.log('state1', state)
+            cBook = books.find(book => book.bookId === id);
+            console.log('cBook', cBook);
+            setCurrentBook(cBook);
+          });
+        } else {
+          if(state.allbooks) {
+            cBook = state.allbooks.find(book => book.bookId === id);
+          if(cBook) {
+            setCurrentBook(cBook);
+            console.log('cBook2', cBook)
+            dispatch({
+              type: ALL_BOOKS,
+              allbooks: [cBook]
+            });
+
+            console.log('state2', state)
+          }
+          }
+        }
+
         if(!currentBook || Object.keys(currentBook).length === 0) {
           cBook = await fetchCurrentBook(id);
           await setCurrentBook(cBook);
+          console.log('cbook', cBook);
           dispatch({
             type: ALL_BOOKS,
             allbooks: [cBook]
@@ -138,7 +152,7 @@ export default function BookDetail({bookId}) {
           <div className="info-container text-start">
             <h3 className="fs-2">{currentBook.title}</h3>
             {currentBook.authors && <p className="mb-1">by <span className="fw-bold">{currentBook.authors}</span></p>}
-            <p className="book-deatailed-desc" >{currentBook.description}</p>
+            <div className="book-deatailed-desc" >{ReactHtmlParser(currentBook.description)}</div>
             {currentBook.googleRatings ?
               <p className="mb-1"><span></span> Ratings: <span className="fw-bold">{currentBook.googleRatings}</span></p>
               : ''}
