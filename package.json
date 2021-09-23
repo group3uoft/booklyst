@@ -21,7 +21,6 @@
     "url": "https://github.com/group3uoft/final-project/issues"
   },
   "homepage": "https://github.com/group3uoft/final-project#readme",
-  "dependencies": {},
   "devDependencies": {
     "concurrently": "^6.2.1"
   }
