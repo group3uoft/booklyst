@@ -38,7 +38,7 @@ export default function Signup() {
           </div>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">Email address</label>
-            <input onChange={handleChange} name="email" className="form-control" id="email" aria-describedby="emailHelp" value={formState.email} />
+            <input onChange={handleChange} name="email" className="form-control" type="email" id="email" aria-describedby="emailHelp" value={formState.email} />
             <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
           </div>
           <div className="mb-3">

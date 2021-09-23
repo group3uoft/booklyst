@@ -86,6 +86,10 @@ nav a:hover {
   border: 1px solid #ced4da;
 }
 
+.alert-button button {
+  background: none;
+}
+
 /* Hero Style */
 
 .hero-bg {

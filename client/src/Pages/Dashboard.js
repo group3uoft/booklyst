@@ -5,13 +5,7 @@ import { Link } from "react-router-dom";
 import Spinner from '../components/Spinner';
 import { deepSearchHandle } from "../utils/helpers";
 
-<<<<<<< HEAD
 import { useQuery } from '@apollo/client';
-=======
-
-
-import { useMutation, useQuery } from '@apollo/client';
->>>>>>> 6c50b0c055b78128609fadd66adc59cd86db7ec7
 import { QUERY_ME } from '../utils/queries';
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
 import { idbPromise } from "../utils/indexedDb";
@@ -156,14 +150,9 @@ export default function Dashboard() {
 
           <div className="prof-button-container d-flex flex-column">
             <button onClick={buttonHandle} className="my-1 btn btn-theme">Recomendations</button>
-<<<<<<< HEAD
             <button onClick={buttonHandle} className="my-1 btn btn-theme">Favourites</button>
             <button onClick={buttonHandle} className="my-1 btn btn-theme">Already read</button>
             <button onClick={buttonHandle} className="my-1 btn btn-theme">Radom Picks</button>
-=======
-           <button onClick={buttonHandle} className="my-1 btn btn-theme">Radom Picks</button>
-            <button onClick={buttonHandle} className="my-1 btn btn-theme">Alreay read</button>
->>>>>>> 6c50b0c055b78128609fadd66adc59cd86db7ec7
           </div> 
         </div>
         

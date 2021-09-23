@@ -36,17 +36,17 @@ export default function Login() {
 
   return (
     <div className="body-container d-flex flex-column justify-content-center">
+      <h1 className="text-center">Login</h1>
+      <div className="auth-container d-flex flex-column">
       <div className="container">
-      <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
+        <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger' className="alert-button">
           Something went wrong with your login credentials!
         </Alert>
       </div>
-      <h1 className="text-center">Login</h1>
-      <div className="auth-container">
         <form onSubmit={handleSubmit} id="login-form">
           <div className="mb-3">
             <label htmlFor="email" className="form-label">Email address</label>
-            <input onChange={handleChange} name="email" className="form-control" id="email" aria-describedby="emailHelp" value={formState.email} />
+            <input onChange={handleChange} name="email" type="email" className="form-control" id="email" aria-describedby="emailHelp" value={formState.email} />
             <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
           </div>
           <div className="mb-3">
