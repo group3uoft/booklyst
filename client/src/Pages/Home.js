@@ -22,15 +22,17 @@ export default function Home() {
   // const [ deletedBook, setDeletedBook ] = useState('');
 
   useEffect(() => {
-    dispatch({
-      type: ALL_BOOKS,
-      allbooks: searchedBooks
-    });
-
-    // save the data to IDB
-    searchedBooks.forEach((book) => {
-      idbPromise('allbooks', 'put', book);
-    });
+    if(!searchedBooks) {
+      dispatch({
+        type: ALL_BOOKS,
+        allbooks: searchedBooks
+      });
+  
+      // save the data to IDB
+      searchedBooks.forEach((book) => {
+        idbPromise('allbooks', 'put', book);
+      });
+    }
     
   }, [searchedBooks, dispatch]);
 

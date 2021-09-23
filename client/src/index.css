@@ -78,12 +78,25 @@ nav a:hover {
   max-width: 240px;
 }
 
+.border-input {
+  border: 1px solid #ced4da;
+}
+
+.border-input:hover {
+  border: 1px solid #ced4da;
+}
+
 /* Hero Style */
 
 .hero-bg {
   min-height: 400px;
   background-position: center;
   background-size: cover;
+}
+
+.search-container {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 10px;
 }
 
 .search-container form input {

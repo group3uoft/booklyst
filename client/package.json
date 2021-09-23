@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.4.11",
+    "@google-cloud/vision": "^2.4.0",
     "@reduxjs/toolkit": "^1.6.1",
     "@stripe/stripe-js": "^1.18.0",
     "@testing-library/jest-dom": "^5.14.1",
@@ -14,12 +15,14 @@
     "jwt-decode": "^3.1.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-images-upload": "^1.2.8",
     "react-jss": "^10.7.1",
     "react-redux": "^7.2.5",
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
     "react-slick": "^0.28.1",
     "slick-carousel": "^1.8.1",
+    "tesseract.js": "^2.1.5",
     "web-vitals": "^1.1.2"
   },
   "scripts": {

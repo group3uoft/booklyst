@@ -13,6 +13,15 @@ export default function SearchResults(
     setSavedRead,
   }) {
 
+  if(!searchedBooks) {
+    return(
+      <div className="container">
+        <h1 className="fs-1 m-lg-5 m-3">Sorry! Something went wrong...</h1>
+        <p className="fs-3 m-lg-5 m-3">Please try again in a bit...</p>
+      </div>
+    )
+  }
+
   if(searchedBooks.length === 0) {
     return (
       <Spinner />

@@ -142,9 +142,9 @@ const resolvers = {
       return updatedUser;
     },
 
-    addDonation: async (parent, {input, iddd}, context) => {
+    addDonation: async (parent, {input }, context) => {
       const updatedUser = await User.findOneAndUpdate(
-        { _id: iddd/*context.user._id*/ },
+        { _id: context.user._id },
         { $push: { donations: {...input}}},
         { new: true }
       );

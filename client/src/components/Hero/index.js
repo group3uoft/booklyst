@@ -1,8 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import bgImg from '../../assets/images/hero-bg.jpg'
 import { deepSearchHandle } from "../../utils/helpers";
+import ImageUpload from "../UploadImage";
 
 export default function Hero({setSearchedBooks, setSearchInput, searchInput, setSearchHistory, searchedBooks}) {
+
+  const [imageLoading, setImageLoading] = useState("");
 
   const searchSubmit = async (e) => {
     e.preventDefault();
@@ -26,7 +29,7 @@ export default function Hero({setSearchedBooks, setSearchInput, searchInput, set
 
   return(
     <div className="d-flex justify-content-center align-items-center hero-bg" style={{backgroundImage: `url(${bgImg})`}}>
-      <div className="search-container d-flex justify-content-center">
+      <div className="search-container d-flex justify-content-center flex-column p-4">
         <form className="d-flex" onSubmit={searchSubmit}>
           <div className="input-container d-flex">
             <input 
@@ -35,13 +38,21 @@ export default function Hero({setSearchedBooks, setSearchInput, searchInput, set
             type="search" 
             placeholder="Search books, ISBN, Author" 
             aria-label="Search" 
+            // value={imageLoading}
             // onChange={(e) => setSearchInput(e.target.value)}
             />
-            <span className="btn btn-light mx-2 sp-btn"><i className="fas fa-camera"></i></span>
-            <span className="btn btn-light sp-btn"><i className="fas fa-microphone-alt"></i></span>
           </div>
           <button className="btn btn-theme mx-2">Search</button>
         </form>
+        <div className="m-1">
+          <p className="m-1 fs-3">Or you can search using</p>
+        </div>
+        <div className="d-flex">
+          {/* <ImageUpload 
+            setImageLoading={setImageLoading}
+          /> */}
+          <span className="btn btn-light sp-btn w-100 border-input"><i className="fas fa-microphone-alt"></i></span>
+        </div>
       </div>
     </div>
   )
