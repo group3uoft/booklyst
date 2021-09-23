@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import { useMutation } from '@apollo/client';
 import { Link } from "react-router-dom";
 import { LOGIN } from '../utils/mutations';
+import { Alert } from 'react-bootstrap';
 import Auth from '../utils/auth';
 
 export default function Login() {
   const [ formState, setFormState ] = useState({ email: '', password: '' });
   const [ login, { error }] = useMutation(LOGIN);
-
+  const [validated] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -17,8 +19,12 @@ export default function Login() {
       const token = response.data.loginUser.token;
       Auth.login(token);
       setFormState({ email: '', password: '' });
+      if (!response) {
+        throw new Error('something went wrong!');
+      }
     } catch (e) {
       console.error(e);
+      setShowAlert(true);
     }
 
   }
@@ -30,6 +36,11 @@ export default function Login() {
 
   return (
     <div className="body-container d-flex flex-column justify-content-center">
+      <div className="container">
+      <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger'>
+          Something went wrong with your login credentials!
+        </Alert>
+      </div>
       <h1 className="text-center">Login</h1>
       <div className="auth-container">
         <form onSubmit={handleSubmit} id="login-form">
@@ -50,8 +61,11 @@ export default function Login() {
           <div className="mt-2">
             <Link to="/signup">Sign up instead</Link>
           </div>
+          {error && <div>Login failed</div>}
         </form>
+      
       </div>
+     
     </div>
   )
 }

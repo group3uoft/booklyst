@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Auth from '../../utils/auth'
 
 import FavSaveButtons from "../FavSaveButtons";
 
@@ -16,7 +17,6 @@ export default function BookCard(
   setDeletedReadBook
   }
 ) {
-
   return (
       <div
       className="book-card card mx-auto mb-3 m-lg-2"
