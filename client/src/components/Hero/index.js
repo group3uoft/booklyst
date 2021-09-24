@@ -44,12 +44,9 @@ export default function Hero({
 
           if(Auth.loggedIn) {
             try {
-              console.log(voiceSearch);
-              const res = await addSearchHistory({
+              await addSearchHistory({
                 variables: {searchHistory: voiceSearch}
               });
-
-              console.log(res);
             } catch (e) {
               console.error(e);
             }
