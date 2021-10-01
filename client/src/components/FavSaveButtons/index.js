@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import { Link } from "react-router-dom";
 
 import { saveBookIds } from '../../utils/localStorage';
 import { useMutation } from '@apollo/client';
@@ -132,26 +133,67 @@ export default function FavSaveButtons(
   return (
       <div>
       {Auth.loggedIn() && 
-      <div className="buttons-container">
+      <div className="btn-container">
+        <div className="button-text search-icon">
+        <Link to={`/books/${gbookId}`} 
+          className="btn save-later w-full mb-2 mx-1 max-240 text-start px-4">
+          <i className="fas fa-search"></i>
+          </Link>
+          <span className="overlay-text">See more details</span>
+        </div>
       {savedFavourites.find(id => id === gbookId) ? 
-        <button 
-        onClick={() => removeFavorite(gbookId)} 
-        className="btn save-later w-full mb-2 mx-1 max-240 text-start px-4">
-        <span className="me-3"><i className="fas fa-heart-broken"></i></span> Remove favourite</button> :
-        <button 
-        onClick={() => handleSaveFavourite(gbookId)} 
-        className="btn save-later w-full mb-2 mx-1 max-240 text-start px-4">
-        <span className="me-3"><i className="far fa-heart"></i></span> Mark as favourite</button>
+        <div className="button-text">
+          <button 
+          onClick={() => removeFavorite(gbookId)} 
+          className="btn save-later w-full mb-2 mx-1 max-240 text-start px-4">
+          <i className="fas fa-heart-broken"></i>
+          </button>
+          <span className="overlay-text">Remove favourites</span>
+        </div>
+        // <button 
+        // onClick={() => removeFavorite(gbookId)} 
+        // className="btn save-later w-full mb-2 mx-1 max-240 text-start px-4">
+        // <span className="me-3"><i className="fas fa-heart-broken"></i></span> Remove favourite</button>
+        : 
+        <div className="button-text">
+          <button 
+          onClick={() => handleSaveFavourite(gbookId)} 
+          className="btn save-later w-full mb-2 mx-1 max-240 text-start px-4">
+          <i className="far fa-heart"></i>
+          </button>
+          <span className="overlay-text">Add to favourites</span>
+        </div>
+        // <button 
+        // onClick={() => handleSaveFavourite(gbookId)} 
+        // className="btn save-later w-full mb-2 mx-1 max-240 text-start px-4">
+        // <span className="me-3"><i className="far fa-heart"></i></span> Mark as favourite</button>
       }
       {
         savedRead.find(id => id === gbookId) ?
-        <button onClick={() => removeRead(gbookId)}
+        <div className="button-text">
+          <button 
+          onClick={() => removeRead(gbookId)}
           className="btn save-later w-full mb-2 mx-1 max-240 text-start px-4">
-        <span className="me-3"><i className="fas fa-times"></i></span> Remove read</button> :
-        <button 
+          <i className="fas fa-times"></i>
+          </button>
+          <span className="overlay-text">Remove read</span>
+        </div> :
+
+        // <button onClick={() => removeRead(gbookId)}
+        //   className="btn save-later w-full mb-2 mx-1 max-240 text-start px-4">
+        // <span className="me-3"><i className="fas fa-times"></i></span> Remove read</button> :
+        <div className="button-text">
+          <button 
           onClick={() => handleSaveRead(gbookId)}
           className="btn save-later w-full mb-2 mx-1 max-240 text-start px-4">
-          <span className="me-3"><i className="fas fa-check"></i></span> Mark as read</button>
+          <i className="fas fa-check"></i>
+          </button>
+          <span className="overlay-text">Add to read</span>
+        </div>
+        // <button 
+        //   onClick={() => handleSaveRead(gbookId)}
+        //   className="btn save-later w-full mb-2 mx-1 max-240 text-start px-4">
+        //   <span className="me-3"><i className="fas fa-check"></i></span> Mark as read</button>
       }
       </div>
     }

@@ -224,9 +224,60 @@ nav a:hover {
   color: white;
 }
 
+.btn-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.details-fav-buttons .btn-container {
+  justify-content: start;
+}
+
 .save-later {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: var(--theme-blue);
   color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin: 0 10px;
+}
+
+.save-later i {
+  font-size: 25px;
+}
+
+.button-text span {
+  display: none;
+  float: left;
+}
+
+.button-text:hover span.overlay-text {
+  position: absolute;
+  display: inline-block;
+  border-radius: 3px;
+  bottom: -10px;
+  margin-left: -20px;
+  padding: 5px 10px;
+  overflow: visible;
+  font-size: small;
+  background: var(--theme-dark-blue);
+  color: white;
+}
+
+.btn-container .save-later {
+  opacity: 100%;
+  transition: all 0.3ms ease-in;
+}
+
+.info-container .button-text:hover span.overlay-text {
+  bottom: unset;
+}
+
+.info-container .search-icon {
+  display: none;
 }
 
 .save-later:hover {

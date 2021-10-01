@@ -15,6 +15,8 @@ export const deepSearchHandle = async (query, type) => {
 
     const gBookData = await gResponse.json();
 
+    console.log('datacheck',gBookData);
+
     const gBooks = gBookData.items.map((book) => {
       let isbn13 = '';
       let isbn10 = '';

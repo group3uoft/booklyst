@@ -64,7 +64,6 @@ export default function BookDetail({bookId}) {
         if(!currentBook || Object.keys(currentBook).length === 0) {
           cBook = await fetchCurrentBook(id);
           await setCurrentBook(cBook);
-          console.log('cbook', cBook);
           dispatch({
             type: ALL_BOOKS,
             allbooks: [cBook]
@@ -132,6 +131,8 @@ export default function BookDetail({bookId}) {
       <Spinner />
     )
   }
+
+  console.log(currentBook);
 
   return (
     <>
