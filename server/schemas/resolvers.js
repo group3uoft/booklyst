@@ -54,23 +54,12 @@ const resolvers = {
     },
 
     getPriceList: async (parent, { isbn }) => {
-      /*let priceList = await getPrice(isbn)
-      console.log("ouuuuuuuuuuut",priceList)
+      const priceList = await getPrice(isbn).then(response => {
+        console.log(response);
+        return response;
+      })
+      console.log("zzz", priceList);
       return priceList;
-      
-      return new Promise(async (resolve, reject) => {
-        const priceList = await getPrice(isbn);
-        resolve(priceList);
-      });      */
-      /*return {
-        amazon: {bookName: "tttttttt",
-          bookPrice: "ddddd",
-          priceEbook: ""},
-        indigo: {bookName: "tttttttt",
-        bookPrice: "ddddd",
-        priceEbook: ""}
-      }*/
-      return await getPrice(isbn);
     }
   },
 

@@ -1,8 +1,8 @@
 const axios = require('axios');
 const cheerio = require("cheerio");
 
-module.exports = {
-  getPrice:async function(isbn) {
+const getPrice = async function(isbn) {
+  return new Promise(async (resolve, reject) => {
     //Get config for Indigo
     const config = {
       method: 'GET',
@@ -19,11 +19,26 @@ module.exports = {
       .then(data => {
         //load html
         const $ = cheerio.load(data);
+        let eBookPrice = "";
+        let bookPrice = "";
+        let hardCoverPrice = "";
+        let paperBack = "";
         //Get book name
         let bookName = $('.product-details__description-container .product-description-container h1').attr('title');
         //book price without discount
-        let bookPrice = $('.product-details__purchase-info-container .item-price__normal').text();
-        let priceOriginal = "";
+        /*let bookPrice = $('.product-details__purchase-info-container .item-price__normal').text().split("$")[1];
+        let priceOriginal = "";*/
+
+        try {
+          eBookPrice = $('div:contains("Kobo ebook")').closest('.item-purchase-container__price-and-format').find('.item-price__normal').text().split("$")[1].trim();
+        } catch(err) {
+          try {
+            eBookPrice = $('div:contains("Kobo ebook")').closest('.item-purchase-container__price-and-format').find('.item-price__container span').text().split("$")[1].trim();
+          }
+          catch {
+            eBookPrice = "Not Available";
+          }
+        }
         
         //If book has discount
         if (bookPrice === "") {
@@ -42,6 +57,13 @@ module.exports = {
           bookName: bookName,
           bookPrice: bookPrice,
           priceEbook: ""
+        }
+      })
+      .catch(err => {
+        return {
+          bookName: "Not Available",
+          bookPrice: "Not Available",
+          priceEbook: "Not Available"
         }
       });
 
@@ -104,19 +126,29 @@ module.exports = {
           bookPrice: bookPrice,
           priceEbook: kindlePrice
         }
-      });
-    
-    const allPromise = Promise.all([amazonPrice, indigoPrice])
-      .then (async (promises) => {
-        console.log("zzzzz", {
-          amazon: amazonPrice,
-          indigo: indigoPrice.Promise
-        })
+      })
+      .catch(err => {
         return {
-          amazon: amazonPrice,
-          indigo: indigoPrice
+          bookName: "Not Available",
+          bookPrice: "Not Available",
+          priceEbook: "Not Available"
         }
       });
-  }
-  
+    
+    Promise.all([amazonPrice, indigoPrice])
+      .then (async (promises) => {
+        //console.log(promises)
+        console.log("zzzzz", {
+          amazon: promises[0],
+          indigo: promises[1]
+        });
+
+        resolve ({
+          amazon: promises[0],
+          indigo: promises[1]
+        });
+      });
+  })
 }
+
+module.exports = {getPrice};
