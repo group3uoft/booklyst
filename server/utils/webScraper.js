@@ -30,18 +30,45 @@ const getPrice = async function(isbn) {
         let priceOriginal = "";*/
 
         try {
-          eBookPrice = $('div:contains("Kobo ebook")').closest('.item-purchase-container__price-and-format').find('.item-price__normal').text().split("$")[1].trim();
+          //book price without discount
+          eBookPrice = $('.item-purchase__container div:contains("Kobo ebook")').closest('.item-purchase-container__price-and-format').find('.item-price__normal').text().split("$")[1].trim();
         } catch(err) {
+          //If book has discount
           try {
-            eBookPrice = $('div:contains("Kobo ebook")').closest('.item-purchase-container__price-and-format').find('.item-price__container span').text().split("$")[1].trim();
+            eBookPrice = $('.item-purchase__container div:contains("Kobo ebook")').closest('.item-purchase-container__price-and-format').find('.item-price__container span').text().split("$")[1].trim();
           }
           catch {
             eBookPrice = "Not Available";
           }
         }
         
+        try {
+          paperBack = $('.item-purchase__container div:contains("Paperback")').closest('span').find('.format-button__price').text().split("$")[1].trim();
+        } 
+        catch(err) {
+          paperBack = "Not Available";
+
+        }
+
+        try {
+          hardCoverPrice = $('.item-purchase__container div:contains("Hardcover")').closest('span').find('.format-button__price').text().split("$")[1].trim();
+        } 
+        catch(err) {
+          hardCoverPrice = "Not Available";
+
+        }
+
+        if (hardCoverPrice === "Not Available" && paperBack === "Not Available") {
+          bookPrice = "Not Available"
+        } else {
+          if (hardCoverPrice > paperBack) {
+            bookPrice = paperBack;
+          } else {
+            bookPrice = hardCoverPrice;
+          }
+        }
         //If book has discount
-        if (bookPrice === "") {
+        /*if (bookPrice === "") {
           //book price with discount
           try {
             bookPrice = $('.product-details__purchase-info-container .item-price__container span').text().split("$")[1].trim();
@@ -50,13 +77,13 @@ const getPrice = async function(isbn) {
           catch {
             bookPrice = "Not Available";
           }
-        }
-        console.log("Axios", bookName, bookPrice, priceOriginal)
+        }*/
+        //console.log("Axios", bookName, "E", eBookPrice, "Paper", paperBack, "Hard", hardCoverPrice, "final", bookPrice)
         //indigoPrice = 
         return {
           bookName: bookName,
           bookPrice: bookPrice,
-          priceEbook: ""
+          priceEbook: eBookPrice
         }
       })
       .catch(err => {
@@ -119,7 +146,7 @@ const getPrice = async function(isbn) {
             bookPrice = hardCoverPrice;
           }
         }
-        console.log("Axios Amazon", bookName, "Kindke", kindlePrice, "hard", hardCoverPrice, "paper",paperBack,"final", bookPrice)
+        //console.log("Axios Amazon", bookName, "Kindke", kindlePrice, "hard", hardCoverPrice, "paper",paperBack,"final", bookPrice)
         //amazonPrice = 
         return {
           bookName: bookName,
@@ -137,12 +164,6 @@ const getPrice = async function(isbn) {
     
     Promise.all([amazonPrice, indigoPrice])
       .then (async (promises) => {
-        //console.log(promises)
-        console.log("zzzzz", {
-          amazon: promises[0],
-          indigo: promises[1]
-        });
-
         resolve ({
           amazon: promises[0],
           indigo: promises[1]
