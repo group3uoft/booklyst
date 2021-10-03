@@ -71,11 +71,23 @@ const typeDefs = gql`
     session: String
   }
 
+  type PriceList {
+    amazon: PriceData
+    indigo: PriceData
+  }
+
+  type PriceData {
+    bookName: String
+    bookPrice: String
+    priceEbook: String
+  }
+
   type Query {
     users: [User]
     user(username: String): User
     getMe: User
     checkout(donate: Float!): Checkout
+    getPriceList(isbn: String!): PriceList
   }
 
   type Mutation {

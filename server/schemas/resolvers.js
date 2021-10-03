@@ -2,6 +2,7 @@ const { User } = require('../models');
 const { AuthenticationError } = require('apollo-server-express');
 const { signInToken } = require('../utils/auth');
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+const {getPrice} = require('../utils/webScraper');
 
 const resolvers = {
   Query: {
@@ -50,6 +51,26 @@ const resolvers = {
       });
       
       return { session: session.id };
+    },
+
+    getPriceList: async (parent, { isbn }) => {
+      /*let priceList = await getPrice(isbn)
+      console.log("ouuuuuuuuuuut",priceList)
+      return priceList;
+      
+      return new Promise(async (resolve, reject) => {
+        const priceList = await getPrice(isbn);
+        resolve(priceList);
+      });      */
+      /*return {
+        amazon: {bookName: "tttttttt",
+          bookPrice: "ddddd",
+          priceEbook: ""},
+        indigo: {bookName: "tttttttt",
+        bookPrice: "ddddd",
+        priceEbook: ""}
+      }*/
+      return await getPrice(isbn);
     }
   },
 
