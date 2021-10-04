@@ -81,21 +81,7 @@ export default function Dashboard() {
     if(quickNote) {
       saveQuickNote(quickNote);
     }
-  }, [quickNote])
-
-  // useEffect(() => {
-  //   const books = booksToRender.filter(book => book.bookId !== deletedSavedBook);
-  //   console.log('books', books);
-  //   setBooksToRender(books);
-  //   setDeletedSavedBook('');
-  // }, [deletedSavedBook]);
-
-  // useEffect(() => {
-  //   const books = booksToRender.filter(book => book.bookId !== deletedReadBook);
-  //   console.log('books', books);
-  //   setBooksToRender(books);
-  //   setDeletedReadBook('');
-  // }, [deletedReadBook]);
+  }, [quickNote]);
 
   const buttonHandle = async (e) => {
     switch (e.target.textContent) {

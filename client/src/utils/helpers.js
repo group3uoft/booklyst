@@ -192,7 +192,6 @@ export const fetchCurrentBook = async (bookId) => {
     }
 
     const book = await gResponse.json();
-    console.log('book', book);
 
       let isbn13 = '';
       let isbn10 = '';
@@ -296,14 +295,17 @@ export const favouriteCategories = (fav, read) => {
 export const mobileMenuToggle = () => {
   const navContainer = document.querySelector('.navbar');
   const navIcon = document.querySelector('#mobile-nav-icon');
+  const logoContainer = document.querySelector('.login-container');
 
   if(navContainer.className.includes('nav-hide')) {
     navContainer.classList.add('nav-show');
     navIcon.classList.add('nav-open');
     navContainer.classList.remove('nav-hide');
+    logoContainer.classList.remove('d-none');
   } else {
     navIcon.classList.remove('nav-open');
     navContainer.classList.remove('nav-show');
     navContainer.classList.add('nav-hide');
+    logoContainer.classList.add('d-none');
   }
 }

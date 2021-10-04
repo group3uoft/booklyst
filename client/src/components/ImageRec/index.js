@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import imageUploadFunc from '../../utils/imageUpload';
 import ImageUploading from 'react-images-uploading';
 
 export default function ImageRec({setImages, images}) {

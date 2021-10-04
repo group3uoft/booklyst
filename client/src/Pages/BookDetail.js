@@ -186,7 +186,7 @@ export default function BookDetail({bookId}) {
   return (
     <>
       <div className="container detail-pg" key={bookId}>
-        <div className="ms-5 mt-5 mb-3">
+        <div className="ms-3 ms-lg-5 mt-5 mb-3">
           <button className="btn btn-theme" onClick={goBack}><i className="fas fa-arrow-circle-left"></i> Go Back</button>
         </div>
         <div className="detail-container d-flex justify-content-around pb-5">

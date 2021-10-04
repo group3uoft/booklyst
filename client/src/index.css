@@ -388,6 +388,30 @@ form {
   margin: auto;
 }
 
+/* Image Capyure */
+.img-cap-container {
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  right: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.img-cap-container video {
+  width: 90%;
+  margin-left: 5%;
+}
+
+.img-cap-container div {
+  width: 100%;
+}
+
 @media only screen and (max-width: 1200px) {
   /* .image-container img {
     max-width: 300px;

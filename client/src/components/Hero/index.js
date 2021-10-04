@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import bgImg from '../../assets/images/hero-bg.jpg'
 import { deepSearchHandle } from "../../utils/helpers";
 import { Alert } from 'react-bootstrap';
@@ -7,6 +7,7 @@ import Auth from '../../utils/auth';
 import { useMutation } from '@apollo/client';
 import { ADD_SEARCH_HISTORY } from "../../utils/mutations";
 import ImageRec from "../ImageRec";
+import CaptureImage from '../CaptureImage'
 import axios from 'axios';
 
 
@@ -29,7 +30,11 @@ export default function Hero({
   const [ addSearchHistory ] = useMutation(ADD_SEARCH_HISTORY);
 
   const [images, setImages] = useState([]);
+  const [imgSrc, setImgSrc] = useState(null);
+  
   const [imageResult, setImageResult] = useState('');
+
+  const videoEl = useRef(null);
 
   const fetchFunc = async (dataUri) => {
      const data = { 
@@ -66,6 +71,12 @@ export default function Hero({
       fetchFunc(images[images.length-1].data_url);
     }
   }, [images]);
+
+  useEffect(() => {
+    if(imgSrc) {
+      fetchFunc(imgSrc);
+    }
+  }, [imgSrc])
 
   useEffect(() => {
     setVoiceSearch(transcript);
@@ -157,6 +168,9 @@ export default function Hero({
           <ImageRec 
             setImages={setImages}
             images={images} />
+          <div>
+            <CaptureImage setImgSrc={setImgSrc} />
+          </div>
           </div>
         </form>
         <div className="m-1">
