@@ -6,9 +6,7 @@ export default function ImageRec({setImages, images}) {
   const maxNumber = 50;
 
   const onChange = ( imageList, addUpdateIndex) => {
-    console.log('onchange ran');
     // data for submit
-    console.log('imagelist', imageList, addUpdateIndex);
     setImages(imageList);
   };
 

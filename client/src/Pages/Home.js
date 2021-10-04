@@ -23,7 +23,6 @@ export default function Home() {
 
   useEffect(() => {
     if(!searchedBooks || searchedBooks.length > 0) {
-      console.log('test', searchedBooks);
       dispatch({
         type: ALL_BOOKS,
         allbooks: searchedBooks

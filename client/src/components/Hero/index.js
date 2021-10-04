@@ -54,7 +54,6 @@ export default function Hero({
       .then((r) => {
         let result = r.data.responses[0].fullTextAnnotation.text.replace(/(\r\n|\n|\r)/gm, " ");
         const shortenedWord = result.match(/(\b[A-Z][A-Z]+|\b[A-Z]\b)/g).slice(0, 10).join(' ');
-        console.log(shortenedWord);
         setImageResult(shortenedWord);
         // for (let i = 1; i < array.length; i++){
         //   if(array[i].description.includes('-')){
