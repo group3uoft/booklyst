@@ -23,5 +23,6 @@
   "homepage": "https://github.com/group3uoft/final-project#readme",
   "devDependencies": {
     "concurrently": "^6.2.1"
-  }
+  },
+  "dependencies": {}
 }

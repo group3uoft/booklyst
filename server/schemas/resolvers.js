@@ -2,6 +2,7 @@ const { User } = require('../models');
 const { AuthenticationError } = require('apollo-server-express');
 const { signInToken } = require('../utils/auth');
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+const {getPrice} = require('../utils/webScraper');
 
 const resolvers = {
   Query: {
@@ -50,6 +51,15 @@ const resolvers = {
       });
       
       return { session: session.id };
+    },
+
+    getPriceList: async (parent, { isbn }) => {
+      const priceList = await getPrice(isbn).then(response => {
+        //console.log(response);
+        return response;
+      })
+      console.log("Output", priceList);
+      return priceList;
     }
   },
 
