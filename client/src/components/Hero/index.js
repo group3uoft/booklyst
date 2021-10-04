@@ -6,6 +6,8 @@ import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognitio
 import Auth from '../../utils/auth';
 import { useMutation } from '@apollo/client';
 import { ADD_SEARCH_HISTORY } from "../../utils/mutations";
+import ImageRec from "../ImageRec";
+import axios from 'axios';
 
 
 export default function Hero({
@@ -26,13 +28,67 @@ export default function Hero({
   const [showAlert, setShowAlert] = useState(false);
   const [ addSearchHistory ] = useMutation(ADD_SEARCH_HISTORY);
 
-  // function onChangeHandler() {
-  //   setVoiceSearch("");
-  // }
+  const [images, setImages] = useState([]);
+  const [imageResult, setImageResult] = useState('');
+
+  const fetchFunc = async (dataUri) => {
+     const data = { 
+        requests: [
+          {
+            image: {
+                content: dataUri.slice(23),
+            },
+            features: [{
+              type: "TEXT_DETECTION",
+              maxResults: 5
+            }]
+          }
+    ]}
+
+    await axios({
+        method: 'post',
+        url: `https://vision.googleapis.com/v1/images:annotate?key=${process.env.REACT_APP_GOOGLE_API_KEY}`,
+        data,
+        config: { headers: {'Content-Type': 'multipart/form-data' }}
+      })
+      .then((r) => {
+        let result = r.data.responses[0].fullTextAnnotation.text.replace(/(\r\n|\n|\r)/gm, " ");
+        const shortenedWord = result.match(/(\b[A-Z][A-Z]+|\b[A-Z]\b)/g).slice(0, 10).join(' ');
+        console.log(shortenedWord);
+        setImageResult(shortenedWord);
+        // for (let i = 1; i < array.length; i++){
+        //   if(array[i].description.includes('-')){
+        //     console.log(array[i].description);
+        //     return this.props.cameraOffAndSetInput(array[i].description);
+        //   }
+        // }
+      })
+    .catch((error) => {
+        console.log(error);
+    })
+  }
+
+    useEffect(() => {
+    if(images.length > 0 && images[images.length-1].data_url) {
+      fetchFunc(images[images.length-1].data_url);
+    }
+  }, [images]);
 
   useEffect(() => {
     setVoiceSearch(transcript);
-  }, [listening])
+  }, [listening]);
+
+  useEffect(() => {
+    if(imageResult) {
+      async function fetchData() {
+        const data = await deepSearchHandle(imageResult);
+        await setSearchedBooks(data);
+        setTitle(`Search Results...`);
+      }
+
+      fetchData();
+    }
+  }, [imageResult]);
 
   useEffect(() => {
       if(voiceSearch) {
@@ -66,8 +122,12 @@ export default function Hero({
     if(query) {
       setSearchInput(query);
       const data = await deepSearchHandle(query);
-      await setSearchedBooks(data);
-      setSearchHistory(query);
+      if(data) {
+        await setSearchedBooks(data);
+        setSearchHistory(query);
+      } else {
+        setShowAlert(true);
+      }
     } else {
       setShowAlert(true);
     }
@@ -97,24 +157,26 @@ export default function Hero({
             />
           </div>
           <button className="btn btn-theme mx-2">Search</button>
+          <div className="d-flex">
           <span className={`btn sp-btn w-100 border-input ${listening ? 'btn-orange' : 'btn-light'}`}
             onClick={SpeechRecognition.startListening}
             ><i className={`fas fa-microphone-alt ${listening ? 'fs-25' : 'fs-1rem'}`}></i></span>
+          <ImageRec 
+            setImages={setImages}
+            images={images} />
+          </div>
         </form>
         <div className="m-1">
           {transcript && <p className="mb-0 transcript mx-auto">Searching for &nbsp;
           <span className="fw-bold">{transcript}</span></p>}
+          {imageResult && <p className="mb-0 transcript mx-auto">Searching for &nbsp;
+          <span className="fw-bold">{imageResult}</span></p>}
         </div>
         <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger' 
           className="alert-button my-2 mx-3 mx-lg-0">
               Please enter a valid search!
           </Alert>
         <div className="d-flex">
-
-          {/* <ImageUpload 
-            setImageLoading={setImageLoading}
-          /> */}
-          {/* <span className="btn btn-light sp-btn w-100 border-input"><i className="fas fa-microphone-alt"></i></span> */}
         </div>
       </div>
     </div>

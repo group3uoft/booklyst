@@ -15,7 +15,7 @@ export const deepSearchHandle = async (query, type) => {
 
     const gBookData = await gResponse.json();
 
-    console.log('datacheck',gBookData);
+    if(gBookData.totalItems > 0) {
 
     const gBooks = gBookData.items.map((book) => {
       let isbn13 = '';
@@ -50,6 +50,7 @@ export const deepSearchHandle = async (query, type) => {
     });
 
     return gBooks;
+    }
   } catch (e) {
     console.error(e);
   }

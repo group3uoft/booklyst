@@ -22,7 +22,8 @@ export default function Home() {
   // const [ deletedBook, setDeletedBook ] = useState('');
 
   useEffect(() => {
-    if(!searchedBooks) {
+    if(!searchedBooks || searchedBooks.length > 0) {
+      console.log('test', searchedBooks);
       dispatch({
         type: ALL_BOOKS,
         allbooks: searchedBooks
@@ -34,7 +35,7 @@ export default function Home() {
       });
     }
     
-  }, [searchedBooks, dispatch]);
+  }, [searchedBooks]);
 
   useEffect(() => {
     if(searchInput !== 'best seller') {

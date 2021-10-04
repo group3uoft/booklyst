@@ -174,7 +174,7 @@ export default function FavSaveButtons(
           <button 
           onClick={() => removeRead(gbookId)}
           className="btn save-later w-full mb-2 mx-1 max-240 text-start px-4">
-          <i className="fas fa-times"></i>
+          <i className="fas fa-book-open"></i>
           </button>
           <span className="overlay-text">Remove read</span>
         </div> :
@@ -186,7 +186,7 @@ export default function FavSaveButtons(
           <button 
           onClick={() => handleSaveRead(gbookId)}
           className="btn save-later w-full mb-2 mx-1 max-240 text-start px-4">
-          <i className="fas fa-check"></i>
+          <i className="fas fa-book"></i>
           </button>
           <span className="overlay-text">Add to read</span>
         </div>
