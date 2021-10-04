@@ -56,3 +56,20 @@ export const QUERY_CHECKOUT = gql`
     }
   }
 `;
+
+export const QUERY_PRICE_LIST = gql`
+  query getPriceList($isbn: String!) {
+  getPriceList(isbn: $isbn) {
+    amazon {
+      bookName
+      bookPrice
+      priceEbook
+    }
+    indigo {
+      bookName
+      bookPrice
+      priceEbook
+    }
+  }
+} 
+`;

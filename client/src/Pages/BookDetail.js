@@ -8,10 +8,19 @@ import { fetchRelatedBooks, fetchCurrentBook, deepSearchCategories } from '../ut
 import BooksCarousel from "../components/BooksCarousel";
 import FavSaveButtons from "../components/FavSaveButtons";
 import ReactHtmlParser from 'react-html-parser';
+import { QUERY_PRICE_LIST } from "../utils/queries";
+import { useLazyQuery } from '@apollo/client';
+import amazonIcon from '../assets/images/amazon_icon.png';
+import indigoIcon from '../assets/images/indigo_logo.png';
+import googlePlayIcon from '../assets/images/google_play_icon.png';
+import openLibIcon from '../assets/images/op_icon.png';
 
 import { useSelector, useDispatch } from "react-redux";
 
 export default function BookDetail({bookId}) {
+  const [getPriceList, { data }] = useLazyQuery(QUERY_PRICE_LIST);
+  const [priceList, setPriceList] = useState({});
+
 
   // Go back to previous page
   const history = useHistory();
@@ -29,7 +38,39 @@ export default function BookDetail({bookId}) {
   const [currentBook, setCurrentBook] = useState({});
   const [relatedBooks, setRelatedBooks] = useState([]);
   const [allBooks, setAllbooks] = useState([currentBook, ...relatedBooks]);
-  const [openLibraryState] = useState(true);
+  const [openLibraryState, setOpenLibraryState] = useState(false);
+
+  useEffect(() => {
+    if (data) {
+      let amazonBookPrice = data.getPriceList?.amazon.bookPrice || '';
+      let amazonEBookPrice = data.getPriceList?.amazon.priceEbook || '';
+      let indigoBookPrice = data.getPriceList?.indigo.bookPrice || '';
+      let indigoEBookPrice = data.getPriceList?.indigo.priceEbook || '';
+
+      if(amazonBookPrice === 'Not Available') {
+        amazonBookPrice = '';
+      }
+
+      if(amazonEBookPrice === 'Not Available') {
+        amazonEBookPrice = '';
+      }
+
+      if(indigoBookPrice === 'Not Available') {
+        indigoBookPrice = '';
+      }
+
+      if(indigoEBookPrice === 'Not Available') {
+        indigoEBookPrice = '';
+      }
+
+      setPriceList({
+        amazonBookPrice,
+        amazonEBookPrice,
+        indigoBookPrice,
+        indigoEBookPrice
+      });
+    }
+  }, [data]);
 
   useEffect(() => {
 
@@ -50,7 +91,7 @@ export default function BookDetail({bookId}) {
           });
         } else {
           if(state.allbooks) {
-            cBook = state.allbooks.find(book => book.bookId === id);
+            cBook = state.allbooks.find(book => book?.bookId === id);
           if(cBook) {
             setCurrentBook(cBook);
             dispatch({
@@ -89,24 +130,33 @@ export default function BookDetail({bookId}) {
             type: ALL_BOOKS,
             allbooks: relatedBooks
           });
+        
+      }
+    }
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+      if(currentBook && Object.keys(currentBook).length !== 0) {
+        getPriceList({
+        variables: { isbn: currentBook.isbn13 }
+      });
+      }
+
+      
+      async function fetchBookStatus() {
+        if(currentBook && currentBook.isbn13) {
+          const response = await fetch(`https://openlibrary.org/isbn/${currentBook.isbn13}.json`);
+          if(response.ok) {
+            setOpenLibraryState(true);
+          } else {
+            setOpenLibraryState(false);
+          }     
         }
       }
 
-      //   if(currentBook) {
-      //     const response = await fetch(`https://openlibrary.org/isbn/${cBook.isbn13}`, {
-      //       mode: 'no-cors'
-      //     });
-      //     if(!response.ok) {
-      //       setOpenLibraryState(false);
-      //     } else {
-      //       setOpenLibraryState(true);
-      //     }
-          
-      //   }
-      // }
-      
-        fetchData();
-    }, []);
+      fetchBookStatus();
+    }, [currentBook]);
 
     useEffect(() => {
       if(currentBook && relatedBooks.length > 1) {
@@ -114,6 +164,7 @@ export default function BookDetail({bookId}) {
       } else if (currentBook && relatedBooks.length === 0 ) {
         setAllbooks([currentBook]);
       }
+
     }, [currentBook, relatedBooks])
 
 
@@ -132,11 +183,9 @@ export default function BookDetail({bookId}) {
     )
   }
 
-  console.log(currentBook);
-
   return (
     <>
-      <div className="container" key={bookId}>
+      <div className="container detail-pg" key={bookId}>
         <div className="ms-5 mt-5 mb-3">
           <button className="btn btn-theme" onClick={goBack}><i className="fas fa-arrow-circle-left"></i> Go Back</button>
         </div>
@@ -155,32 +204,101 @@ export default function BookDetail({bookId}) {
             {currentBook.categories && <p className="mb-1 book-cat"><span></span> Categories: <span className="fw-bold">{currentBook.categories}</span></p>}
             {currentBook.publisher && <p className="mb-1"><span></span> Pushlisher: <span className="fw-bold">{currentBook.publisher}</span></p>}
             {currentBook.publishedDate && <p className="mb-1"><span></span> Pushlished Date: <span className="fw-bold">{currentBook.publishedDate}</span></p>}
-            {currentBook.googleListPrice &&
-              <p className="mb-1 fs-3"> Price: <span className="fw-bold">{currentBook.googleListPrice}</span></p>}
-            <div className="buttons-container d-flex flex-wrap">
-              {/* <a href={`https://www.amazon.com/s?i=stripbooks&rh=p_66%3A${currentBook.isbn13}&s=relevanceexprank&Adv-Srch-Books-Submit.x=34&Adv-Srch-Books-Submit.y=9&unfiltered=1&ref=sr_adv_b`} */}
-                <a href={`https://www.amazon.ca/s?k=${`${currentBook.title} by ${currentBook.authors[0]}`   }&i=stripbooks&linkCode=qs`}
-                target="_blank"
-                rel="noreferrer"
-                className="btn amazon-btn m-1">
-                <span className="me-2"><i className="fas fa-shopping-cart"></i></span> Amazon</a>
-              <a href={`https://www.chapters.indigo.ca/en-ca/books/name/${currentBook.isbn13}-item.html`}
+            <div className="buttons-container buy-buttons d-flex flex-wrap my-3">
+              {/* Amazon Pricing */}
+                { priceList && (priceList.amazonBookPrice || priceList.amazonEBookPrice) ?
+                  <div className="sale-btn-cont my-1">
+                  <a href={`https://www.amazon.ca/s?k=${`${currentBook.title} by ${currentBook.authors[0]}` }&i=stripbooks&linkCode=qs`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="py-2 px-3 amazon-btn">
+                  <img className="reatil-img-icon" src={amazonIcon} alt="" />
+                  </a>
+                  <a 
+                    href={`https://www.amazon.ca/s?i=stripbooks&rh=p_66%3A${currentBook.isbn13}&s=relevanceexprank&Adv-Srch-Books-Submit.x=34&Adv-Srch-Books-Submit.y=9&unfiltered=1&ref=sr_adv_b`}
+                    target="_blank"
+                    rel="noreferrer">
+                  {priceList && priceList.amazonBookPrice && 
+                      <span className="reg-book-price px-2">
+                      Paperback 
+                      <span className="list-price ms-1 fs-4">
+                      ${priceList.amazonBookPrice }
+                      </span>
+                    </span>
+                    }
+                    {priceList && priceList.amazonEBookPrice && 
+                      <span className="reg-book-brice px-2 bl-1">
+                      Kindle
+                      <span className="list-price ms-1 fs-4">
+                      ${priceList.amazonEBookPrice }
+                      </span>             
+                    </span>}
+                  </a>
+                </div>
+                : ''}
+                {/* Indigo pricing */}
+                { priceList && (priceList.indigoBookPrice || priceList.indigoEBookPrice) ?
+                    <div className="sale-btn-cont my-1">
+                      <a href={`https://www.chapters.indigo.ca/en-ca/books/name/${currentBook.isbn13}-item.html`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="py-2 px-3 indigo-btn">
+                      <img className="reatil-img-icon" src={indigoIcon} alt="" />
+                      </a>
+                      <a href={`https://www.chapters.indigo.ca/en-ca/books/name/${currentBook.isbn13}-item.html`}
+                        target="_blank"
+                        rel="noreferrer">
+                      {priceList && priceList.indigoBookPrice && 
+                          <span className="reg-book-price px-2">
+                          Paperback 
+                          <span className="list-price ms-1 fs-4">
+                          ${priceList.indigoBookPrice }
+                          </span>
+                        </span>}
+                        {priceList && priceList.indigoEBookPrice && 
+                          <span className="reg-book-price px-2 bl-1">
+                          E-book
+                          <span className="list-price ms-1 fs-4">
+                          ${priceList.indigoEBookPrice}
+                          </span>             
+                        </span>}
+                      </a>
+                    </div> : ''}
+              {/* Google play books */}
+              { currentBook.googlePlayBooks && currentBook.googleListPrice &&
+                    <div className="sale-btn-cont my-1">
+                      <a href={currentBook.googlePlayBooks}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="py-2 px-3 googlePlay-btn">
+                      <img className="reatil-img-icon" src={googlePlayIcon} alt="" />
+                      </a>
+                      <a href={currentBook.googlePlayBooks}>
+                      {currentBook && currentBook.googlePlayBooks && 
+                          <span className="reg-book-price px-2">
+                          E-book 
+                          <span className="list-price ms-1 fs-4">
+                          ${currentBook.googleListPrice }
+                          </span>
+                        </span>}
+                      </a>
+                    </div> }
+                {openLibraryState && 
+                <div className="sale-btn-cont my-1">
+                <a href={`https://openlibrary.org/isbn/${currentBook.isbn13}`}
                 target="_blank" 
                 rel="noreferrer" 
-                className="btn indigo-btn m-1">
-                <span className="me-2"><i className="fas fa-shopping-cart"></i></span> Indigo</a>
-              {currentBook.googlePlayBooks && 
-              <a href={currentBook.googlePlayBooks}
-              target="_blank" 
-              rel="noreferrer" 
-              className="btn google-play m-1">
-              <span className="me-2"><i className="fas fa-shopping-cart"></i></span> Google Play</a>}
-              {openLibraryState && 
-              <a href={`https://openlibrary.org/isbn/${currentBook.isbn13}`}
-              target="_blank" 
-              rel="noreferrer" 
-              className="btn open-library m-1">
-              <span className="me-2"><i className="fas fa-book-open"></i></span> Open Library</a>}
+                className="py-2 px-3 open-library">
+                <img className="reatil-img-icon" src={openLibIcon} alt="" /></a>
+                <a href={`https://openlibrary.org/isbn/${currentBook.isbn13}`}
+                  target="_blank"
+                  rel="noreferrer">
+                  <span className="reg-book-price px-2">
+                  Read for FREE!
+                  </span>
+                </a>
+                </div>
+                }
             </div>
             <div className="my-2 details-fav-buttons">
               <FavSaveButtons 

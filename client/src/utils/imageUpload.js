@@ -6,7 +6,5 @@ export default function imageUploadFunc() {
       }
 
       img.src = URL.createObjectURL(this.files[0]); // set src to blob url
-
-      console.log(img.src);
   }
 };

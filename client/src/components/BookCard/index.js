@@ -24,7 +24,7 @@ export default function BookCard(
         <Link to={`/books/${book.bookId}`}>
         <div 
           className="card-img-top d-flex justify-content-center align-items-center"
-          style={{minHeight: '193px'}}>
+          style={{minHeight: '208px'}}>
           <img 
           className="card-image" 
           src={book.image ? book.image : `https://picsum.photos/128/193`} 

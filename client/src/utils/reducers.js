@@ -9,10 +9,6 @@ import {
 export const reducer = (state, action) => {
   switch (action.type) {
     case ALL_BOOKS:
-      // const booksToSave = action.allbooks.map(book => {
-      //   console.log([...state.allbooks]);
-      //   console.log(state.allbooks.find(stateBook => stateBook.bookId !== book.bookId));
-      // });
       return {
         ...state,
         allbooks: [...state.allbooks, ...action.allbooks]

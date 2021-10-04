@@ -22,11 +22,11 @@ export const deepSearchHandle = async (query, type) => {
       let isbn10 = '';
       if(book.volumeInfo.industryIdentifiers) {
         if(book.volumeInfo.industryIdentifiers[0]) {
-          isbn13 = book.volumeInfo.industryIdentifiers[0].identifier;
+          isbn10 = book.volumeInfo.industryIdentifiers[0].identifier;
         }
 
         if(book.volumeInfo.industryIdentifiers[1]) {
-          isbn10 = book.volumeInfo.industryIdentifiers[1].identifier;
+          isbn13 = book.volumeInfo.industryIdentifiers[1].identifier;
         }
       }
 
@@ -85,11 +85,11 @@ export const fetchRelatedBooks = async (category, authors) => {
         let isbn10 = '';
         if(book.volumeInfo.industryIdentifiers) {
           if(book.volumeInfo.industryIdentifiers[0]) {
-            isbn13 = book.volumeInfo.industryIdentifiers[0].identifier;
+            isbn10 = book.volumeInfo.industryIdentifiers[0].identifier;
           }
   
           if(book.volumeInfo.industryIdentifiers[1]) {
-            isbn10 = book.volumeInfo.industryIdentifiers[1].identifier;
+            isbn13 = book.volumeInfo.industryIdentifiers[1].identifier;
           }
         }
   
@@ -142,11 +142,11 @@ export const deepSearchCategories = async (category) => {
         let isbn10 = '';
         if(book.volumeInfo.industryIdentifiers) {
           if(book.volumeInfo.industryIdentifiers[0]) {
-            isbn13 = book.volumeInfo.industryIdentifiers[0].identifier;
+            isbn10 = book.volumeInfo.industryIdentifiers[0].identifier;
           }
   
           if(book.volumeInfo.industryIdentifiers[1]) {
-            isbn10 = book.volumeInfo.industryIdentifiers[1].identifier;
+            isbn13 = book.volumeInfo.industryIdentifiers[1].identifier;
           }
         }
   
@@ -192,17 +192,25 @@ export const fetchCurrentBook = async (bookId) => {
     }
 
     const book = await gResponse.json();
+    console.log('book', book);
 
       let isbn13 = '';
       let isbn10 = '';
+      let imageLinkUrl = '';
       if(book.volumeInfo.industryIdentifiers) {
         if(book.volumeInfo.industryIdentifiers[0]) {
-          isbn13 = book.volumeInfo.industryIdentifiers[0].identifier;
+          isbn10 = book.volumeInfo.industryIdentifiers[0].identifier;
         }
 
         if(book.volumeInfo.industryIdentifiers[1]) {
-          isbn10 = book.volumeInfo.industryIdentifiers[1].identifier;
+          isbn13 = book.volumeInfo.industryIdentifiers[1].identifier;
         }
+      }
+
+      if(book.volumeInfo.imageLinks?.large) {
+        imageLinkUrl = book.volumeInfo.imageLinks.large;
+      } else if( book.volumeInfo.imageLinks?.thumbnail ){
+        imageLinkUrl = book.volumeInfo.imageLinks.thumbnail;
       }
 
       const gBookData =  {

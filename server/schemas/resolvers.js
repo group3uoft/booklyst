@@ -58,7 +58,6 @@ const resolvers = {
         //console.log(response);
         return response;
       })
-      console.log("Output", priceList);
       return priceList;
     }
   },

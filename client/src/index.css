@@ -185,44 +185,63 @@ nav a:hover {
 }
 
 .amazon-btn {
-  background: #FFA41C;
-  color: white;
+  border-right: 5px solid #FFA41C;
 }
 
+.sale-btn-cont {
+  display: flex;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  border-radius: 5px;
+  width: fit-content;
+}
+
+.sale-btn-cont:hover {
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+}
+
+
+.sale-btn-cont a{
+  font-family: var(--primary-font);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  min-width: 112px;
+}
+
+.sale-btn-cont a:hover {
+  color: var(--theme-dark-blue);
+
+}
+
+.bl-1 {
+  border-left: 1px solid rgba(0, 0, 0, 0.10);
+}
+
+.buy-buttons {
+  flex-direction: column;
+}
+
+
 .amazon-btn:hover {
-  background: var(--theme-orange);
+  /* background: var(--theme-orange); */
   color: white;
 }
 
 .indigo-btn {
-  background: #222222;
+  border-right: 5px solid #000000;
   color: white;
 }
 
-.google-play {
-  background: #039be5;
-  color: white;
-}
-
-.google-play:hover {
-  background: var(--theme-orange);
-  color: white;
-}
-
-.indigo-btn:hover {
-  background: var(--theme-orange);
-  color: white;
+.googlePlay-btn {
+  border-right: 5px solid #039be5;
 }
 
 .open-library {
-  background-color: #0376b8;
-  color: white;
+  border-right: 5px solid #014872;
 }
 
-.open-library:hover {
-  background-color: var(--theme-orange);
-  color: white;
-}
 
 .btn-container {
   display: flex;
@@ -331,11 +350,27 @@ form {
 }
 
 /* Deatil pages */
+.detail-pg {
+  min-height: 700px;
+}
 .info-container {
   width: 60%;
   box-shadow: var(--box-shadow);
   padding: 2rem;
   border-radius: 10px;
+}
+
+.image-container img {
+  max-width: 250px;
+  box-shadow: rgb(0 0 0 / 9%) 0px 2px 1px, rgb(0 0 0 / 9%) 0px 4px 2px, rgb(0 0 0 / 9%) 0px 8px 4px, rgb(0 0 0 / 9%) 0px 16px 8px, rgb(0 0 0 / 9%) 0px 32px 16px;
+}
+
+.card-img-top img {
+  box-shadow: rgb(0 0 0 / 9%) 0px 2px 1px, rgb(0 0 0 / 9%) 0px 4px 2px, rgb(0 0 0 / 9%) 0px 8px 4px, rgb(0 0 0 / 9%) 0px 16px 8px, rgb(0 0 0 / 9%) 0px 32px 16px;
+}
+
+.reatil-img-icon {
+  height: 25px;
 }
 
 /* Browse Page */
@@ -352,6 +387,14 @@ form {
   max-width: 768px;
   margin: auto;
 }
+
+@media only screen and (max-width: 1200px) {
+  /* .image-container img {
+    max-width: 300px;
+  } */
+}
+
+
 
 @media only screen and (max-width: 992px) {
   .navbar-nav {
@@ -377,6 +420,10 @@ form {
   .donation-card {
     width: 90%;
     margin-top: 2rem;
+  }
+
+  .image-container img {
+    max-width: 250px;
   }
 }
 
@@ -580,6 +627,7 @@ form {
   /* details container */
   .detail-container {
     flex-wrap: wrap;
+    
   }
 
   .image-container {
@@ -604,6 +652,14 @@ form {
   .slick-dots li {
     margin: 0;
   }
+
+  .bl-1 {
+    border-left: unset;
+  }
+
+  /* .image-container img {
+    max-width: 300px;
+  } */
 }
 
 

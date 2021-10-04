@@ -55,15 +55,9 @@ export default function Hero({
         let result = r.data.responses[0].fullTextAnnotation.text.replace(/(\r\n|\n|\r)/gm, " ");
         const shortenedWord = result.match(/(\b[A-Z][A-Z]+|\b[A-Z]\b)/g).slice(0, 10).join(' ');
         setImageResult(shortenedWord);
-        // for (let i = 1; i < array.length; i++){
-        //   if(array[i].description.includes('-')){
-        //     console.log(array[i].description);
-        //     return this.props.cameraOffAndSetInput(array[i].description);
-        //   }
-        // }
       })
-    .catch((error) => {
-        console.log(error);
+      .catch((error) => {
+        console.error(error);
     })
   }
 

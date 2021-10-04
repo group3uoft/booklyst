@@ -104,7 +104,6 @@ const getPrice = async function(isbn) {
         return res.data;
       })
       .then(data => {
-        //console.log(data)
         const $ = cheerio.load(data);
 
         let bookName = "";
