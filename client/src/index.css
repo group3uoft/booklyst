@@ -399,7 +399,7 @@ form {
   margin: auto;
 }
 
-/* Image Capyure */
+/* Image Capture */
 .img-cap-container {
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
@@ -418,6 +418,7 @@ form {
   width: 90%;
   margin-left: 5%;
   max-height: 90vh;
+  border-radius: 10px;
 }
 
 .img-cap-container div {
@@ -672,7 +673,7 @@ form {
   }
 
   .card-image {
-    padding-top: 1rem;
+    margin-top: 1rem;
   }
 
   /* body */
@@ -723,6 +724,10 @@ form {
 
   .bl-1 {
     border-left: unset;
+  }
+
+  .cancel-capture i {
+    top: 130px;
   }
 
   /* .image-container img {
