@@ -497,6 +497,8 @@ form {
     max-width: unset;
   }
 
+  
+
   header {
     display: flex;
     flex-wrap: wrap;
@@ -729,6 +731,8 @@ form {
   .cancel-capture i {
     top: 130px;
   }
+
+
 
   /* .image-container img {
     max-width: 300px;

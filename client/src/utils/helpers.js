@@ -301,11 +301,11 @@ export const mobileMenuToggle = () => {
     navContainer.classList.add('nav-show');
     navIcon.classList.add('nav-open');
     navContainer.classList.remove('nav-hide');
-    logoContainer.classList.remove('d-none');
+    logoContainer.classList.remove('d-sm-none');
   } else {
     navIcon.classList.remove('nav-open');
     navContainer.classList.remove('nav-show');
     navContainer.classList.add('nav-hide');
-    logoContainer.classList.add('d-none');
+    logoContainer.classList.add('d-sm-none');
   }
 }

@@ -21,7 +21,7 @@ export default function Nav() {
             </li>
           </ul>
         </div>
-        <div className="login-container">
+        <div className="login-container d-sm-none d-md-block">
 
           <Link to="/donate"
             className="btn btn-theme mx-2" onClick={mobileMenuToggle}>Donate
