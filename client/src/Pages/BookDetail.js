@@ -146,12 +146,17 @@ export default function BookDetail({bookId}) {
       
       async function fetchBookStatus() {
         if(currentBook && currentBook.isbn13) {
-          const response = await fetch(`https://openlibrary.org/isbn/${currentBook.isbn13}.json`);
-          if(response.ok) {
-            setOpenLibraryState(true);
-          } else {
-            setOpenLibraryState(false);
-          }     
+          try {
+            const response = await fetch(`https://openlibrary.org/isbn/${currentBook.isbn13}.json`);
+            if(response.status === 200) {
+              setOpenLibraryState(true);
+            } else {
+              setOpenLibraryState(false);
+            } 
+          } catch(e) {
+            console.error('Open library is not available for this book');
+          }
+            
         }
       }
 

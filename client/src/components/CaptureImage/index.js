@@ -4,7 +4,7 @@ import ImageCapture from "react-image-data-capture";
 
 export default function CaptureImage({setImgSrc}) {
   const [showImgCapture, setShowImgCapture] = useState(false);
-  const config = useMemo(() => ({ video: true }), []);
+  const config = useMemo(() => ({ video: { facingMode: "environment" } }), []);
   /*
     { video: true } - Default Camera View
     { video: { facingMode: environment } } - Back Camera
