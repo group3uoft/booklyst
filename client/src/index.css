@@ -699,7 +699,13 @@ form {
   }
 
   .info-container {
-    width: 90%;
+    width: 95%;
+    padding: 1rem;
+  }
+
+  .sale-btn-cont {
+    min-height: 64px;
+    min-width: 100%;
   }
 
   .buttons-container .btn {
