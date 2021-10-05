@@ -31,6 +31,10 @@ export default function CaptureImage({setImgSrc}) {
     setShowImgCapture(true);
   }
 
+  const handleBlur = () => {
+    setShowImgCapture(false);
+  };
+
   return (
     <>
       <div>
@@ -42,12 +46,17 @@ export default function CaptureImage({setImgSrc}) {
       </div>
       {showImgCapture &&
         <div className="img-cap-container">
+        <div className="cancel-capture"
+          onClick={handleBlur}>
+          <i className="fas fa-times"></i>
+        </div>
         <ImageCapture
           className="mx-auto"
           onCapture={onCapture}
           onError={onError}
           userMediaConfig={config}
         />
+        {/* edited the origin module div */}
       </div>}
     </>
   );

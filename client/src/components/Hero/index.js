@@ -34,8 +34,6 @@ export default function Hero({
   
   const [imageResult, setImageResult] = useState('');
 
-  const videoEl = useRef(null);
-
   const fetchFunc = async (dataUri) => {
      const data = { 
         requests: [
@@ -62,6 +60,7 @@ export default function Hero({
         setImageResult(shortenedWord);
       })
       .catch((error) => {
+        setShowAlert(true);
         console.error(error);
     })
   }
@@ -76,6 +75,7 @@ export default function Hero({
     if(imgSrc) {
       fetchFunc(imgSrc);
     }
+
   }, [imgSrc])
 
   useEffect(() => {
@@ -91,8 +91,20 @@ export default function Hero({
       }
 
       fetchData();
+      // clear the voice search
+      setVoiceSearch("");
+      setImages([]);
     }
   }, [imageResult]);
+
+  // set timer for alert
+  useEffect(() => {
+    if(showAlert) {
+      setTimeout(function() {
+        setShowAlert(false);
+      }, 3000);
+    }
+  }, [showAlert]);
 
   useEffect(() => {
       if(voiceSearch) {
@@ -102,7 +114,7 @@ export default function Hero({
           setSearchHistory(voiceSearch);
           setTitle(`Search Results for ${voiceSearch}`);
 
-          if(Auth.loggedIn) {
+          if(Auth.loggedIn()) {
             try {
               await addSearchHistory({
                 variables: {searchHistory: voiceSearch}
@@ -113,9 +125,9 @@ export default function Hero({
           }
         }
   
-        setVoiceSearch("");
-  
         fetchData();
+        // clear image result
+        setImageResult("");
       }
   }, [voiceSearch]);
 
@@ -135,6 +147,13 @@ export default function Hero({
     } else {
       setShowAlert(true);
     }
+
+    // clear image search
+    setImages([]);
+    // clear the voice search
+    setVoiceSearch("");
+    setImageResult("");
+    setImages([]);
   }
 
   useEffect(() => {
@@ -174,14 +193,13 @@ export default function Hero({
           </div>
         </form>
         <div className="m-1">
-          {transcript && <p className="mb-0 transcript mx-auto">Searching for &nbsp;
-          <span className="fw-bold">{transcript}</span></p>}
-          {imageResult && <p className="mb-0 transcript mx-auto">Searching for &nbsp;
-          <span className="fw-bold">{imageResult}</span></p>}
+          {voiceSearch || imageResult ? 
+          <p className="mb-0 transcript mx-auto">Searching for &nbsp;
+          <span className="fw-bold">{voiceSearch && voiceSearch} {imageResult && imageResult}</span></p> : ''}
         </div>
         <Alert dismissible onClose={() => setShowAlert(false)} show={showAlert} variant='danger' 
           className="alert-button my-2 mx-3 mx-lg-0">
-              Please enter a valid search!
+              Oops! Not able to generate any results.. Please try again!
           </Alert>
         <div className="d-flex">
         </div>
