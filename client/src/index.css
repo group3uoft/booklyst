@@ -256,7 +256,7 @@ nav a:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--theme-blue);
+  background: var(--theme-dark-blue);
   color: white;
   width: 50px;
   height: 50px;
@@ -287,7 +287,7 @@ nav a:hover {
 }
 
 .btn-container .save-later {
-  opacity: 100%;
+  opacity: 1;
   transition: all 0.3ms ease-in;
 }
 
