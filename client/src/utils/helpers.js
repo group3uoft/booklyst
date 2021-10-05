@@ -1,5 +1,23 @@
 import { searchGoogleBooks, searchCurrentBook, searchRealatedBooks, searchByCategories } from "./API";
 
+// checking isbn to make sure the correct isbn
+function checkIsbn(isbnList) {
+  const isbnObj = {
+    isbn10 : '',
+    isbn13 : ''
+  }
+
+  isbnList.forEach(isbn => {
+    if(isbn.type === 'ISBN_10') {
+      isbnObj.isbn10 = isbn.identifier;
+    } else if(isbn.type === 'ISBN_13') {
+      isbnObj.isbn13 = isbn.identifier;
+    }
+  });
+
+  return isbnObj;
+}
+
 // Search handle function
 export const deepSearchHandle = async (query, type) => {
   if(!query) {
@@ -18,16 +36,11 @@ export const deepSearchHandle = async (query, type) => {
     if(gBookData.totalItems > 0) {
 
     const gBooks = gBookData.items.map((book) => {
-      let isbn13 = '';
-      let isbn10 = '';
-      if(book.volumeInfo.industryIdentifiers) {
-        if(book.volumeInfo.industryIdentifiers[0]) {
-          isbn10 = book.volumeInfo.industryIdentifiers[0].identifier;
-        }
 
-        if(book.volumeInfo.industryIdentifiers[1]) {
-          isbn13 = book.volumeInfo.industryIdentifiers[1].identifier;
-        }
+      let isbnObj;
+
+      if(book.volumeInfo.industryIdentifiers) {
+        isbnObj = checkIsbn(book.volumeInfo.industryIdentifiers);
       }
 
       return {
@@ -37,8 +50,8 @@ export const deepSearchHandle = async (query, type) => {
         description: book.volumeInfo.description || '',
         categories: book.volumeInfo?.categories || [],
         image: book.volumeInfo.imageLinks?.thumbnail || '',
-        isbn13: isbn13,
-        isbn10: isbn10,
+        isbn13: isbnObj.isbn13,
+        isbn10: isbnObj.isbn10,
         webReaderLink: book.accessInfo?.webReaderLink || '',
         googleListPrice: book.saleInfo.listPrice?.amount.toString() || '',
         googleRetailPrice: book.saleInfo.retailPrice?.amount.toString() || '',
@@ -81,18 +94,12 @@ export const fetchRelatedBooks = async (category, authors) => {
       })
 
         const gBooks = gBookData.map((book) => {
-        let isbn13 = '';
-        let isbn10 = '';
+
+        let isbnObj;
+
         if(book.volumeInfo.industryIdentifiers) {
-          if(book.volumeInfo.industryIdentifiers[0]) {
-            isbn10 = book.volumeInfo.industryIdentifiers[0].identifier;
-          }
-  
-          if(book.volumeInfo.industryIdentifiers[1]) {
-            isbn13 = book.volumeInfo.industryIdentifiers[1].identifier;
-          }
+          isbnObj = checkIsbn(book.volumeInfo.industryIdentifiers);
         }
-  
         return {
           bookId: book.id,
           authors: book.volumeInfo.authors || [],
@@ -100,8 +107,8 @@ export const fetchRelatedBooks = async (category, authors) => {
           description: book.volumeInfo.description || '',
           categories: book.volumeInfo?.categories || [],
           image: book.volumeInfo.imageLinks?.thumbnail || '',
-          isbn13: isbn13,
-          isbn10: isbn10,
+          isbn13: isbnObj.isbn13,
+          isbn10: isbnObj.isbn10,
           webReaderLink: book.accessInfo?.webReaderLink || '',
           googleListPrice: book.saleInfo.listPrice?.amount.toString() || '',
           googleRetailPrice: book.saleInfo.retailPrice?.amount.toString() || '',
@@ -138,16 +145,10 @@ export const deepSearchCategories = async (category) => {
     if(gBookData) {
       const gBooks = gBookData.items.map((book) => {
 
-        let isbn13 = '';
-        let isbn10 = '';
+        let isbnObj;
+
         if(book.volumeInfo.industryIdentifiers) {
-          if(book.volumeInfo.industryIdentifiers[0]) {
-            isbn10 = book.volumeInfo.industryIdentifiers[0].identifier;
-          }
-  
-          if(book.volumeInfo.industryIdentifiers[1]) {
-            isbn13 = book.volumeInfo.industryIdentifiers[1].identifier;
-          }
+          isbnObj = checkIsbn(book.volumeInfo.industryIdentifiers);
         }
   
         return {
@@ -157,8 +158,8 @@ export const deepSearchCategories = async (category) => {
           description: book.volumeInfo.description || '',
           categories: book.volumeInfo?.categories || [],
           image: book.volumeInfo.imageLinks?.thumbnail || '',
-          isbn13: isbn13,
-          isbn10: isbn10,
+          isbn13: isbnObj.isbn13,
+          isbn10: isbnObj.isbn10,
           webReaderLink: book.accessInfo?.webReaderLink || '',
           googleListPrice: book.saleInfo.listPrice?.amount.toString() || '',
           googleRetailPrice: book.saleInfo.retailPrice?.amount.toString() || '',
@@ -193,24 +194,11 @@ export const fetchCurrentBook = async (bookId) => {
 
     const book = await gResponse.json();
 
-      let isbn13 = '';
-      let isbn10 = '';
-      let imageLinkUrl = '';
-      if(book.volumeInfo.industryIdentifiers) {
-        if(book.volumeInfo.industryIdentifiers[0]) {
-          isbn10 = book.volumeInfo.industryIdentifiers[0].identifier;
-        }
+    let isbnObj;
 
-        if(book.volumeInfo.industryIdentifiers[1]) {
-          isbn13 = book.volumeInfo.industryIdentifiers[1].identifier;
-        }
-      }
-
-      if(book.volumeInfo.imageLinks?.large) {
-        imageLinkUrl = book.volumeInfo.imageLinks.large;
-      } else if( book.volumeInfo.imageLinks?.thumbnail ){
-        imageLinkUrl = book.volumeInfo.imageLinks.thumbnail;
-      }
+    if(book.volumeInfo.industryIdentifiers) {
+      isbnObj = checkIsbn(book.volumeInfo.industryIdentifiers);
+    }
 
       const gBookData =  {
         bookId: book.id,
@@ -219,8 +207,8 @@ export const fetchCurrentBook = async (bookId) => {
         description: book.volumeInfo.description || '',
         categories: book.volumeInfo?.categories || [],
         image: book.volumeInfo.imageLinks?.thumbnail || '',
-        isbn13: isbn13,
-        isbn10: isbn10,
+        isbn13: isbnObj.isbn13,
+        isbn10: isbnObj.isbn10,
         webReaderLink: book.accessInfo?.webReaderLink || '',
         googleListPrice: book.saleInfo.listPrice?.amount.toString() || '',
         googleRetailPrice: book.saleInfo.retailPrice?.amount.toString() || '',
