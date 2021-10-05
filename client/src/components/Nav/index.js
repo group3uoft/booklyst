@@ -9,7 +9,7 @@ export default function Nav() {
   return (
       <nav className="navbar navbar-expand-lg nav-hide">
         <div className="nav-links mx-3">
-          <ul className="navbar-nav">
+          <ul className="navbar-nav d-mob-none">
             <li className="nav-item mx-2 width-max">
               <Link to="/" onClick={mobileMenuToggle}>Home</Link>
             </li>
@@ -21,12 +21,11 @@ export default function Nav() {
             </li>
           </ul>
         </div>
-        <div className="login-container d-sm-none d-md-block">
+        <div className="login-container d-mob-none">
 
           <Link to="/donate"
             className="btn btn-theme mx-2" onClick={mobileMenuToggle}>Donate
           </Link>
-
           {Auth.loggedIn() ? 
             <button 
             type="button" 

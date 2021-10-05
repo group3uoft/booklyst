@@ -732,6 +732,10 @@ form {
     top: 130px;
   }
 
+  .d-mob-none {
+    display: none;
+  }
+
 
 
   /* .image-container img {

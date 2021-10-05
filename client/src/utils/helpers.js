@@ -296,16 +296,19 @@ export const mobileMenuToggle = () => {
   const navContainer = document.querySelector('.navbar');
   const navIcon = document.querySelector('#mobile-nav-icon');
   const logoContainer = document.querySelector('.login-container');
+  const navBarContainer = document.querySelector('.navbar-nav');
 
   if(navContainer.className.includes('nav-hide')) {
     navContainer.classList.add('nav-show');
     navIcon.classList.add('nav-open');
     navContainer.classList.remove('nav-hide');
-    logoContainer.classList.remove('d-sm-none');
+    logoContainer.classList.remove('d-mob-none');
+    navBarContainer.classList.remove('d-mob-none');
   } else {
     navIcon.classList.remove('nav-open');
     navContainer.classList.remove('nav-show');
     navContainer.classList.add('nav-hide');
-    logoContainer.classList.add('d-sm-none');
+    logoContainer.classList.add('d-mob-none');
+    navBarContainer.classList.add('d-mob-none');
   }
 }
