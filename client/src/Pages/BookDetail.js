@@ -200,15 +200,17 @@ export default function BookDetail({bookId}) {
               style={{minWidth: '250px'}} />
           </div>
           <div className="info-container text-start">
-            <h3 className="fs-2">{currentBook.title}</h3>
-            {currentBook.authors && <p className="mb-2">by <span className="fw-bold">{currentBook.authors}</span></p>}
-            <div className="book-deatailed-desc" >{ReactHtmlParser(currentBook.description)}</div>
+            <h3 className="fs-2"><span><i className="fas fa-book"></i></span> {currentBook.title}</h3>
+            {currentBook.authors && <p className="mb-2"><span className="fw-bold">{currentBook.authors.map(((auth, i) => 
+              <span className="me-2" key={i}><i className="fas fa-user-edit"></i> {auth}</span>
+              ))}</span></p>}
+            <div className="book-deatailed-desc">{ReactHtmlParser(currentBook.description)}</div>
             {currentBook.googleRatings ?
-              <p className="mb-1 mt-2"><span></span> Ratings: <span className="fw-bold">{currentBook.googleRatings}</span></p>
+              <p className="mb-1 mt-2"><span><i className="fas fa-star-half-alt"></i></span> Ratings: <span className="fw-bold">{currentBook.googleRatings}</span></p>
               : ''}
-            {currentBook.categories && <p className="mb-1 book-cat"><span></span> Categories: <span className="fw-bold">{currentBook.categories}</span></p>}
-            {currentBook.publisher && <p className="mb-1"><span></span> Pushlisher: <span className="fw-bold">{currentBook.publisher}</span></p>}
-            {currentBook.publishedDate && <p className="mb-1"><span></span> Pushlished Date: <span className="fw-bold">{currentBook.publishedDate}</span></p>}
+            {currentBook.categories && <p className="mb-1 book-cat"><span><i className="fas fa-th-list"></i></span> Categories: <span className="fw-bold">{currentBook.categories}</span></p>}
+            {currentBook.publisher && <p className="mb-1"><span><i className="fas fa-building"></i></span> Pushlisher: <span className="fw-bold">{currentBook.publisher}</span></p>}
+            {currentBook.publishedDate && <p className="mb-1"><span><i className="fas fa-calendar-alt"></i></span> Pushlished Date: <span className="fw-bold">{currentBook.publishedDate}</span></p>}
             <div className="buttons-container buy-buttons d-flex flex-wrap my-3">
               {/* Amazon Pricing */}
                 { priceList && (priceList.amazonBookPrice || priceList.amazonEBookPrice) ?

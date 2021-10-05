@@ -1,5 +1,5 @@
 :root {
-  --primary-font: 'Gentium Book Basic', serif;
+  --primary-font: 'PT Sans Caption', serif;
   --secondary-font: 'Playfair Display', serif;
   --theme-dark-blue: #1D3354;
   --theme-blue: #467599;
@@ -31,11 +31,22 @@ code {
     monospace;
 }
 
-h1, h2, h3, h4, a, button {
+h1, h2, h3, h4 {
   text-decoration: none;
   font-family: var(--secondary-font);
   color: var(--theme-dark-blue);
-  font-weight: 600;
+  font-weight: 900;
+}
+
+a, span, button {
+  font-family: var(--primary-font);
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--theme-dark-blue);
+}
+
+.btn span {
+  color: white;
 }
 
 nav a {
@@ -406,10 +417,38 @@ form {
 .img-cap-container video {
   width: 90%;
   margin-left: 5%;
+  max-height: 90vh;
 }
 
 .img-cap-container div {
   width: 100%;
+}
+
+.cancel-capture i {
+  border: 1px solid white;
+  border-radius: 50%;
+  padding: 5px;
+  color: aliceblue;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  background: rgba(107, 107, 107, 0.53);
+  position: fixed;
+  top: 15%;
+  right: 7%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  z-index: 2;
+}
+
+@media only screen and (min-width: 1200px) {
+  /* .image-container img {
+    max-width: 300px;
+  } */
+  .cancel-capture i {
+    right: calc((100vw - 1115px) /2 );
+  }
 }
 
 @media only screen and (max-width: 1200px) {
@@ -417,7 +456,6 @@ form {
     max-width: 300px;
   } */
 }
-
 
 
 @media only screen and (max-width: 992px) {

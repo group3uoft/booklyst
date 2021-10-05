@@ -27,12 +27,6 @@ export default function FavSaveButtons(
     const [ addReadBook ] = useMutation(ADD_READ);
     const [ deleteFavouriteBook ] = useMutation(DELETE_FAV);
     const [ deleteReadBook ] = useMutation(DELETE_SAVED);
-
-    const [ loggedIn, setLoggedIn] = useState(false);
-
-    useEffect(() => {
-      setLoggedIn(Auth.loggedIn());
-    }, [])
   
     const handleSaveFavourite = async (bookId) => {
       const bookToSave = filterSavingBook(searchedBooks, bookId);

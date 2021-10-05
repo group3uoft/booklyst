@@ -37,7 +37,10 @@ export const deepSearchHandle = async (query, type) => {
 
     const gBooks = gBookData.items.map((book) => {
 
-      let isbnObj;
+      let isbnObj = {
+        isbn13: '',
+        isbn10: ''
+      };
 
       if(book.volumeInfo.industryIdentifiers) {
         isbnObj = checkIsbn(book.volumeInfo.industryIdentifiers);
@@ -95,7 +98,10 @@ export const fetchRelatedBooks = async (category, authors) => {
 
         const gBooks = gBookData.map((book) => {
 
-        let isbnObj;
+        let isbnObj = {
+          isbn13: '',
+          isbn10: ''
+        };
 
         if(book.volumeInfo.industryIdentifiers) {
           isbnObj = checkIsbn(book.volumeInfo.industryIdentifiers);
@@ -145,7 +151,10 @@ export const deepSearchCategories = async (category) => {
     if(gBookData) {
       const gBooks = gBookData.items.map((book) => {
 
-        let isbnObj;
+        let isbnObj = {
+          isbn13: '',
+          isbn10: ''
+        };
 
         if(book.volumeInfo.industryIdentifiers) {
           isbnObj = checkIsbn(book.volumeInfo.industryIdentifiers);
@@ -194,7 +203,10 @@ export const fetchCurrentBook = async (bookId) => {
 
     const book = await gResponse.json();
 
-    let isbnObj;
+    let isbnObj = {
+      isbn13: '',
+      isbn10: ''
+    };
 
     if(book.volumeInfo.industryIdentifiers) {
       isbnObj = checkIsbn(book.volumeInfo.industryIdentifiers);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ImageUploading from 'react-images-uploading';
 
 export default function ImageRec({setImages, images}) {
@@ -30,7 +30,7 @@ export default function ImageRec({setImages, images}) {
           // write your building UI
           <div className="upload__image-wrapper mx-2 w-100">
             <span
-              className="btn btn-light sp-btn w-100 border-input mx-auto"
+              className={`btn sp-btn w-100 border-input mx-auto ${images.length > 0 ? 'btn-orange' : 'btn-light' }`}
               style={isDragging ? { color: "red" } : null}
               onClick={onImageUpload}
               {...dragProps}
