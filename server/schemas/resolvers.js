@@ -55,7 +55,6 @@ const resolvers = {
 
     getPriceList: async (parent, { isbn }) => {
       const priceList = await getPrice(isbn).then(response => {
-        //console.log(response);
         return response;
       })
       return priceList;

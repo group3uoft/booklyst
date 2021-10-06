@@ -29,7 +29,6 @@
     "react-slick": "^0.28.1",
     "react-speech-recognition": "^3.8.2",
     "slick-carousel": "^1.8.1",
-    "tesseract.js": "^2.1.5",
     "web-vitals": "^1.1.2"
   },
   "scripts": {

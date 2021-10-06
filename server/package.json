@@ -21,8 +21,6 @@
     "graphql": "^15.5.3",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.9",
-    "puppeteer": "^10.4.0",
-    "request": "^2.88.2",
     "stripe": "^8.176.0"
   },
   "devDependencies": {
