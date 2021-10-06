@@ -10,10 +10,10 @@ import { QUERY_ME } from '../utils/queries';
 import { saveBookIds, getSavedBookIds, saveQuickNote, getQuickNote } from '../utils/localStorage';
 import { idbPromise } from "../utils/indexedDb";
 
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { ALL_BOOKS, UPDATE_CURRENT_SEARCH } from "../utils/actions";
 
-export default function Dashboard() {
+export default function Dashboard({booksToRender, setBooksToRender}) {
   const { loading, data } = useQuery(QUERY_ME);
 
   // saveFavourites in localStorage 
@@ -23,36 +23,47 @@ export default function Dashboard() {
   const [noteEdit, setNoteEdit] = useState(false);
   const [favouriteCats, setFavouriteCats] = useState([]);
   const [searchHistory, setSearchHistory] = useState([]);
+
+  const [title, setTitle] = useState('My Recomendations');
   // const [ deletedSavedBook, setDeletedSavedBook ] = useState('');
   // const [ deletedReadBook, setDeletedReadBook ] = useState('');
 
   const dispatch = useDispatch();
-  // const dispatch = useDispatch();
-
-  const [booksToRender, setBooksToRender] = useState([]);
-  const [title, setTitle] = useState('My Recomendations');
+  const state = useSelector(state => state); 
 
   const userData = data?.getMe || {};
 
   // render the initial search
   useEffect(() => {
-    async function fetchData() {
-      const data = await deepSearchHandle('best sellers');
-      await setBooksToRender(data);
+      if(state.currentSearch.length > 0) {
+        setBooksToRender(state.currentSearch);
+      } else {
+        async function fetchData() {
+        const data = await deepSearchHandle('best sellers');
+        await setBooksToRender(data);
+        }
 
-      await dispatch({
-        type: ALL_BOOKS,
-        allbooks: booksToRender
-      });
-
-      // save the data to IDB
-      await booksToRender.forEach((book) => {
-      idbPromise('allbooks', 'put', book);
-      });
+        fetchData();
     }
 
-    fetchData();
   }, []);
+
+  useState(() => {
+    dispatch({
+      type: ALL_BOOKS,
+      allbooks: booksToRender
+    });
+
+    dispatch({
+      type: UPDATE_CURRENT_SEARCH,
+      currentSearch: booksToRender
+    });
+
+    // save the data to IDB
+    booksToRender.forEach((book) => {
+    idbPromise('allbooks', 'put', book);
+    });
+  }, [booksToRender]);
 
   // store the saved books in localhost
   useEffect(() => {

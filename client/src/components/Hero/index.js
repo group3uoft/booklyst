@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import bgImg from '../../assets/images/hero-bg.jpg'
 import { deepSearchHandle } from "../../utils/helpers";
 import { Alert } from 'react-bootstrap';
@@ -10,6 +10,8 @@ import ImageRec from "../ImageRec";
 import CaptureImage from '../CaptureImage'
 import axios from 'axios';
 
+import { useSelector } from "react-redux";
+
 
 export default function Hero({
   setSearchedBooks, 
@@ -17,13 +19,16 @@ export default function Hero({
   searchInput, 
   setSearchHistory, 
   searchedBooks,
-  setTitle }) {
+  setTitle,
+  title }) {
   const {
     transcript,
     listening,
     // resetTranscript,
     // browserSupportsSpeechRecognition
   } = useSpeechRecognition();
+
+  const state = useSelector(state => state);
 
   const [voiceSearch, setVoiceSearch] = useState("");
   const [showAlert, setShowAlert] = useState(false);
@@ -112,7 +117,7 @@ export default function Hero({
           const data = await deepSearchHandle(voiceSearch);
           await setSearchedBooks(data);
           setSearchHistory(voiceSearch);
-          setTitle(`Search Results for ${voiceSearch}`);
+          setTitle(`Search Results...`);
 
           if(Auth.loggedIn()) {
             try {
@@ -136,14 +141,16 @@ export default function Hero({
     const query = e.target[0].value;
     // run the search
     if(query) {
-      setSearchInput(query);
-      const data = await deepSearchHandle(query);
-      if(data) {
-        await setSearchedBooks(data);
-        setSearchHistory(query);
-      } else {
-        setShowAlert(true);
-      }
+        // setSearchInput(query);
+        const data = await deepSearchHandle(query);
+        if(data) {
+          setTitle('Search Results...');
+          await setSearchedBooks(data);
+          setSearchHistory(query);
+        } else {
+          setShowAlert(true);
+        }
+      
     } else {
       setShowAlert(true);
     }
@@ -158,8 +165,15 @@ export default function Hero({
 
   useEffect(() => {
     async function fetchData() {
-      const data = await deepSearchHandle(searchInput);
-      await setSearchedBooks(data);
+      if(state.currentSearch.length > 0) {
+        if(title !== 'Best Sellers') {
+          setTitle('Search Results...');
+        }
+        setSearchedBooks(state.currentSearch);
+      } else {
+        const data = await deepSearchHandle(searchInput);
+        await setSearchedBooks(data);
+      }
     }
     if(!searchedBooks || searchedBooks.length === 0) {
       fetchData();

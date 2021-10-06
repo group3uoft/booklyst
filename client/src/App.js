@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import './spinner.css';
 
@@ -50,7 +50,11 @@ const client = new ApolloClient({
 });
 
 function App() {
+  const [searchInput, setSearchInput] = useState('best seller');
+  const [title, setTitle] = useState('Best Sellers');
 
+  // Dashboard
+  const [booksToRender, setBooksToRender] = useState([]);
 
   return (
   <ApolloProvider client={client}>
@@ -59,10 +63,26 @@ function App() {
         <Provider store={store}>
           <Header />
           <Switch>
-            <Route exact path="/" component={Home} />
+            <Route exact path="/" 
+              render={(props) => (
+                <Home 
+                {...props}
+                searchInput={searchInput}
+                setSearchInput={setSearchInput}
+                setTitle={setTitle}
+                title={title} />
+              )}
+              />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
-            <Route exact path="/dashboard"component={Dashboard} />
+            <Route exact path="/dashboard" 
+              render={(props) => (
+                <Dashboard
+                {...props}
+                booksToRender={booksToRender}
+                setBooksToRender={setBooksToRender} />
+              )} 
+              />
             <Route exact path="/books/:id" render={(props) => <BookDetail {...props} key={Math.random()} /> } />
             <Route exact path="/donate" component={Donate} />
             <Route exact path="/success" component={Success} />
