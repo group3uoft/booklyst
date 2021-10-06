@@ -2,30 +2,34 @@ import React, {useState, useEffect} from "react";
 import Hero from "../components/Hero";
 import SearchResults from "../components/SearchResults";
 
-import { useDispatch } from "react-redux";
-import { UPDATE_BOOKS,UPDATE_READ_BOOKS, ALL_BOOKS } from "../utils/actions";
+import { useSelector, useDispatch } from "react-redux";
+import { UPDATE_BOOKS,UPDATE_READ_BOOKS, ALL_BOOKS, UPDATE_CURRENT_SEARCH } from "../utils/actions";
 import { idbPromise } from "../utils/indexedDb";
 import { getSavedBookIds } from '../utils/localStorage';
 
-export default function Home() {
-  // const state = useSelector(state => state);
+export default function Home({searchInput, setSearchInput, setTitle, title}) {
   const dispatch = useDispatch();
 
   // create state for holding returned google api data
   const [searchedBooks, setSearchedBooks] = useState([]);
-  const [searchInput, setSearchInput] = useState('best seller');
+  // const [searchInput, setSearchInput] = useState('best seller');
   const [searchHistory, setSearchHistory] = useState([]);
-  const [title, setTitle] = useState('Best Sellers');
+  
   // saveFavourites in localStorage 
   const [savedFavourites, setSavedFavourites] = useState(getSavedBookIds('save_favourites'));
   const [savedRead, setSavedRead] = useState(getSavedBookIds('save_read'));
   // const [ deletedBook, setDeletedBook ] = useState('');
 
   useEffect(() => {
-    if(!searchedBooks || searchedBooks.length > 0) {
+    if(searchedBooks && searchedBooks.length > 0) {
       dispatch({
         type: ALL_BOOKS,
         allbooks: searchedBooks
+      });
+
+      dispatch({
+        type: UPDATE_CURRENT_SEARCH,
+        currentSearch: searchedBooks
       });
   
       // save the data to IDB
@@ -65,7 +69,8 @@ export default function Home() {
         setSearchInput={setSearchInput}
         searchInput={searchInput}
         setSearchHistory={setSearchHistory}
-        setTitle={setTitle} />
+        setTitle={setTitle}
+        title={title} />
       <SearchResults 
         setSearchedBooks={setSearchedBooks}
         searchedBooks={searchedBooks}
