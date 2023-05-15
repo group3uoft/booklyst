@@ -2,6 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
+  "proxy": "http://localhost:8080",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -15,7 +16,7 @@
   "dependencies": {
     "apollo-server-express": "^2.12.0",
     "axios": "^0.22.0",
-    "bcrypt": "^4.0.1",
+    "bcryptjs": "^2.4.3",
     "cheerio": "^1.0.0-rc.10",
     "express": "^4.17.1",
     "graphql": "^15.5.3",

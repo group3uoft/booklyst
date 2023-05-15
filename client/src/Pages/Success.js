@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useMutation } from '@apollo/client';
 import { ADD_DONATION } from '../utils/mutations';
 
@@ -28,7 +28,7 @@ export default function Success() {
 }, []);
 
   if (redirctTo) {
-    return <Redirect to="/" />;
+    return <Navigate to="/" />;
   } else {
     return (
       <div className="container">

@@ -1,9 +1,6 @@
 import React, {useState} from 'react';
-
 import './spinner.css';
-
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import {
   ApolloClient,
   InMemoryCache,
@@ -11,17 +8,11 @@ import {
   createHttpLink,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-
-// import reduxStore
 import { Provider } from 'react-redux';
 import store from './utils/store';
-
-// import components
 import Header from './components/Header';
 import Home from './Pages/Home';
 import Footer from './components/Footer';
-
-// import pages
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
 import Dashboard from './Pages/Dashboard';
@@ -52,46 +43,26 @@ const client = new ApolloClient({
 function App() {
   const [searchInput, setSearchInput] = useState('best seller');
   const [title, setTitle] = useState('Best Sellers');
-
-  // Dashboard
   const [booksToRender, setBooksToRender] = useState([]);
 
   return (
   <ApolloProvider client={client}>
-    <Router>
-      <div className="App">
-        <Provider store={store}>
-          <Header />
-          <Switch>
-            <Route exact path="/" 
-              render={(props) => (
-                <Home 
-                {...props}
-                searchInput={searchInput}
-                setSearchInput={setSearchInput}
-                setTitle={setTitle}
-                title={title} />
-              )}
-              />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/signup" component={Signup} />
-            <Route exact path="/dashboard" 
-              render={(props) => (
-                <Dashboard
-                {...props}
-                booksToRender={booksToRender}
-                setBooksToRender={setBooksToRender} />
-              )} 
-              />
-            <Route exact path="/books/:id" render={(props) => <BookDetail {...props} key={Math.random()} /> } />
-            <Route exact path="/donate" component={Donate} />
-            <Route exact path="/success" component={Success} />
-            <Route exact path="/browse" component={Browse} />
-          </Switch>
-          <Footer />
-        </Provider>
-      </div>
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Home searchInput={searchInput} setSearchInput={setSearchInput} setTitle={setTitle} title={title} />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/dashboard" element={<Dashboard booksToRender={booksToRender} setBooksToRender={setBooksToRender} />} />
+          <Route path="/books/:id" element={<BookDetail key={Math.random()} />} />
+          <Route path="/donate" element={<Donate />} />
+          <Route path="/success" element={<Success />} />
+          <Route path="/browse" element={<Browse />} />
+        </Routes>
+        <Footer />
+      </Router>
+    </Provider>
   </ApolloProvider>
   );
 }

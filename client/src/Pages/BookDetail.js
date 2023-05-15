@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Spinner from "../components/Spinner";
 import { idbPromise } from "../utils/indexedDb";
 import { ALL_BOOKS } from "../utils/actions";
@@ -23,9 +23,9 @@ export default function BookDetail({bookId}) {
 
 
   // Go back to previous page
-  const history = useHistory();
+  const history = useNavigate();
   const goBack = () => {
-    history.goBack();
+    history(-1);
   };
 
   const state = useSelector(state => state);
